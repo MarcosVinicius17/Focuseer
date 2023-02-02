@@ -18,7 +18,7 @@ def cronometro(button) -> None:
 def stop(button) -> None:
     global is_stopwatch_running
     is_stopwatch_running = False
-    print("parado")
+    print("Parado")
     btnStop.set_label("Resume")
 
 
