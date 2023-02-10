@@ -123,7 +123,21 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">186</property>
+            <property name="x">100</property>
+            <property name="y">277</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnStop">
+            <property name="label" translatable="yes">Stop</property>
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="x">225</property>
             <property name="y">277</property>
           </packing>
         </child>
