@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="Window">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Focuseer</property>
+    <property name="resizable">False</property>
+    <property name="window-position">center</property>
+    <property name="default-width">500</property>
+    <property name="default-height">350</property>
+    <property name="gravity">north</property>
+    <child>
+      <object class="GtkFixed">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Nome de usuário / e-mail</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">50</property>
+            <property name="y">50</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="txtLogin">
+            <property name="width-request">220</property>
+            <property name="height-request">30</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+          </object>
+          <packing>
+            <property name="x">50</property>
+            <property name="y">120</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Senha</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">50</property>
+            <property name="y">140</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnLogin">
+            <property name="label" translatable="yes">Login</property>
+            <property name="width-request">100</property>
+            <property name="height-request">30</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="x">171</property>
+            <property name="y">245</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnCadastro">
+            <property name="label" translatable="yes">Criar conta</property>
+            <property name="width-request">100</property>
+            <property name="height-request">30</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="x">49</property>
+            <property name="y">245</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="imageLogo">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="pixbuf">../logos/logo_pequeno.png</property>
+          </object>
+          <packing>
+            <property name="x">301</property>
+            <property name="y">107</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="txtSenha">
+            <property name="width-request">220</property>
+            <property name="height-request">0</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible-char">•</property>
+            <property name="input-purpose">password</property>
+          </object>
+          <packing>
+            <property name="x">50</property>
+            <property name="y">190</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
