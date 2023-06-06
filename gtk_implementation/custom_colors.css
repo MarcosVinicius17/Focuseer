@@ -1,0 +1,32 @@
+button {
+    /*background-color: #0072ff;*/
+    background-color: #2E3440;
+    color: #D8DEE9;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+
+}
+
+button:hover {
+    /*background-color: #3B4252;*/
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+button:active {
+    background-color: #3B4252;
+    color: #D8DEE9;
+}
+
+window {
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+
+entry {
+    background-color: #D8DEE9;
+    color: #2E3440;
+    border-radius: 10px;
+}

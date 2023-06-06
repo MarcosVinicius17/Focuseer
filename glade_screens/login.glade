@@ -20,7 +20,7 @@
             <property name="height-request">14</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Nome de usuário / e-mail</property>
+            <property name="label" translatable="yes">Nome de usuário</property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>
@@ -42,7 +42,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">50</property>
+            <property name="x">30</property>
             <property name="y">160</property>
           </packing>
         </child>
@@ -80,7 +80,7 @@
             <property name="height-request">80</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="pixbuf">../logos/logo_pequeno.png</property>
+            <property name="pixbuf">../nao_programacao/logos/logo_login_white.png</property>
           </object>
           <packing>
             <property name="x">301</property>
@@ -116,5 +116,8 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="background-color:white;"/>
+    </style>
   </object>
 </interface>

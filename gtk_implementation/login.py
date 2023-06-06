@@ -31,24 +31,23 @@ btnCadastro.connect("clicked", cadastro)
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
-    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/login_css.css"
+    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
 
-context2 = btnCadastro.get_style_context()
+context_btnCadastro = btnCadastro.get_style_context()
 context_window = window.get_style_context()
-context3 = btnLogin.get_style_context()
+context_btnLogin = btnLogin.get_style_context()
+context_txtLogin = txtLogin.get_style_context()
+context_txtSenha = txtSenha.get_style_context()
 
-
-context4 = txtLogin.get_style_context()
 # context.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
 context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context2.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context3.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
-
-context4.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnCadastro.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnLogin.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_txtLogin.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_txtSenha.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 window.show_all()
 

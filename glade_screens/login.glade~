@@ -17,35 +17,23 @@
         <child>
           <object class="GtkLabel">
             <property name="width-request">100</property>
-            <property name="height-request">80</property>
+            <property name="height-request">14</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Nome de usuário / e-mail</property>
+            <property name="label" translatable="yes">Nome de usuário</property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>
           </object>
           <packing>
             <property name="x">50</property>
-            <property name="y">50</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTextView" id="txtLogin">
-            <property name="width-request">220</property>
-            <property name="height-request">30</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-          </object>
-          <packing>
-            <property name="x">50</property>
-            <property name="y">120</property>
+            <property name="y">80</property>
           </packing>
         </child>
         <child>
           <object class="GtkLabel">
             <property name="width-request">100</property>
-            <property name="height-request">80</property>
+            <property name="height-request">10</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Senha</property>
@@ -54,8 +42,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">50</property>
-            <property name="y">140</property>
+            <property name="x">30</property>
+            <property name="y">160</property>
           </packing>
         </child>
         <child>
@@ -92,7 +80,7 @@
             <property name="height-request">80</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="pixbuf">../logos/logo_pequeno.png</property>
+            <property name="pixbuf">../nao_programacao/logos/logo_login.png</property>
           </object>
           <packing>
             <property name="x">301</property>
@@ -102,7 +90,7 @@
         <child>
           <object class="GtkEntry" id="txtSenha">
             <property name="width-request">220</property>
-            <property name="height-request">0</property>
+            <property name="height-request">20</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="visibility">False</property>
@@ -114,7 +102,22 @@
             <property name="y">190</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkEntry" id="txtLogin">
+            <property name="width-request">220</property>
+            <property name="height-request">20</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+          </object>
+          <packing>
+            <property name="x">50</property>
+            <property name="y">110</property>
+          </packing>
+        </child>
       </object>
     </child>
+    <style>
+      <class name="background-color:white;"/>
+    </style>
   </object>
 </interface>

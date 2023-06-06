@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Focuseer - Relatório diário</title>
+    <style>
+        /* Add some basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: #ECEFF4;
+        }
+
+        .header img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            object-position: center;
+            margin-right: 10px;
+        }
+
+        .header h1,
+        .header p {
+            margin: 0;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .header p {
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="file:///home/marcos/Desktop/UNIP/tcc/templates_pdf/logo.png" alt="Logo">
+        <div>
+            <h1>Focuseer - Relatório diário</h1>
+            <p>Funcionário: {{nome}}</p>
+            <p>Emitido em: {{data_criacao}}</p>
+            <p>Início: {{hora_entrada}} - Fim: {{hora_saida}}</p>
+        </div>
+    </div>
+    <div class="checklist">
+        <h2>Objetivos do dia</h2>
+        <ul>
+
+            <input type="checkbox" id="task1">
+            <label for="task1">Complete the report for last week</label>
+            <br />
+            <input type="checkbox" id="task2">
+            <label for="task2">Follow up with the client about the new project</label>
+            <br />
+
+            <input type="checkbox" id="task3">
+            <label for="task3">Schedule a meeting with the team to
+        </ul>
+    </div>
+</body>
+
+</html>

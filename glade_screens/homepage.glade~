@@ -27,7 +27,7 @@
           </object>
           <packing>
             <property name="x">25</property>
-            <property name="y">40</property>
+            <property name="y">10</property>
           </packing>
         </child>
         <child>
@@ -155,33 +155,6 @@
           </object>
           <packing>
             <property name="x">85</property>
-            <property name="y">30</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="lblControl">
-            <property name="width-request">100</property>
-            <property name="height-request">80</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Controle</property>
-          </object>
-          <packing>
-            <property name="x">240</property>
-            <property name="y">75</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="lblOthers">
-            <property name="width-request">100</property>
-            <property name="height-request">80</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Outros</property>
-          </object>
-          <packing>
-            <property name="x">400</property>
-            <property name="y">75</property>
           </packing>
         </child>
         <child>
@@ -239,7 +212,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="lblCurrentDate">
             <property name="width-request">100</property>
             <property name="height-request">80</property>
             <property name="visible">True</property>
@@ -250,21 +223,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">380</property>
-            <property name="y">20</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="width-request">100</property>
-            <property name="height-request">80</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Tempo</property>
-          </object>
-          <packing>
-            <property name="x">70</property>
-            <property name="y">75</property>
+            <property name="x">40</property>
+            <property name="y">40</property>
           </packing>
         </child>
       </object>
