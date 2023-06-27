@@ -16,9 +16,9 @@ class TimerApp:
 
         # self.window = self.builder.get_object("Window")
 
-        self.hours_label = builder.get_object("lblHours")
-        self.minutes_label = builder.get_object("lblMinutes")
-        self.seconds_label = builder.get_object("lblSeconds")
+        self.hours_label = builder.get_object("hours")
+        self.minutes_label = builder.get_object("minutes")
+        self.seconds_label = builder.get_object("seconds")
 
         self.hours_inc_btn = builder.get_object("btnHourPlus")
         self.hours_dec_btn = builder.get_object("btnHourMinus")
@@ -54,6 +54,8 @@ class TimerApp:
 
         self.window = builder.get_object("Window")
         self.window.show_all()
+
+        # CSS
 
     def on_hours_inc_btn_clicked(self, button):
         self.hours += 1
@@ -91,7 +93,6 @@ class TimerApp:
         self.start_btn.set_label("Pause")
 
     def start_timer(self, widget):
-
         self.total_seconds = (self.hours * 3600) + (self.minutes * 60) + self.seconds
         self.last_update = int(time.time())
 

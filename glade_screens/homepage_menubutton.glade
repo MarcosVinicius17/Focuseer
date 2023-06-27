@@ -37,11 +37,6 @@
     <property name="can-focus">False</property>
     <property name="pixbuf">../nao_programacao/logos/icone_pomodoro.png</property>
   </object>
-  <object class="GtkImage" id="image7">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="pixbuf">../nao_programacao/logos/icone_about.png</property>
-  </object>
   <object class="GtkImage" id="image8">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -51,6 +46,37 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="pixbuf">../nao_programacao/logos/icone_stats.png</property>
+  </object>
+  <object class="GtkMenu" id="menu1">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="modoNoturno">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Modo noturno</property>
+        <property name="label" translatable="yes">Modo noturno</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="about">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Sobre</property>
+        <property name="label" translatable="yes">Sobre</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="logout">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Logout</property>
+        <property name="label" translatable="yes">Sair</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
   </object>
   <object class="GtkWindow" id="Window">
     <property name="can-focus">False</property>
@@ -106,13 +132,15 @@
             <property name="subtitle" translatable="yes">date and hour</property>
             <property name="spacing">34</property>
             <child>
-              <object class="GtkButton" id="btnAbout">
-                <property name="label" translatable="yes">Sobre</property>
-                <property name="name">btnAbout</property>
+              <object class="GtkMenuButton" id="menuButton">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="focus-on-click">False</property>
                 <property name="receives-default">True</property>
-                <property name="image">image7</property>
+                <property name="popup">menu1</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="pack-type">end</property>

@@ -3,59 +3,65 @@ import gi, datetime, subprocess
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-"""
-Obter a hora pelas labels de horas e minutos
-"""
-
-"""
-Trabalhar com 2 casas decimais
-Fazer uma label editável (apenas números e verificar 24 horas e 60 minutos)
-"""
-
 
 def increment_hour(button) -> None:
-    current_hour = int(lblHours.get_text())
+    current_hour = int(entryHours.get_text())
     current_hour += 1
-    if current_hour == 24:
-        current_hour = 0
-    lblHours.set_text(str(current_hour))
+    if current_hour >= 24:
+        current_hour = "00"
+    entryHours.set_text(str(current_hour))
 
 
 def decrement_hour(button) -> None:
-    current_hour = int(lblHours.get_text())
+    current_hour = int(entryHours.get_text())
     current_hour -= 1
     if current_hour == -1:
-        current_hour = 23
-    lblHours.set_text(str(current_hour))
+        current_hour = "23"
+    entryHours.set_text(str(current_hour))
 
 
 def increment_minute(button) -> None:
-    current_minute = int(lblMinutes.get_text())
+    current_minute = int(entryMinutes.get_text())
     current_minute += 1
     if current_minute == 60:
-        current_minute = 0
-    lblMinutes.set_text(str(current_minute))
+        current_minute = "00"
+    entryMinutes.set_text(str(current_minute))
 
 
 def decrement_minute(button) -> None:
-    current_minute = int(lblMinutes.get_text())
+    current_minute = int(entryMinutes.get_text())
     current_minute -= 1
     if current_minute == -1:
-        current_minute = 59
-    lblMinutes.set_text(str(current_minute))
+        current_minute = "59"
+    entryMinutes.set_text(str(current_minute))
+
+
+def validate_hour(entry):
+    text = entry.get_text()
+    if text.isdigit():
+        hour = int(text)
+        if hour < 0 or hour > 23:
+            entry.set_text("23")
+
+
+def validate_minute(entry):
+    text = entry.get_text()
+    if text.isdigit():
+        minute = int(text)
+        if minute < 0 or minute > 59:
+            entry.set_text("59")
 
 
 def alarm(button):
-
     runs = 0
 
     alarm_time = "00:00"
-    alarm_hour = lblHours.get_text()
-    alarm_minute = lblMinutes.get_text()
+    alarm_hour = entryHours.get_text()
+    alarm_minute = entryMinutes.get_text()
 
     alarm_time = alarm_hour + ":" + alarm_minute
     alarm_time = datetime.datetime.strptime(alarm_time, "%H:%M")
-    print(f"alarm set for {alarm_time}")
+    print(f"Alarm set for {alarm_time}")
     while True:
         current_time = datetime.datetime.now()
         if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
@@ -75,20 +81,48 @@ window = builder.get_object("Window")
 btnAlarm = builder.get_object("btnAlarm")
 btnAlarm.connect("clicked", alarm)
 
-btnHourMinus = builder.get_object("btnHourMinus")
-btnHourPlus = builder.get_object("btnHourPlus")
+btnHourMinus = builder.get_object("btnHoursMinus")
+btnHourPlus = builder.get_object("btnHoursPlus")
 
 btnMinuteMinus = builder.get_object("btnMinuteMinus")
 btnMinutePlus = builder.get_object("btnMinutePlus")
 
-lblHours = builder.get_object("lblHours")
-lblMinutes = builder.get_object("lblMinutes")
+entryHours = builder.get_object("hours")
+entryMinutes = builder.get_object("minutes")
+
+# Valida as entradas dos GtkEntry via teclado
+entryHours.connect("changed", validate_hour)
+entryMinutes.connect("changed", validate_minute)
 
 
 btnHourMinus.connect("clicked", decrement_hour)
 btnHourPlus.connect("clicked", increment_hour)
 btnMinuteMinus.connect("clicked", decrement_minute)
 btnMinutePlus.connect("clicked", increment_minute)
+
+# CSS
+css_provider = Gtk.CssProvider()
+css_provider.load_from_path(
+    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
+)
+
+context_window = window.get_style_context()
+context_hours_plus = btnHourPlus.get_style_context()
+context_hours_minus = btnHourMinus.get_style_context()
+context_minute_plus = btnMinutePlus.get_style_context()
+context_minute_minus = btnMinuteMinus.get_style_context()
+context_entry_hours = entryHours.get_style_context()
+context_entry_minutes = entryMinutes.get_style_context()
+
+context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_hours_plus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_hours_minus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_minute_plus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_minute_minus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_entry_hours.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_entry_minutes.add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
 
 window.show_all()

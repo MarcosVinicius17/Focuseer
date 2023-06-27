@@ -1,24 +1,3 @@
-button {
-    /*background-color: #0072ff;*/
-    background-color: #2E3440;
-    color: #D8DEE9;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 14px;
-
-}
-
-button:hover {
-    /*background-color: #3B4252;*/
-    background-color: #D8DEE9;
-    color: #2E3440;
-}
-
-button:active {
-    background-color: #3B4252;
-    color: #D8DEE9;
-}
-
 window {
     background-color: #D8DEE9;
     color: #2E3440;
@@ -29,4 +8,88 @@ entry {
     background-color: #D8DEE9;
     color: #2E3440;
     border-radius: 10px;
+}
+
+#headerBar {
+    background-color: #2E3440;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+
+
+button:hover {
+    background-color: #5E81AC;
+
+}
+
+button:active {
+    background-color: #5E81AC;
+}
+
+
+/*#btnStart {
+    background-color: #2E3440;
+    color: #D8DEE9;
+}*/
+
+#btnStart:hover,
+#btnStart:active {
+    background-color: #5E81AC;
+    color: #D8DEE9;
+    border-color: #2E3440;
+}
+
+#btnAbout {
+    background-color: #2E3440;
+}
+
+#btnAbout:hover {
+    background-color: #5E81AC;
+}
+
+
+
+
+/*calendario*/
+calendar {
+    background-color: #D8DEE9;
+    color: #2E3440;
+
+}
+
+
+textview text {
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+textview text:active {
+    background-color: red;
+    border: 5px;
+    border-color: chartreuse;
+}
+
+#entry_hours,
+#entry_minutes,
+#entry_seconds {
+    font-size: 40px;
+}
+
+
+
+/*menu about*/
+
+#about_dialog {
+    background-color: #D8DEE9;
+    color: #2E3440;
+    padding: 5px 10px;
+}
+
+#about_dialog button {
+    background-color: #2E3440;
+}
+
+#about_dialog button:hover {
+    background-color: #5E81AC;
 }

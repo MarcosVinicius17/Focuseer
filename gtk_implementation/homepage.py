@@ -1,35 +1,51 @@
 import gi, subprocess, sys, datetime
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Gdk
 
 
 """
 Para o notes.glade, verificar os widgets GtkNotebook e GtkTreeView
 """
+css_provider = Gtk.CssProvider()
+css_provider.load_from_path(
+    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
+)
+
+
+def modo_noturno(menu_item):
+    print("modo noturno")
+
+
+def logout(menu_item):
+    print("logout")
 
 
 def open_about(button):
     about_dialog = Gtk.AboutDialog()
-    try:
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file(
-            "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_icone.png"
-        )
-    except:
-        print("erro")
 
     # Set properties for the about dialog
     about_dialog.set_program_name("Focuseer")
+    about_dialog.set_name("about_dialog")
     about_dialog.set_version("1.0")
-    about_dialog.set_comments("Keep your productivity while working remotely")
-    about_dialog.set_website("https://www.example.com")
+    about_dialog.set_comments("Mantenha a produtividade ao trabalhar de forma remota")
+    about_dialog.set_website("https://github.com/MarcosVinicius17/Focuseer")
     about_dialog.set_authors(["Marcos Vinícius"])
 
-    about_dialog.set_icon(pixbuf)
-    about_dialog.set_logo_icon_name("my-application-icon")
-    about_dialog.set_transient_for(button.get_toplevel())
+    logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
+        "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_login.png"
+    )
 
-    # Run the dialog
+    about_dialog.set_logo(logo_pixbuf)
+
+    # Aplica CSS ao dialog
+
+    screen = Gdk.Screen.get_default()
+    style_context = Gtk.StyleContext()
+    style_context.add_provider_for_screen(
+        screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER
+    )
+
     about_dialog.run()
     about_dialog.destroy()
 
@@ -50,38 +66,46 @@ def open_timer(buton):
     subprocess.Popen([sys.executable, "gtk_implementation/timer.py"])
 
 
-"""def open_pomodoro(button):
-    subprocess.Popen([sys.executable, "pomodoro.py"])
-
-
-def open_site_monitor(button):
-    subprocess.Popen([sys.executable, "site_monitor.py"])
+def open_pomodoro(button):
+    # subprocess.Popen([sys.executable, "pomodoro.py"])
+    print("pomodoro")
 
 
 def open_process_monitor(button):
-    subprocess.Popen([sys.executable, "process_monitor.py"])
+    # subprocess.Popen([sys.executable, "process_monitor.py"])
+    print("monitor")
 
 
-def open_profile(button):
-    subprocess.Popen([sys.executable, "profile.py"])
-"""
+def open_trello(button):
+    # subprocess.Popen([sys.executable, "trello.py"])
+    print("trello")
 
 
 def open_notes(button):
-    subprocess.Popen([sys.executable, "write_note.py"])
+    # subprocess.Popen([sys.executable, "write_note.py"])
+    print("notes")
+
+
+def open_settings(button):
+    print("settings")
+
+
+def open_reports(button):
+    print("reports")
+
+
+def open_stats(button):
+    print("stats")
 
 
 builder = Gtk.Builder()
-builder.add_from_file("glade_screens/homepage.glade")
+builder.add_from_file("glade_screens/homepage_menubutton.glade")
 
 window = builder.get_object("Window")
 
 
 btnAlarm = builder.get_object("btnAlarm")
 btnAlarm.connect("clicked", open_alarm)
-
-btnStopwatch = builder.get_object("btnStopwatch")
-btnStopwatch.connect("clicked", open_stopwatch)
 
 btnTimer = builder.get_object("btnTimer")
 btnTimer.connect("clicked", open_timer)
@@ -90,12 +114,28 @@ btnTimer.connect("clicked", open_timer)
 btnNotes = builder.get_object("btnNotes")
 btnNotes.connect("clicked", open_notes)
 
+btnMonitor = builder.get_object("btnMonitor")
+btnMonitor.connect("clicked", open_process_monitor)
 
-btnAbout = builder.get_object("btnAbout")
-btnAbout.connect("clicked", open_about)
+btnTrello = builder.get_object("btnTrello")
+btnTrello.connect("clicked", open_trello)
+
+btnPomodoro = builder.get_object("btnPomodoro")
+btnPomodoro.connect("clicked", open_pomodoro)
+
+btnSettings = builder.get_object("btnSettings")
+btnSettings.connect("clicked", open_settings)
+
+btnReports = builder.get_object("btnReports")
+btnReports.connect("clicked", open_reports)
+
+btnStats = builder.get_object("btnStats")
+btnStats.connect("clicked", open_stats)
+
 
 btnStart = builder.get_object("btnStart")
 btnStart.connect("clicked", start_work)
+
 
 lblDate = builder.get_object("lblCurrentDate")
 now = datetime.datetime.now()
@@ -104,31 +144,53 @@ month = now.strftime("%B")
 hour = now.hour
 minute = now.minute
 
-lblDate.set_text(f"{day:02.0f} de {month}, {hour:02.0f}:{minute:02.0f}")
+# headerbar
+headerbar = builder.get_object("headerBar")
+headerbar.set_subtitle(f"{day:02.0f} de {month}, {hour:02.0f}:{minute:02.0f}")
+headerbar.set_title("Marcos Vinícius F. Vieira")
 
+# menubutton
+menuButton = builder.get_object("menuButton")
 
-css_provider = Gtk.CssProvider()
-css_provider.load_from_path(
-    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-)
+# menuButton.set_label("Settings")
+# its just works
+menuButton.set_label("●●●")
+
+menuModoNoturno = builder.get_object("modoNoturno")
+menuAbout = builder.get_object("about")
+menuLogout = builder.get_object("logout")
+
+menuModoNoturno.connect("activate", modo_noturno)
+menuAbout.connect("activate", open_about)
+menuLogout.connect("activate", logout)
+
 
 context_window = window.get_style_context()
-context_btnAbout = btnAbout.get_style_context()
 context_btnAlarm = btnAlarm.get_style_context()
 context_btnTimer = btnTimer.get_style_context()
-context_btnStopwatch = btnStopwatch.get_style_context()
 context_btnNotes = btnNotes.get_style_context()
+context_btnTrello = btnTrello.get_style_context()
+context_btnPomodoro = btnPomodoro.get_style_context()
+context_btnSettings = btnSettings.get_style_context()
+cotnext_btnStats = btnStats.get_style_context()
+context_btnReports = btnReports.get_style_context()
 context_btnStart = btnStart.get_style_context()
+context_btnMonitor = btnMonitor.get_style_context()
+context_headerbar = headerbar.get_style_context()
 
 
 context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnAbout.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 context_btnAlarm.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 context_btnTimer.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnStopwatch.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 context_btnNotes.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
+context_btnStart.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnTrello.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnSettings.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnMonitor.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnPomodoro.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_btnReports.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+cotnext_btnStats.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+context_headerbar.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 window.show_all()
-
 Gtk.main()

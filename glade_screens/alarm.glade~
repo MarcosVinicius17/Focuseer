@@ -70,7 +70,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">145</property>
+            <property name="x">146</property>
             <property name="y">85</property>
           </packing>
         </child>
@@ -101,7 +101,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">75</property>
+            <property name="x">76</property>
             <property name="y">70</property>
           </packing>
         </child>
@@ -115,7 +115,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">75</property>
+            <property name="x">76</property>
             <property name="y">170</property>
           </packing>
         </child>
