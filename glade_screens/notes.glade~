@@ -40,7 +40,7 @@
               <object class="GtkTextView" id="textView">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="wrap-mode">word-char</property>
+                <property name="wrap-mode">word</property>
               </object>
             </child>
           </object>

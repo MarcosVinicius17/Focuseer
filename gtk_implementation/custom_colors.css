@@ -16,8 +16,6 @@ entry {
     font-size: 16px;
 }
 
-
-
 button:hover {
     background-color: #5E81AC;
 
@@ -27,11 +25,6 @@ button:active {
     background-color: #5E81AC;
 }
 
-
-/*#btnStart {
-    background-color: #2E3440;
-    color: #D8DEE9;
-}*/
 
 #btnStart:hover,
 #btnStart:active {
@@ -64,11 +57,11 @@ textview text {
     color: #2E3440;
 }
 
-textview text:active {
+/*textview text:active {
     background-color: red;
     border: 5px;
     border-color: chartreuse;
-}
+}*/
 
 #entry_hours,
 #entry_minutes,
@@ -92,4 +85,24 @@ textview text:active {
 
 #about_dialog button:hover {
     background-color: #5E81AC;
+}
+
+
+/*notas*/
+#notes_window,
+#toolbar_notes {
+    background-color: #2E3440;
+}
+
+
+/*AboutDialog from notes.py*/
+#dialog {
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+/*notes_start*/
+#textviewTitulo,
+#textviewHora {
+    font-size: 16px;
 }

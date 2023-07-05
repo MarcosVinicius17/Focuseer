@@ -15,7 +15,7 @@ class TimerApp:
         builder.add_from_file("glade_screens/timer.glade")
 
         # self.window = self.builder.get_object("Window")
-
+        self.window = builder.get_object("Window")
         self.hours_label = builder.get_object("hours")
         self.minutes_label = builder.get_object("minutes")
         self.seconds_label = builder.get_object("seconds")
@@ -27,8 +27,8 @@ class TimerApp:
         self.seconds_inc_btn = builder.get_object("btnSecondPlus")
         self.seconds_dec_btn = builder.get_object("btnSecondMinus")
 
-        self.start_btn = builder.get_object("btnStart")
-        self.stop_btn = builder.get_object("btnStop")
+        self.btnStart = builder.get_object("btnStart")
+        self.btnStop = builder.get_object("btnStop")
 
         self.hours_inc_btn.connect("clicked", self.on_hours_inc_btn_clicked)
         self.hours_dec_btn.connect("clicked", self.on_hours_dec_btn_clicked)
@@ -40,8 +40,8 @@ class TimerApp:
         self.seconds_dec_btn.connect("clicked", self.on_seconds_dec_btn_clicked)
 
         # self.start_btn.connect("clicked", self.on_start_btn_clicked)
-        self.start_btn.connect("clicked", self.start_timer)
-        self.stop_btn.connect("clicked", self.on_stop_btn_clicked)
+        self.btnStart.connect("clicked", self.start_timer)
+        self.btnStop.connect("clicked", self.on_stop_btn_clicked)
 
         self.hours = 0
         self.minutes = 0
@@ -56,6 +56,51 @@ class TimerApp:
         self.window.show_all()
 
         # CSS
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path(
+            "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
+        )
+
+        self.hours_label.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.minutes_label.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.seconds_label.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.window.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.btnStart.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.btnStop.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.hours_inc_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.hours_dec_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.minutes_inc_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.minutes_dec_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.seconds_inc_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        self.seconds_dec_btn.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def on_hours_inc_btn_clicked(self, button):
         self.hours += 1
@@ -129,7 +174,7 @@ class TimerApp:
         # Check if timer has reached zero
         if self.total_seconds == 0:
             # self.on_stop_btn_clicked(None)
-            subprocess.run(["notify-send", "Focuseer", "Time is up!"])
+            subprocess.run(["notify-send", "Focuseer", "Timer finalizado!"])
 
             self.seconds_label.set_text("00")
             self.minutes_label.set_text("00")

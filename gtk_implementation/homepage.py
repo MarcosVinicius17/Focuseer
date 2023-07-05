@@ -4,9 +4,6 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Gdk
 
 
-"""
-Para o notes.glade, verificar os widgets GtkNotebook e GtkTreeView
-"""
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
@@ -23,17 +20,16 @@ def logout(menu_item):
 
 def open_about(button):
     about_dialog = Gtk.AboutDialog()
-
-    # Set properties for the about dialog
     about_dialog.set_program_name("Focuseer")
     about_dialog.set_name("about_dialog")
     about_dialog.set_version("1.0")
     about_dialog.set_comments("Mantenha a produtividade ao trabalhar de forma remota")
     about_dialog.set_website("https://github.com/MarcosVinicius17/Focuseer")
-    about_dialog.set_authors(["Marcos Vinícius"])
+    about_dialog.set_website_label("Github")
+    about_dialog.set_authors(["Marcos Vinícius F. Vieira"])
 
     logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
-        "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_login.png"
+        "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_login_white.png"
     )
 
     about_dialog.set_logo(logo_pixbuf)
@@ -82,8 +78,12 @@ def open_trello(button):
 
 
 def open_notes(button):
-    # subprocess.Popen([sys.executable, "write_note.py"])
+    subprocess.Popen([sys.executable, "gtk_implementation/notes.py"])
     print("notes")
+
+
+def open_calendar(button):
+    subprocess.Popen([sys.executable, "gtk_implementation/calendar.py"])
 
 
 def open_settings(button):
@@ -132,6 +132,8 @@ btnReports.connect("clicked", open_reports)
 btnStats = builder.get_object("btnStats")
 btnStats.connect("clicked", open_stats)
 
+btnCalendar = builder.get_object("btnCalendar")
+btnCalendar.connect("clicked", open_calendar)
 
 btnStart = builder.get_object("btnStart")
 btnStart.connect("clicked", start_work)
@@ -165,32 +167,47 @@ menuAbout.connect("activate", open_about)
 menuLogout.connect("activate", logout)
 
 
-context_window = window.get_style_context()
-context_btnAlarm = btnAlarm.get_style_context()
-context_btnTimer = btnTimer.get_style_context()
-context_btnNotes = btnNotes.get_style_context()
-context_btnTrello = btnTrello.get_style_context()
-context_btnPomodoro = btnPomodoro.get_style_context()
-context_btnSettings = btnSettings.get_style_context()
-cotnext_btnStats = btnStats.get_style_context()
-context_btnReports = btnReports.get_style_context()
-context_btnStart = btnStart.get_style_context()
-context_btnMonitor = btnMonitor.get_style_context()
-context_headerbar = headerbar.get_style_context()
+context_window = window.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnAlarm = btnAlarm.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnTimer = btnTimer.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnNotes = btnNotes.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnTrello = btnTrello.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnPomodoro = btnPomodoro.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnSettings = btnSettings.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+cotnext_btnStats = btnStats.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnReports = btnReports.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnStart = btnStart.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnMonitor = btnMonitor.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_headerbar = headerbar.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
+context_calendar = btnCalendar.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
-context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnAlarm.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnTimer.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnNotes.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnStart.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnTrello.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnSettings.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnMonitor.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnPomodoro.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnReports.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-cotnext_btnStats.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_headerbar.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 window.show_all()
 Gtk.main()

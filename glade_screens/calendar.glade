@@ -30,6 +30,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="wrap-mode">word</property>
+            <property name="indent">10</property>
           </object>
           <packing>
             <property name="y">200</property>

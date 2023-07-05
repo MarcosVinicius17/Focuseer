@@ -35,19 +35,22 @@ css_provider.load_from_path(
 )
 
 
-context_btnCadastro = btnCadastro.get_style_context()
-context_window = window.get_style_context()
-context_btnLogin = btnLogin.get_style_context()
-context_txtLogin = txtLogin.get_style_context()
-context_txtSenha = txtSenha.get_style_context()
+context_btnCadastro = btnCadastro.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_window = window.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_btnLogin = btnLogin.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_txtLogin = txtLogin.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_txtSenha = txtSenha.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
-# context.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-
-context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnCadastro.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_btnLogin.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_txtLogin.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_txtSenha.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 window.show_all()
 

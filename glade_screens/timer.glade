@@ -63,7 +63,7 @@
             <property name="text" translatable="yes">00</property>
           </object>
           <packing>
-            <property name="x">90</property>
+            <property name="x">88</property>
             <property name="y">135</property>
           </packing>
         </child>
@@ -84,7 +84,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="minutes">
             <property name="name">entry_minutes</property>
             <property name="width-request">50</property>
             <property name="height-request">60</property>
@@ -111,12 +111,12 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">290</property>
+            <property name="x">277</property>
             <property name="y">125</property>
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="seconds">
             <property name="name">entry_seconds</property>
             <property name="width-request">50</property>
             <property name="height-request">60</property>
@@ -127,7 +127,7 @@
             <property name="text" translatable="yes">00</property>
           </object>
           <packing>
-            <property name="x">345</property>
+            <property name="x">334</property>
             <property name="y">135</property>
           </packing>
         </child>
@@ -155,7 +155,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">88</property>
+            <property name="x">85</property>
             <property name="y">205</property>
           </packing>
         </child>
@@ -183,7 +183,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">215</property>
+            <property name="x">210</property>
             <property name="y">205</property>
           </packing>
         </child>
@@ -211,7 +211,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">340</property>
+            <property name="x">330</property>
             <property name="y">205</property>
           </packing>
         </child>

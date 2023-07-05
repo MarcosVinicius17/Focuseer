@@ -2,7 +2,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-
+gi.require_version('Pango', '1.0')
 
 def salvarNota(button):
     print("salvo")

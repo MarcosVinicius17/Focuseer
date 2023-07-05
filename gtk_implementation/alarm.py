@@ -1,4 +1,4 @@
-import gi, datetime, subprocess
+import gi, datetime, subprocess, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -36,23 +36,32 @@ def decrement_minute(button) -> None:
     entryMinutes.set_text(str(current_minute))
 
 
-def validate_hour(entry):
+def validate_hour(entry) -> None:
     text = entry.get_text()
+    if len(text) == 1:
+        entry.set_text("0" + text)
     if text.isdigit():
         hour = int(text)
         if hour < 0 or hour > 23:
             entry.set_text("23")
 
 
-def validate_minute(entry):
+def validate_minute(entry) -> None:
     text = entry.get_text()
+    if len(text) == 1:
+        entry.set_text("0" + text)
     if text.isdigit():
         minute = int(text)
         if minute < 0 or minute > 59:
             entry.set_text("59")
 
 
-def alarm(button):
+def start_alarm(button) -> None:
+    thread = threading.Thread(target=alarm)
+    thread.start()
+
+
+def alarm() -> None:
     runs = 0
 
     alarm_time = "00:00"
@@ -79,7 +88,7 @@ window = builder.get_object("Window")
 
 
 btnAlarm = builder.get_object("btnAlarm")
-btnAlarm.connect("clicked", alarm)
+btnAlarm.connect("clicked", start_alarm)
 
 btnHourMinus = builder.get_object("btnHoursMinus")
 btnHourPlus = builder.get_object("btnHoursPlus")
@@ -106,21 +115,25 @@ css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
-context_window = window.get_style_context()
-context_hours_plus = btnHourPlus.get_style_context()
-context_hours_minus = btnHourMinus.get_style_context()
-context_minute_plus = btnMinutePlus.get_style_context()
-context_minute_minus = btnMinuteMinus.get_style_context()
-context_entry_hours = entryHours.get_style_context()
-context_entry_minutes = entryMinutes.get_style_context()
-
-context_window.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_hours_plus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_hours_minus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_minute_plus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_minute_minus.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_entry_hours.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-context_entry_minutes.add_provider(
+context_window = window.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_hours_plus = btnHourPlus.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_hours_minus = btnHourMinus.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_minute_plus = btnMinutePlus.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_minute_minus = btnMinuteMinus.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_entry_hours = entryHours.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+context_entry_minutes = entryMinutes.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
