@@ -5,6 +5,8 @@ gi.require_version("GtkSource", "4")
 gi.require_version("Pango", "1.0")
 from gi.repository import Gtk, Gdk
 
+import notes
+
 # CSS
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
@@ -14,25 +16,17 @@ css_provider.load_from_path(
 filename = "/home/marcos/Desktop/UNIP/tcc/banco_dados.json"
 
 
-def open_notes():
-    print("k")
-
-
-"""
-1) obter texto da nota
-2) 
-"""
+def open_notes(titulo, texto):
+    notes.create_application(titulo, texto)
 
 
 def procura_nota(titulo):
-    extensoesDoConjunto = []
-
     with open(filename) as json_file:
         data = json.load(json_file)
         for i in data["notes"]:
             if i["titulo"] == titulo:
                 print(f"Titulo:", i["titulo"], "Texto:", i["texto"], "Hora:", i["hora"])
-                # return extensoesDoConjunto
+                open_notes(i["titulo"], i["texto"])
 
 
 """
@@ -41,7 +35,7 @@ Quando o usuario aperta uma linha
 
 
 def textview_click(textview, event):
-    if event.button == Gdk.BUTTON_PRIMARY:  # Left mouse button
+    if event.button == Gdk.BUTTON_PRIMARY:
         # Get the clicked position
         x, y = textview.window_to_buffer_coords(
             Gtk.TextWindowType.WIDGET, int(event.x), int(event.y)
@@ -101,9 +95,6 @@ def exibe_notas(window):
 
     textviewHora.set_editable(False)
     textviewTitulo.set_editable(False)
-
-
-# gtk window
 
 
 builder = Gtk.Builder()

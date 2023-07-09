@@ -1,11 +1,19 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-gi.require_version("GtkSource", "3.0")
+# gi.require_version("GtkSource", "3.0")
 from gi.repository import Gtk, Gdk, GtkSource, Pango
 
 
-class MyApplication(Gtk.Application):
+class Notes(Gtk.Application):
+    sourceview = GtkSource.View()
+    sourceview.set_show_line_numbers(True)
+    sourceview.set_tab_width(4)
+    sourceview.set_hexpand(True)
+    sourceview.set_vexpand(True)
+    font_desc = Pango.FontDescription("Monospace 12")
+    sourceview.override_font(font_desc)
+
     def __init__(self):
         super().__init__()
 
@@ -13,6 +21,7 @@ class MyApplication(Gtk.Application):
         window = Gtk.ApplicationWindow(application=self)
         window.set_default_size(400, 400)
         window.set_title("Focuseer")
+        window.set_name("notes_window")
 
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         window.add(main_box)
@@ -40,18 +49,17 @@ class MyApplication(Gtk.Application):
 
         headerbar.pack_start(cancel_button)
 
-        sourceview = GtkSource.View()
+        """sourceview = GtkSource.View()
         sourceview.set_show_line_numbers(True)
         sourceview.set_tab_width(4)
         sourceview.set_hexpand(True)
         sourceview.set_vexpand(True)
-
         font_desc = Pango.FontDescription("Monospace 12")
-        sourceview.override_font(font_desc)
+        sourceview.override_font(font_desc)"""
 
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        scroll.add(sourceview)
+        scroll.add(Notes.sourceview)
 
         main_box.pack_start(scroll, True, True, 0)
 
@@ -72,6 +80,11 @@ class MyApplication(Gtk.Application):
         save_button.connect("button-press-event", self.on_save_clicked)
         cancel_button.connect("button-press-event", self.on_cancel_clicked)
 
+    def set_sourceview_text(self, text):
+        print("inside the function")
+        buffer = self.sourceview.get_buffer()
+        buffer.set_text(text)
+
     def on_save_clicked(self, button, event):
         print("Save button clicked")
 
@@ -86,17 +99,23 @@ class MyApplication(Gtk.Application):
         )
 
         dialog.set_default_size(300, 100)
-        # dialog.get_style_context().add_class("dialog")
         dialog.set_name("dialog")
 
         response = dialog.run()
         if response == Gtk.ResponseType.YES:
-            print("Cancel button clicked - Yes")
+            window = self.get_active_window()
+            window.destroy()
         else:
-            print("Cancel button clicked - No")
+            pass
         dialog.destroy()
 
 
+def create_application(title, text):
+    app = Notes()
+    app.set_sourceview_text(text)
+    app.run(None)
+
+
 if __name__ == "__main__":
-    app = MyApplication()
+    app = Notes()
     app.run(None)

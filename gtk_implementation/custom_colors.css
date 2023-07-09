@@ -106,3 +106,12 @@ textview text {
 #textviewHora {
     font-size: 16px;
 }
+
+/*para o monitor de processos*/
+#listbox {
+    background-color: #D8DEE9;
+    color: #2E3440;
+    font-size: 16px;
+    font-family: monospace;
+    border: 2px solid #2E3440;
+}

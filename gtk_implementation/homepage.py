@@ -78,8 +78,7 @@ def open_trello(button):
 
 
 def open_notes(button):
-    subprocess.Popen([sys.executable, "gtk_implementation/notes.py"])
-    print("notes")
+    subprocess.Popen([sys.executable, "gtk_implementation/notes_start.py"])
 
 
 def open_calendar(button):
