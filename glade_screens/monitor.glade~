@@ -77,8 +77,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnEditPermitidos">
-            <property name="label" translatable="yes">Editar</property>
+          <object class="GtkButton" id="btnRemoverPermitidos">
+            <property name="label" translatable="yes">Remover</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
@@ -91,8 +91,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnEditNaoPerm">
-            <property name="label" translatable="yes">Editar</property>
+          <object class="GtkButton" id="btnRemovertNaoPerm">
+            <property name="label" translatable="yes">Remover</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
@@ -118,8 +118,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnAttPermitido">
-            <property name="label" translatable="yes">Atualizar</property>
+          <object class="GtkButton" id="btnAddPermitidos">
+            <property name="label" translatable="yes">Adicionar</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
@@ -132,8 +132,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnAttNaoPermitidos">
-            <property name="label" translatable="yes">Atualizar</property>
+          <object class="GtkButton" id="btnAddNaoPermitidos">
+            <property name="label" translatable="yes">Adicionar</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
