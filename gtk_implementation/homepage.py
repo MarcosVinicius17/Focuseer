@@ -1,7 +1,10 @@
-import gi, subprocess, sys, datetime
+import gi, subprocess, sys, datetime, locale
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Gdk
+
+# Traduz o texto do subtitulo da headerbar
+locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 
 css_provider = Gtk.CssProvider()
@@ -63,13 +66,11 @@ def open_timer(buton):
 
 
 def open_pomodoro(button):
-    # subprocess.Popen([sys.executable, "pomodoro.py"])
-    print("pomodoro")
+    subprocess.Popen([sys.executable, "gtk_implementation/pomodoro.py"])
 
 
 def open_process_monitor(button):
-    # subprocess.Popen([sys.executable, "process_monitor.py"])
-    print("monitor")
+    subprocess.Popen([sys.executable, "gtk_implementation/monitor.py"])
 
 
 def open_trello(button):
@@ -150,7 +151,7 @@ headerbar = builder.get_object("headerBar")
 headerbar.set_subtitle(f"{day:02.0f} de {month}, {hour:02.0f}:{minute:02.0f}")
 headerbar.set_title("Marcos Vinícius F. Vieira")
 
-# menubutton
+
 menuButton = builder.get_object("menuButton")
 
 # menuButton.set_label("Settings")

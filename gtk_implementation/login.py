@@ -1,16 +1,55 @@
-import gi, datetime, subprocess
+import gi, bcrypt, subprocess, sys
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
+
+
+def hide_label():
+    lblSenha.hide()
+    return False
+
+
+def show_label():
+    lblSenha.set_visible(True)
+    GLib.timeout_add_seconds(2, hide_label)
+
+
+def verifica_senha(input_password, hashed_password):
+    return bcrypt.checkpw(input_password.encode(), hashed_password)
+    # return bcrypt.checkpw(input_password.encode("utf-8"), hashed_password)
 
 
 def login(button):
-    print(txtLogin.get_text())
-    print(f"password:", txtSenha.get_text())
+    client = MongoClient()
+    db = client.tcc_usuarios
+    users = db.users
+    user = users.find_one({"login": txtLogin.get_text()})
+
+    password = txtSenha.get_text()
+
+    # se o usuario existe no BD
+    if user:
+        print("user found")
+        hashed_password = user["senha"]
+        pw_match = verifica_senha(password, hashed_password)
+        if pw_match:
+            print("user logado")
+            subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])
+
+        else:
+            lblSenha.set_text("Senha incorreta")
+            print("senha incorreta")
+            show_label()
+
+    else:
+        print("user not found")
+        lblSenha.set_text("Usuário não encontrado")
+        show_label()
 
 
 def cadastro(button):
-    print("cadastro")
+    subprocess.Popen([sys.executable, "gtk_implementation/cadastro.py"])
 
 
 builder = Gtk.Builder()
@@ -27,6 +66,8 @@ btnLogin.connect("clicked", login)
 
 btnCadastro = builder.get_object("btnCadastro")
 btnCadastro.connect("clicked", cadastro)
+
+lblSenha = builder.get_object("lblSenha")
 
 
 css_provider = Gtk.CssProvider()
@@ -53,5 +94,6 @@ context_txtSenha = txtSenha.get_style_context().add_provider(
 
 
 window.show_all()
+lblSenha.set_visible(False)
 
 Gtk.main()

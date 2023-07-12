@@ -80,7 +80,7 @@
             <property name="height-request">80</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="pixbuf">../nao_programacao/logos/logo_login.png</property>
+            <property name="pixbuf">../nao_programacao/logos/logo_login_white.png</property>
           </object>
           <packing>
             <property name="x">301</property>
@@ -112,6 +112,22 @@
           <packing>
             <property name="x">50</property>
             <property name="y">110</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblSenha">
+            <property name="width-request">100</property>
+            <property name="height-request">40</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">A senha informada está incorreta</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">55</property>
+            <property name="y">285</property>
           </packing>
         </child>
       </object>

@@ -91,7 +91,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnRemovertNaoPerm">
+          <object class="GtkButton" id="btnRemoverNaoPerm">
             <property name="label" translatable="yes">Remover</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
@@ -143,6 +143,21 @@
           <packing>
             <property name="x">414</property>
             <property name="y">406</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblAviso">
+            <property name="width-request">100</property>
+            <property name="height-request">50</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">O proceso x agora esta ativo</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">465</property>
           </packing>
         </child>
       </object>

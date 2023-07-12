@@ -15,7 +15,7 @@ def check_process_running(process_name):
     return False
 
 
-process_name = "brave"
+process_name = "mpv"
 if check_process_running(process_name):
     print(f"{process_name} is running")
 else:

@@ -118,6 +118,7 @@
           <object class="GtkLabel" id="lblSenha">
             <property name="width-request">100</property>
             <property name="height-request">40</property>
+            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">A senha informada está incorreta</property>
             <attributes>
@@ -126,7 +127,7 @@
           </object>
           <packing>
             <property name="x">55</property>
-            <property name="y">285</property>
+            <property name="y">304</property>
           </packing>
         </child>
       </object>
