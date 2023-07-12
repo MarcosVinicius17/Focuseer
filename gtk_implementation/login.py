@@ -4,6 +4,8 @@ from pymongo import MongoClient
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 
+from homepage import set_headerbar_title
+
 
 def hide_label():
     lblSenha.hide()
@@ -32,18 +34,18 @@ def login(button):
     if user:
         print("user found")
         hashed_password = user["senha"]
+        username = user["nome"]
         pw_match = verifica_senha(password, hashed_password)
-        if pw_match:
-            print("user logado")
-            subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])
 
+        if pw_match:
+            subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])
+            set_headerbar_title(username)
+            window.destroy()
         else:
             lblSenha.set_text("Senha incorreta")
-            print("senha incorreta")
             show_label()
 
     else:
-        print("user not found")
         lblSenha.set_text("Usuário não encontrado")
         show_label()
 

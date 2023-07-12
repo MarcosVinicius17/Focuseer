@@ -13,12 +13,19 @@ css_provider.load_from_path(
 )
 
 
+def set_headerbar_title(username):
+    headerbar.set_title(username)
+    window.show_all()
+    # Gtk.Main()
+
+
 def modo_noturno(menu_item):
     print("modo noturno")
 
 
 def logout(menu_item):
-    print("logout")
+    subprocess.Popen([sys.executable, "gtk_implementation/login.py"])
+    window.destroy()
 
 
 def open_about(button):
@@ -209,5 +216,5 @@ context_calendar = btnCalendar.get_style_context().add_provider(
 )
 
 
-window.show_all()
-Gtk.main()
+# window.show_all()
+# Gtk.main()
