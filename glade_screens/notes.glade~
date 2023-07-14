@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkWindow" id="WIndow">
+  <object class="GtkWindow" id="window">
     <property name="can-focus">False</property>
     <property name="default-width">500</property>
     <property name="default-height">400</property>
@@ -25,6 +25,17 @@
                 <property name="receives-default">True</property>
               </object>
             </child>
+            <child>
+              <object class="GtkButton" id="btnDiscart">
+                <property name="label" translatable="yes">button</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
         </child>
         <child>
@@ -37,12 +48,27 @@
             <property name="propagate-natural-width">True</property>
             <property name="propagate-natural-height">True</property>
             <child>
-              <object class="GtkTextView" id="textView">
+              <object class="GtkTextView" id="txtNota">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="wrap-mode">word</property>
+                <property name="wrap-mode">word-char</property>
+                <property name="left-margin">5</property>
+                <property name="top-margin">5</property>
               </object>
             </child>
+          </object>
+          <packing>
+            <property name="y">75</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="txtTitulo">
+            <property name="width-request">500</property>
+            <property name="height-request">32</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="left-margin">5</property>
+            <property name="top-margin">5</property>
           </object>
           <packing>
             <property name="y">40</property>

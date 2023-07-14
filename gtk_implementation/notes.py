@@ -1,7 +1,7 @@
-import gi
+import gi, datetime
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
-# gi.require_version("GtkSource", "3.0")
 from gi.repository import Gtk, Gdk, GtkSource, Pango
 
 
@@ -59,6 +59,7 @@ class Notes(Gtk.Application):
 
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+
         scroll.add(Notes.sourceview)
 
         main_box.pack_start(scroll, True, True, 0)
@@ -85,8 +86,46 @@ class Notes(Gtk.Application):
         buffer = self.sourceview.get_buffer()
         buffer.set_text(text)
 
+    """1st line will be the title"""
+
+    def get_title(self):
+        buffer = Notes.sourceview.get_buffer()
+        start_iter = buffer.get_start_iter()
+        end_iter = buffer.get_iter_at_line(1)
+        text = buffer.get_text(start_iter, end_iter, True)
+        print("1st line:", text)
+
+        return text
+
     def on_save_clicked(self, button, event):
-        print("Save button clicked")
+        """
+        MongoDB
+        """
+        client = MongoClient()
+        db = client.tcc_usuarios
+        notes = db.notes
+
+        buffer = Notes.sourceview.get_buffer()
+        start_iter = buffer.get_start_iter()
+        end_iter = buffer.get_end_iter()
+        note_content = buffer.get_text(start_iter, end_iter, False)
+
+        titulo = self.get_title()
+
+        now = datetime.datetime.now()
+        day = now.day
+        month = now.strftime("%B")
+        hour = now.hour
+        minute = now.minute
+
+        time_formattted = (
+            str(day) + "/" + str(month) + "-" + str(hour) + ":" + str(minute)
+        )
+
+        note = {"titulo": titulo, "texto": note_content, "hora": time_formattted}
+
+        note_id = notes.insert_one(note).inserted_id
+        print("Insert successful, here is the note id: ", note_id)
 
     def on_cancel_clicked(self, button, event):
         dialog = Gtk.MessageDialog(
