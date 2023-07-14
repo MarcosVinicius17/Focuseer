@@ -2,6 +2,7 @@ import gi, datetime, subprocess, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from playsound import playsound
 
 
 def increment_hour(button) -> None:
@@ -61,6 +62,31 @@ def start_alarm(button) -> None:
     thread.start()
 
 
+"""def alarm() -> None:
+    runs = 0
+
+    alarm_time = "00:00"
+    alarm_hour = entryHours.get_text()
+    alarm_minute = entryMinutes.get_text()
+
+    alarm_time = alarm_hour + ":" + alarm_minute
+    alarm_time = datetime.datetime.strptime(alarm_time, "%H:%M")
+    print(f"Alarm set for {alarm_time}")
+    while True:
+        current_time = datetime.datetime.now()
+        if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
+            if runs < 1:
+                subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
+                mp3_file = (
+                    "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
+                )
+                playsound(mp3_file)
+
+                runs += 1
+            if runs == 1:
+                break"""
+
+
 def alarm() -> None:
     runs = 0
 
@@ -75,8 +101,16 @@ def alarm() -> None:
         current_time = datetime.datetime.now()
         if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
             if runs < 1:
-                subprocess.run(["notify-send", "Focuseer", "Alarm!"])
-                runs += 1
+                if chkAlarm.get_active():
+                    subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
+                    runs += 1
+                else:
+                    subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
+                    mp3_file = (
+                        "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
+                    )
+                    playsound(mp3_file)
+                    runs += 1
             if runs == 1:
                 break
 
@@ -102,6 +136,8 @@ entryMinutes = builder.get_object("minutes")
 # Valida as entradas dos GtkEntry via teclado
 entryHours.connect("changed", validate_hour)
 entryMinutes.connect("changed", validate_minute)
+
+chkAlarm = builder.get_object("chkAlarm")
 
 
 btnHourMinus.connect("clicked", decrement_hour)
