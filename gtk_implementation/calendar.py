@@ -1,4 +1,5 @@
 import gi, locale
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -9,15 +10,57 @@ gi.require_version("Pango", "1.0")
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 
-def salvarNota(button):
-    print("salvo")
+def salvarNota(button) -> None:
+    """MongoDB stuff"""
+    client = MongoClient()
+    db = client.tcc_usuarios
+    note = db.calendar_notes
+
+    """Getting the content"""
+    buffer = textView.get_buffer()
+    start_iter = buffer.get_start_iter()
+    end_iter = buffer.get_end_iter()
+    text = buffer.get_text(start_iter, end_iter, False)
+    current_date = labelDia.get_text()
+
+    """Create or update if already exists"""
+
+    old_note = note.find_one({"data": current_date})
+
+    if old_note:
+        note_update = note.find_one_and_update(old_note, {"$set": {"mensagem": text}})
+
+    else:
+        note_to_insert = {"data": current_date, "mensagem": text}
+
+        note_id = note.insert_one(note_to_insert).inserted_id
+        print("Insert successful, here is the user id: ", note_id)
 
 
-def on_day_selected(calendar):
+def get_text_from_day() -> None:
+    client = MongoClient()
+    db = client.tcc_usuarios
+    note = db.calendar_notes
+
+    current_date = labelDia.get_text()
+
+    note_content = note.find_one({"data": current_date})
+
+    if note_content:
+        mensagem = note_content["mensagem"]
+        buffer = textView.get_buffer()
+        buffer.set_text(mensagem)
+    else:
+        buffer = textView.get_buffer()
+        buffer.set_text("")
+
+
+def on_day_selected(calendar) -> None:
     year, month, day = calendar.get_date()
     month += 1
 
     labelDia.set_text(f"{day:02}/{month:02}/{year}")
+    get_text_from_day()
 
 
 builder = Gtk.Builder()

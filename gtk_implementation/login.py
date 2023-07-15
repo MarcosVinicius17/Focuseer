@@ -7,12 +7,12 @@ from gi.repository import Gtk, GLib
 from homepage import set_headerbar_title
 
 
-def hide_label():
+def hide_label() -> False:
     lblSenha.hide()
     return False
 
 
-def show_label():
+def show_label() -> None:
     lblSenha.set_visible(True)
     GLib.timeout_add_seconds(2, hide_label)
 
@@ -22,7 +22,7 @@ def verifica_senha(input_password, hashed_password):
     # return bcrypt.checkpw(input_password.encode("utf-8"), hashed_password)
 
 
-def login(button):
+def login(button) -> None:
     client = MongoClient()
     db = client.tcc_usuarios
     users = db.users
@@ -50,7 +50,7 @@ def login(button):
         show_label()
 
 
-def cadastro(button):
+def cadastro(button) -> None:
     subprocess.Popen([sys.executable, "gtk_implementation/cadastro.py"])
 
 

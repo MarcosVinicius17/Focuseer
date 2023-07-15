@@ -21,8 +21,8 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">275</property>
-            <property name="y">270</property>
+            <property name="x">250</property>
+            <property name="y">290</property>
           </packing>
         </child>
         <child>
@@ -35,8 +35,8 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">140</property>
-            <property name="y">270</property>
+            <property name="x">120</property>
+            <property name="y">290</property>
           </packing>
         </child>
         <child>
@@ -46,9 +46,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="title" translatable="yes">Timer</property>
-            <child>
-              <placeholder/>
-            </child>
           </object>
         </child>
         <child>
@@ -84,7 +81,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="minutes">
             <property name="name">entry_minutes</property>
             <property name="width-request">50</property>
             <property name="height-request">60</property>
@@ -116,7 +113,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="seconds">
             <property name="name">entry_seconds</property>
             <property name="width-request">50</property>
             <property name="height-request">60</property>
@@ -213,6 +210,21 @@
           <packing>
             <property name="x">330</property>
             <property name="y">205</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="chkTimer">
+            <property name="label" translatable="yes">Timer silencioso (apenas notificação)</property>
+            <property name="width-request">100</property>
+            <property name="height-request">50</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="draw-indicator">True</property>
+          </object>
+          <packing>
+            <property name="x">135</property>
+            <property name="y">235</property>
           </packing>
         </child>
       </object>

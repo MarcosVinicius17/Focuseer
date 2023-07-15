@@ -2,10 +2,10 @@ import gi, time, subprocess
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
+from playsound import playsound
 
 """
-Funciona, mas esta complicado ate dms
-REFATORAR!
+simplify the code
 """
 
 
@@ -26,6 +26,7 @@ class TimerApp:
         self.minutes_dec_btn = builder.get_object("btnMinuteMinus")
         self.seconds_inc_btn = builder.get_object("btnSecondPlus")
         self.seconds_dec_btn = builder.get_object("btnSecondMinus")
+        self.chkTimer = builder.get_object("chkTimer")
 
         self.btnStart = builder.get_object("btnStart")
         self.btnStop = builder.get_object("btnStop")
@@ -174,11 +175,22 @@ class TimerApp:
         # Check if timer has reached zero
         if self.total_seconds == 0:
             # self.on_stop_btn_clicked(None)
-            subprocess.run(["notify-send", "Focuseer", "Timer finalizado!"])
 
-            self.seconds_label.set_text("00")
-            self.minutes_label.set_text("00")
-            self.hours_label.set_text("00")
+            if self.chkTimer.get_active():
+                self.seconds_label.set_text("00")
+                self.minutes_label.set_text("00")
+                self.hours_label.set_text("00")
+                subprocess.run(["notify-send", "Focuseer", "Timer finalizado"])
+
+            else:
+                self.seconds_label.set_text("00")
+                self.minutes_label.set_text("00")
+                self.hours_label.set_text("00")
+                subprocess.run(["notify-send", "Focuseer", "Timer finalizado"])
+                mp3_file = (
+                    "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
+                )
+                playsound(mp3_file)
 
             return False
 
