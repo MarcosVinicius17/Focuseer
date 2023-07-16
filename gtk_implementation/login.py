@@ -19,7 +19,6 @@ def show_label() -> None:
 
 def verifica_senha(input_password, hashed_password):
     return bcrypt.checkpw(input_password.encode(), hashed_password)
-    # return bcrypt.checkpw(input_password.encode("utf-8"), hashed_password)
 
 
 def login(button) -> None:

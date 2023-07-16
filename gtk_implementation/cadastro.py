@@ -5,7 +5,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 
-def encriptar_senha(password):
+def encriptar_senha(password) -> str:
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     print("Hashed password:", hashed_password.decode())
     return hashed_password
@@ -41,7 +41,6 @@ def cadastrar_usuario(button):
 
     else:
         print("wrong password")
-        return
 
 
 builder = Gtk.Builder()

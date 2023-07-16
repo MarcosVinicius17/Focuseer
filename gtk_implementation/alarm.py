@@ -62,31 +62,6 @@ def start_alarm(button) -> None:
     thread.start()
 
 
-"""def alarm() -> None:
-    runs = 0
-
-    alarm_time = "00:00"
-    alarm_hour = entryHours.get_text()
-    alarm_minute = entryMinutes.get_text()
-
-    alarm_time = alarm_hour + ":" + alarm_minute
-    alarm_time = datetime.datetime.strptime(alarm_time, "%H:%M")
-    print(f"Alarm set for {alarm_time}")
-    while True:
-        current_time = datetime.datetime.now()
-        if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
-            if runs < 1:
-                subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
-                mp3_file = (
-                    "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
-                )
-                playsound(mp3_file)
-
-                runs += 1
-            if runs == 1:
-                break"""
-
-
 def alarm() -> None:
     runs = 0
 

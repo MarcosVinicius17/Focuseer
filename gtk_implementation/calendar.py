@@ -1,4 +1,4 @@
-import gi, locale
+import gi, locale, datetime
 from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
@@ -55,6 +55,20 @@ def get_text_from_day() -> None:
         buffer.set_text("")
 
 
+"""Makes the calendar start on the current date"""
+
+
+def set_current_day(calendar) -> None:
+    current_date = datetime.datetime.now()
+    day = current_date.day
+    """Months range from 0 to 11"""
+    month = current_date.month - 1
+    year = current_date.year
+
+    calendar.select_month(month, year)
+    calendar.select_day(day)
+
+
 def on_day_selected(calendar) -> None:
     year, month, day = calendar.get_date()
     month += 1
@@ -99,5 +113,5 @@ context_textview.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICAT
 context_btnSalvar.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
 window.show_all()
-
+set_current_day(calendar)
 Gtk.main()
