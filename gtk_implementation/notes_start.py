@@ -1,4 +1,5 @@
-import gi, json
+import gi, subprocess, sys
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
 gi.require_version("GtkSource", "4")
@@ -7,13 +8,22 @@ from gi.repository import Gtk, Gdk
 
 import notes
 
+""" ERRO IMPORTANTE
+AO CLICA EM UMA NOTA, ELA ABRE NORMALMENTE
+MAS AO FECHAR A NOTA E ABRIR OUTRA, O PROGRAMA FECHA
+
+"""
+
+
 # CSS
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
-filename = "/home/marcos/Desktop/UNIP/tcc/banco_dados.json"
+
+def open_blank_note(button):
+    subprocess.Popen([sys.executable, "gtk_implementation/notes.py"])
 
 
 def open_notes(titulo, texto):
@@ -21,12 +31,18 @@ def open_notes(titulo, texto):
 
 
 def procura_nota(titulo):
-    with open(filename) as json_file:
-        data = json.load(json_file)
-        for i in data["notes"]:
-            if i["titulo"] == titulo:
-                print(f"Titulo:", i["titulo"], "Texto:", i["texto"], "Hora:", i["hora"])
-                open_notes(i["titulo"], i["texto"])
+    client = MongoClient()
+    db = client.tcc_usuarios
+    notes = db.notes
+
+    nota = notes.find_one({"titulo": titulo})
+
+    if nota:
+        pass
+    else:
+        print("nota nao existe")
+
+    open_notes(nota["titulo"], nota["texto"])
 
 
 """
@@ -49,33 +65,27 @@ def textview_click(textview, event):
         line_end.forward_to_line_end()
 
         line_text = buffer.get_text(line_start, line_end, False)
-        print("Clicked line:", line_num.get_line() + 1)
-        print("Line text:", line_text)
+        # print("Clicked line:", line_num.get_line() + 1)
+        # print("Line text:", line_text)
         procura_nota(line_text)
 
 
-"""temporario"""
-
-
-def load_notes():
-    # filename = "/home/marcos/Desktop/UNIP/tcc/banco_dados.json"
+def carregar_notas():
     titulos = []
     textos = []
     horas = []
-    v = 1
-    try:
-        with open(filename) as json_file:
-            if v == 0:
-                print("Arquivo em branco")
-            else:
-                data = json.load(json_file)
-                for p in data["notes"]:
-                    textos.append(p["texto"])
-                    titulos.append(p["titulo"])
-                    horas.append(p["hora"])
-                return (titulos, textos, horas)
-    except FileNotFoundError:
-        print("Arquivo nao localizado.")
+
+    client = MongoClient()
+    db = client.tcc_usuarios
+    notes = db.notes
+
+    cursor = notes.find({})
+
+    for i in cursor:
+        titulos.append(i["titulo"])
+        textos.append(i["texto"])
+        horas.append(i["hora"])
+    return titulos, textos, horas
 
 
 """
@@ -84,7 +94,7 @@ Carrega a lista de notas nas textViews
 
 
 def exibe_notas(window):
-    titulos, textos, horas = load_notes()
+    titulos, textos, horas = carregar_notas()
     buffer = textviewTitulo.get_buffer()
     buffer_hora = textviewHora.get_buffer()
 
@@ -106,8 +116,9 @@ textviewTitulo = builder.get_object("textviewTitulo")
 textviewHora = builder.get_object("textviewHora")
 lblTitulo = builder.get_object("lblTitulo")
 lblHora = builder.get_object("lblHora")
+btnAddNote = builder.get_object("btnAddNote")
 
-
+btnAddNote.connect("clicked", open_blank_note)
 textviewTitulo.connect("button-release-event", textview_click)
 
 

@@ -49,14 +49,6 @@ class Notes(Gtk.Application):
 
         headerbar.pack_start(cancel_button)
 
-        """sourceview = GtkSource.View()
-        sourceview.set_show_line_numbers(True)
-        sourceview.set_tab_width(4)
-        sourceview.set_hexpand(True)
-        sourceview.set_vexpand(True)
-        font_desc = Pango.FontDescription("Monospace 12")
-        sourceview.override_font(font_desc)"""
-
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
 
@@ -92,40 +84,58 @@ class Notes(Gtk.Application):
         buffer = Notes.sourceview.get_buffer()
         start_iter = buffer.get_start_iter()
         end_iter = buffer.get_iter_at_line(1)
-        text = buffer.get_text(start_iter, end_iter, True)
-        print("1st line:", text)
+
+        text = buffer.get_text(start_iter, end_iter, False).rstrip()
 
         return text
 
     def on_save_clicked(self, button, event):
         """
-        MongoDB
+        MongoDB stuff
         """
         client = MongoClient()
         db = client.tcc_usuarios
         notes = db.notes
 
+        """
+        Getting the content
+        """
+
         buffer = Notes.sourceview.get_buffer()
         start_iter = buffer.get_start_iter()
         end_iter = buffer.get_end_iter()
         note_content = buffer.get_text(start_iter, end_iter, False)
-
         titulo = self.get_title()
 
+        """getting current time"""
         now = datetime.datetime.now()
         day = now.day
         month = now.strftime("%B")
         hour = now.hour
         minute = now.minute
-
-        time_formattted = (
+        time_formatted = (
             str(day) + "/" + str(month) + "-" + str(hour) + ":" + str(minute)
         )
 
-        note = {"titulo": titulo, "texto": note_content, "hora": time_formattted}
+        """Insert or update note"""
 
-        note_id = notes.insert_one(note).inserted_id
-        print("Insert successful, here is the note id: ", note_id)
+        titulo = self.get_title()
+
+        old_note = notes.find_one({"titulo": titulo})
+
+        if old_note:
+            note_update = notes.find_one_and_update(
+                old_note, {"$set": {"texto": note_content, "hora": time_formatted}}
+            )
+        else:
+            note_to_insert = {
+                "titulo": titulo,
+                "texto": note_content,
+                "hora": time_formatted,
+            }
+
+            note_id = notes.insert_one(note_to_insert).inserted_id
+            print("Insert successful, here is the user id: ", note_id)
 
     def on_cancel_clicked(self, button, event):
         dialog = Gtk.MessageDialog(

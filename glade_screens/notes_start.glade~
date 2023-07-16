@@ -23,6 +23,7 @@
         </child>
         <child>
           <object class="GtkTextView" id="textviewTitulo">
+            <property name="name">textviewTitulo</property>
             <property name="width-request">330</property>
             <property name="height-request">310</property>
             <property name="visible">True</property>
@@ -35,6 +36,7 @@
         </child>
         <child>
           <object class="GtkTextView" id="textviewHora">
+            <property name="name">textviewHora</property>
             <property name="width-request">135</property>
             <property name="height-request">310</property>
             <property name="visible">True</property>
