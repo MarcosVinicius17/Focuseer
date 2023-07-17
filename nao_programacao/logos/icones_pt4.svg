@@ -24,9 +24,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.5"
-     inkscape:cx="292"
-     inkscape:cy="380"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="192.33304"
+     inkscape:cy="520.43059"
      inkscape:window-width="1366"
      inkscape:window-height="696"
      inkscape:window-x="0"
@@ -35,6 +35,40 @@
      inkscape:current-layer="layer1" />
   <defs
      id="defs2">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect704"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="0"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect700"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1 @ F,0,0,1,0,2.6458333,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="0"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
     <inkscape:path-effect
        effect="fillet_chamfer"
        id="path-effect26293"
@@ -283,6 +317,12 @@
        width="132.77694"
        height="141.54305"
        id="rect26307" />
+    <rect
+       x="76.915194"
+       y="385.94837"
+       width="132.77694"
+       height="141.54305"
+       id="rect696" />
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -507,8 +547,36 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect26307);display:inline;fill:#2e3440;fill-opacity:1;stroke:none"><tspan
              x="76.916016"
              y="474.74922"
-             id="tspan27165">X</tspan></text>
+             id="tspan882">X</tspan></text>
       </g>
+    </g>
+    <g
+       id="g692"
+       transform="matrix(2.7011871,0,0,2.7011871,-39.019645,-253.21245)"
+       inkscape:export-filename="icone_delete.png"
+       inkscape:export-xdpi="6.3807521"
+       inkscape:export-ydpi="6.3807521">
+      <circle
+         style="fill:#2e3440;fill-opacity:1;fill-rule:evenodd;stroke-width:1.212"
+         id="circle684"
+         cx="80.094078"
+         cy="147.28075"
+         r="14.736934" />
+      <ellipse
+         style="fill:#d8dee9;fill-opacity:1;fill-rule:evenodd;stroke-width:0.971225"
+         id="ellipse686"
+         cx="80.094078"
+         cy="147.28075"
+         rx="12.045603"
+         ry="11.577641" />
+      <text
+         xml:space="preserve"
+         transform="matrix(0.26458333,0,0,0.19439817,51.749206,61.724603)"
+         id="text690"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:96px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect696);display:inline;fill:#2e3440;fill-opacity:1;stroke:none"><tspan
+           x="76.916016"
+           y="474.74922"
+           id="tspan884">X</tspan></text>
     </g>
   </g>
 </svg>

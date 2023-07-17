@@ -8,7 +8,8 @@ from gi.repository import Gtk, Gdk
 
 import notes
 
-""" ERRO IMPORTANTE
+""" 
+ERRO IMPORTANTE
 AO CLICA EM UMA NOTA, ELA ABRE NORMALMENTE
 MAS AO FECHAR A NOTA E ABRIR OUTRA, O PROGRAMA FECHA
 
@@ -23,10 +24,12 @@ css_provider.load_from_path(
 
 
 def open_blank_note(button):
+    window.destroy()
     subprocess.Popen([sys.executable, "gtk_implementation/notes.py"])
 
 
 def open_notes(titulo, texto):
+    window.destroy()
     notes.create_application(titulo, texto)
 
 

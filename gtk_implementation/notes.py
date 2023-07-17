@@ -1,4 +1,4 @@
-import gi, datetime
+import gi, datetime, subprocess, sys
 from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
@@ -49,6 +49,16 @@ class Notes(Gtk.Application):
 
         headerbar.pack_start(cancel_button)
 
+        delete_button = Gtk.EventBox()
+
+        delete_image = Gtk.Image.new_from_file(
+            "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/icone_delete.png"
+        )
+
+        delete_button.add(delete_image)
+
+        headerbar.pack_start(delete_button)
+
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
 
@@ -72,6 +82,7 @@ class Notes(Gtk.Application):
 
         save_button.connect("button-press-event", self.on_save_clicked)
         cancel_button.connect("button-press-event", self.on_cancel_clicked)
+        delete_button.connect("button-press-event", self.delete_note)
 
     def set_sourceview_text(self, text):
         print("inside the function")
@@ -157,6 +168,42 @@ class Notes(Gtk.Application):
         else:
             pass
         dialog.destroy()
+
+    def delete_note(self, button, event):
+        dialog = Gtk.MessageDialog(
+            transient_for=self.get_active_window(),
+            flags=Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text="Tem certeza de que deseja apagar a nota?",
+            title="Apagar nota",
+        )
+
+        dialog.set_default_size(300, 100)
+        dialog.set_name("dialog")
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.YES:
+            client = MongoClient()
+            db = client.tcc_usuarios
+            notes = db.notes
+
+            title = self.get_title()
+
+            delete_note = notes.delete_one({"titulo": title})
+
+            dialog.destroy()
+
+            print(delete_note.deleted_count, " document deleted.")
+
+            window = self.sourceview.get_parent_window()
+            if window:
+                window.get_toplevel().destroy()
+
+            subprocess.Popen([sys.executable, "gtk_implementation/notes_start.py"])
+
+        else:
+            dialog.destroy()
 
 
 def create_application(title, text):
