@@ -6,55 +6,82 @@ from playsound import playsound
 
 
 def increment_hour(button) -> None:
-    current_hour = int(entryHours.get_text())
-    current_hour += 1
-    if current_hour >= 24:
-        current_hour = "00"
-    entryHours.set_text(str(current_hour))
+    try:
+        current_hour = int(entryHours.get_text())
+        current_hour += 1
+        if current_hour >= 24:
+            current_hour = "00"
+        entryHours.set_text(str(current_hour))
+        validate_hour(entryHours, "focus-out-event")
+    except ValueError:
+        entryHours.set_text("00")
 
 
 def decrement_hour(button) -> None:
-    current_hour = int(entryHours.get_text())
-    current_hour -= 1
-    if current_hour == -1:
-        current_hour = "23"
-    entryHours.set_text(str(current_hour))
+    try:
+        current_hour = int(entryHours.get_text())
+        current_hour -= 1
+        if current_hour == -1:
+            current_hour = "23"
+        entryHours.set_text(str(current_hour))
+        validate_hour(entryHours, "focus-out-event")
+    except ValueError:
+        entryHours.set_text("00")
 
 
 def increment_minute(button) -> None:
-    current_minute = int(entryMinutes.get_text())
-    current_minute += 1
-    if current_minute == 60:
-        current_minute = "00"
-    entryMinutes.set_text(str(current_minute))
+    try:
+        current_minute = int(entryMinutes.get_text())
+        current_minute += 1
+        if current_minute == 60:
+            current_minute = "00"
+        entryMinutes.set_text(str(current_minute))
+        validate_minute(entryMinutes, "focus-out-event")
+    except ValueError:
+        entryMinutes.set_text("00")
 
 
 def decrement_minute(button) -> None:
-    current_minute = int(entryMinutes.get_text())
-    current_minute -= 1
-    if current_minute == -1:
-        current_minute = "59"
-    entryMinutes.set_text(str(current_minute))
+    try:
+        current_minute = int(entryMinutes.get_text())
+        current_minute -= 1
+        if current_minute == -1:
+            current_minute = "59"
+        entryMinutes.set_text(str(current_minute))
+        validate_minute(entryMinutes, "focus-out-event")
+    except ValueError:
+        entryMinutes.set_text("00")
 
 
-def validate_hour(entry) -> None:
-    text = entry.get_text()
-    if len(text) == 1:
-        entry.set_text("0" + text)
+def validate_hour(widget, event):
+    text = entryHours.get_text()
+
+    if text.isnumeric():
+        pass
+    else:
+        entryHours.set_text("23")
+
     if text.isdigit():
         hour = int(text)
         if hour < 0 or hour > 23:
-            entry.set_text("23")
-
-
-def validate_minute(entry) -> None:
-    text = entry.get_text()
+            entryHours.set_text("23")
     if len(text) == 1:
-        entry.set_text("0" + text)
+        entryHours.set_text("0" + text)
+
+
+def validate_minute(widget, event) -> None:
+    text = entryMinutes.get_text()
+    if text.isnumeric():
+        pass
+    else:
+        entryMinutes.set_text("59")
+
     if text.isdigit():
         minute = int(text)
         if minute < 0 or minute > 59:
-            entry.set_text("59")
+            entryMinutes.set_text("59")
+    if len(text) == 1:
+        entryMinutes.set_text("0" + text)
 
 
 def start_alarm(button) -> None:
@@ -108,9 +135,9 @@ btnMinutePlus = builder.get_object("btnMinutePlus")
 entryHours = builder.get_object("hours")
 entryMinutes = builder.get_object("minutes")
 
-# Valida as entradas dos GtkEntry via teclado
-entryHours.connect("changed", validate_hour)
-entryMinutes.connect("changed", validate_minute)
+# Instead of "changed" effect, the entries are validated after the user leave the focus
+entryHours.connect("focus-out-event", validate_hour)
+entryMinutes.connect("focus-out-event", validate_minute)
 
 chkAlarm = builder.get_object("chkAlarm")
 
@@ -126,25 +153,25 @@ css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
-context_window = window.get_style_context().add_provider(
+window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_hours_plus = btnHourPlus.get_style_context().add_provider(
+btnHourPlus.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_hours_minus = btnHourMinus.get_style_context().add_provider(
+btnHourMinus.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_minute_plus = btnMinutePlus.get_style_context().add_provider(
+btnMinutePlus.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_minute_minus = btnMinuteMinus.get_style_context().add_provider(
+btnMinuteMinus.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_entry_hours = entryHours.get_style_context().add_provider(
+entryHours.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_entry_minutes = entryMinutes.get_style_context().add_provider(
+entryMinutes.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 

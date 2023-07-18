@@ -31,14 +31,14 @@ class TimerApp:
         self.btnStart = builder.get_object("btnStart")
         self.btnStop = builder.get_object("btnStop")
 
-        self.hours_inc_btn.connect("clicked", self.on_hours_inc_btn_clicked)
-        self.hours_dec_btn.connect("clicked", self.on_hours_dec_btn_clicked)
+        self.hours_inc_btn.connect("clicked", self.increment_hour)
+        self.hours_dec_btn.connect("clicked", self.decrement_hour)
 
-        self.minutes_inc_btn.connect("clicked", self.on_minutes_inc_btn_clicked)
-        self.minutes_dec_btn.connect("clicked", self.on_minutes_dec_btn_clicked)
+        self.minutes_inc_btn.connect("clicked", self.increment_minute)
+        self.minutes_dec_btn.connect("clicked", self.decrement_minute)
 
-        self.seconds_inc_btn.connect("clicked", self.on_seconds_inc_btn_clicked)
-        self.seconds_dec_btn.connect("clicked", self.on_seconds_dec_btn_clicked)
+        self.seconds_inc_btn.connect("clicked", self.increment_second)
+        self.seconds_dec_btn.connect("clicked", self.decrement_second)
 
         # self.start_btn.connect("clicked", self.on_start_btn_clicked)
         self.btnStart.connect("clicked", self.start_timer)
@@ -103,29 +103,29 @@ class TimerApp:
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-    def on_hours_inc_btn_clicked(self, button):
+    def increment_hour(self, button):
         self.hours += 1
         self.hours_label.set_text("{:02d}".format(self.hours))
 
-    def on_hours_dec_btn_clicked(self, button):
+    def decrement_hour(self, button):
         if self.hours > 0:
             self.hours -= 1
             self.hours_label.set_text("{:02d}".format(self.hours))
 
-    def on_minutes_inc_btn_clicked(self, button):
+    def increment_minute(self, button):
         self.minutes += 1
         self.minutes_label.set_text("{:02d}".format(self.minutes))
 
-    def on_minutes_dec_btn_clicked(self, button):
+    def decrement_minute(self, button):
         if self.minutes > 0:
             self.minutes -= 1
             self.minutes_label.set_text("{:02d}".format(self.minutes))
 
-    def on_seconds_inc_btn_clicked(self, button):
+    def increment_second(self, button):
         self.seconds += 1
         self.seconds_label.set_text("{:02d}".format(self.seconds))
 
-    def on_seconds_dec_btn_clicked(self, button):
+    def decrement_second(self, button):
         if self.seconds > 0:
             self.seconds -= 1
             self.seconds_label.set_text("{:02d}".format(self.seconds))

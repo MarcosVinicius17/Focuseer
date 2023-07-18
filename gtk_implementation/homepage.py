@@ -259,5 +259,5 @@ menuLogout.connect("activate", logout)
 # start the window with light mode
 set_css(css_style)
 
-window.show_all()
-Gtk.main()
+#window.show_all()
+#Gtk.main()

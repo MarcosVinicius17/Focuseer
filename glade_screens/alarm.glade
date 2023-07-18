@@ -23,7 +23,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">125</property>
+            <property name="x">135</property>
             <property name="y">245</property>
           </packing>
         </child>
@@ -43,7 +43,7 @@
             <property name="input-purpose">number</property>
           </object>
           <packing>
-            <property name="x">80</property>
+            <property name="x">105</property>
             <property name="y">100</property>
           </packing>
         </child>
@@ -70,7 +70,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">145</property>
+            <property name="x">180</property>
             <property name="y">85</property>
           </packing>
         </child>
@@ -87,7 +87,7 @@
             <property name="input-purpose">number</property>
           </object>
           <packing>
-            <property name="x">200</property>
+            <property name="x">235</property>
             <property name="y">100</property>
           </packing>
         </child>
@@ -101,7 +101,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">75</property>
+            <property name="x">100</property>
             <property name="y">70</property>
           </packing>
         </child>
@@ -115,7 +115,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">75</property>
+            <property name="x">100</property>
             <property name="y">170</property>
           </packing>
         </child>
@@ -129,7 +129,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">195</property>
+            <property name="x">230</property>
             <property name="y">70</property>
           </packing>
         </child>
@@ -143,7 +143,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">195</property>
+            <property name="x">230</property>
             <property name="y">170</property>
           </packing>
         </child>
