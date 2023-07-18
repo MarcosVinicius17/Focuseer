@@ -1,6 +1,6 @@
 window {
-    background-color: #D8DEE9;
-    color: #2E3440;
+    background-color: #2E3440;
+    color: #D8DEE9;
 }
 
 
@@ -16,7 +16,10 @@ entry {
     font-size: 16px;
 }
 
-
+button {
+    background-color: #D8DEE9;
+    color: #2E3440
+}
 
 button:hover {
     background-color: #5E81AC;
@@ -28,17 +31,11 @@ button:active {
 }
 
 
-
-#btnStart {
-    background-color: #2E3440;
-    color: #D8DEE9;
-}
-
 #btnStart:hover,
 #btnStart:active {
     background-color: #5E81AC;
-    color: #D8DEE9;
-    border-color: #2E3440;
+    color: #2E3440;
+    border-color: #D8DEE9;
 }
 
 #btnAbout {
@@ -65,7 +62,11 @@ textview text {
     color: #2E3440;
 }
 
-
+/*textview text:active {
+    background-color: red;
+    border: 5px;
+    border-color: chartreuse;
+}*/
 
 #entry_hours,
 #entry_minutes,
@@ -122,6 +123,18 @@ textview text {
 
 /*o botao de notes_start.pt*/
 #btnAddNote {
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+
+/**menu button from the homepage headerbar**/
+#menuButton {
+    background-color: #2E3440;
+    color: #D8DEE9;
+}
+
+#menuButton:hover,
+#menuBtton:active {
     background-color: #D8DEE9;
     color: #2E3440;
 }

@@ -24,13 +24,16 @@ css_provider.load_from_path(
 
 
 def open_blank_note(button):
-    window.destroy()
+    window.hide()
     subprocess.Popen([sys.executable, "gtk_implementation/notes.py"])
+    window.show()
 
 
 def open_notes(titulo, texto):
-    window.destroy()
+    # window.destroy()
+    # window.hide()
     notes.create_application(titulo, texto)
+    # window.show()
 
 
 def procura_nota(titulo):
@@ -81,6 +84,14 @@ def carregar_notas():
     client = MongoClient()
     db = client.tcc_usuarios
     notes = db.notes
+
+    """try:
+        client = MongoClient()
+        db = client.tcc_usuarios
+        notes = db.notes
+        print("Connected to MongoDB successfully!")
+    except Exception as e:
+        print("Error connecting to MongoDB:", e)"""
 
     cursor = notes.find({})
 
@@ -138,6 +149,10 @@ context_lblHora = lblHora.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 context_lblTitulo = lblTitulo.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+context_btnAddNote = btnAddNote.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 

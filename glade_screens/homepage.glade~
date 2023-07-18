@@ -40,7 +40,7 @@
   <object class="GtkImage" id="image7">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="pixbuf">../nao_programacao/logos/icone_about.png</property>
+    <property name="pixbuf">../nao_programacao/logos/icone_calendario.png</property>
   </object>
   <object class="GtkImage" id="image8">
     <property name="visible">True</property>
@@ -51,6 +51,37 @@
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="pixbuf">../nao_programacao/logos/icone_stats.png</property>
+  </object>
+  <object class="GtkMenu" id="menu1">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="modoNoturno">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Modo noturno</property>
+        <property name="label" translatable="yes">Modo noturno</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="about">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Sobre</property>
+        <property name="label" translatable="yes">Sobre</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="logout">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="tooltip-text" translatable="yes">Logout</property>
+        <property name="label" translatable="yes">Logout</property>
+        <property name="use-underline">True</property>
+      </object>
+    </child>
   </object>
   <object class="GtkWindow" id="Window">
     <property name="can-focus">False</property>
@@ -68,14 +99,14 @@
             <property name="label" translatable="yes">Iniciar trabalho</property>
             <property name="name">btnStart</property>
             <property name="width-request">80</property>
-            <property name="height-request">79</property>
+            <property name="height-request">50</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">400</property>
-            <property name="y">600</property>
+            <property name="x">425</property>
+            <property name="y">545</property>
           </packing>
         </child>
         <child>
@@ -92,7 +123,7 @@
           </object>
           <packing>
             <property name="x">50</property>
-            <property name="y">220</property>
+            <property name="y">200</property>
           </packing>
         </child>
         <child>
@@ -106,13 +137,15 @@
             <property name="subtitle" translatable="yes">date and hour</property>
             <property name="spacing">34</property>
             <child>
-              <object class="GtkButton" id="btnAbout">
-                <property name="label" translatable="yes">Sobre</property>
-                <property name="name">btnAbout</property>
+              <object class="GtkMenuButton" id="menuButton">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="focus-on-click">False</property>
                 <property name="receives-default">True</property>
-                <property name="image">image7</property>
+                <property name="popup">menu1</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="pack-type">end</property>
@@ -134,7 +167,7 @@
           </object>
           <packing>
             <property name="x">50</property>
-            <property name="y">300</property>
+            <property name="y">280</property>
           </packing>
         </child>
         <child>
@@ -150,7 +183,7 @@
           </object>
           <packing>
             <property name="x">300</property>
-            <property name="y">220</property>
+            <property name="y">200</property>
           </packing>
         </child>
         <child>
@@ -166,7 +199,7 @@
           </object>
           <packing>
             <property name="x">300</property>
-            <property name="y">300</property>
+            <property name="y">280</property>
           </packing>
         </child>
         <child>
@@ -181,7 +214,7 @@
           </object>
           <packing>
             <property name="x">170</property>
-            <property name="y">210</property>
+            <property name="y">190</property>
           </packing>
         </child>
         <child>
@@ -197,7 +230,7 @@
           </object>
           <packing>
             <property name="x">175</property>
-            <property name="y">300</property>
+            <property name="y">280</property>
           </packing>
         </child>
         <child>
@@ -228,8 +261,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">40</property>
-            <property name="y">390</property>
+            <property name="x">90</property>
+            <property name="y">370</property>
           </packing>
         </child>
         <child>
@@ -243,8 +276,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">300</property>
-            <property name="y">390</property>
+            <property name="x">355</property>
+            <property name="y">370</property>
           </packing>
         </child>
         <child>
@@ -259,8 +292,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">175</property>
-            <property name="y">390</property>
+            <property name="x">220</property>
+            <property name="y">370</property>
           </packing>
         </child>
         <child>
@@ -292,8 +325,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">40</property>
-            <property name="y">480</property>
+            <property name="x">90</property>
+            <property name="y">460</property>
           </packing>
         </child>
         <child>
@@ -308,8 +341,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">175</property>
-            <property name="y">480</property>
+            <property name="x">220</property>
+            <property name="y">460</property>
           </packing>
         </child>
         <child>
@@ -324,8 +357,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">300</property>
-            <property name="y">480</property>
+            <property name="x">355</property>
+            <property name="y">460</property>
           </packing>
         </child>
         <child>
@@ -339,8 +372,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">550</property>
-            <property name="y">220</property>
+            <property name="x">615</property>
+            <property name="y">200</property>
           </packing>
         </child>
         <child>
@@ -354,8 +387,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">749</property>
-            <property name="y">222</property>
+            <property name="x">800</property>
+            <property name="y">200</property>
           </packing>
         </child>
         <child>
@@ -369,8 +402,8 @@
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="x">650</property>
-            <property name="y">390</property>
+            <property name="x">710</property>
+            <property name="y">370</property>
           </packing>
         </child>
         <child>
@@ -385,8 +418,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">550</property>
-            <property name="y">300</property>
+            <property name="x">605</property>
+            <property name="y">280</property>
           </packing>
         </child>
         <child>
@@ -401,8 +434,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">750</property>
-            <property name="y">300</property>
+            <property name="x">800</property>
+            <property name="y">280</property>
           </packing>
         </child>
         <child>
@@ -417,8 +450,39 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">660</property>
-            <property name="y">480</property>
+            <property name="x">710</property>
+            <property name="y">460</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnCalendar">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="image">image7</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="x">420</property>
+            <property name="y">190</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblCalendar">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Calendário</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">425</property>
+            <property name="y">280</property>
           </packing>
         </child>
       </object>

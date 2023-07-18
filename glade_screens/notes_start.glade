@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="pixbuf">../nao_programacao/logos/icone_novo.png</property>
+  </object>
   <object class="GtkWindow" id="window">
     <property name="can-focus">False</property>
     <property name="resizable">False</property>
@@ -21,10 +26,12 @@
             <property name="title" translatable="yes">Notas</property>
             <child>
               <object class="GtkButton" id="btnAddNote">
-                <property name="label" translatable="yes">Nova nota</property>
+                <property name="label" translatable="yes">Adicionar</property>
+                <property name="name">btnAddNote</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="image">image1</property>
               </object>
             </child>
           </object>
