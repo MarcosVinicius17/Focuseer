@@ -14,11 +14,17 @@ def show_label() -> None:
     GLib.timeout_add_seconds(2, hide_label)
 
 
-def pause(button):
+def pause(button) -> None:
     print("pausad")
+    btnPausa.set_label("Cancelar")
+    btnPausa.connect("clicked", stop_pomodoro)
 
 
-def validate_worktime(widget, event):
+def stop_pomodoro(button) -> None:
+    print("the end")
+
+
+def validate_worktime(widget, event) -> None:
     text = entryTrabalho.get_text()
 
     if text.isnumeric():
@@ -34,7 +40,7 @@ def validate_worktime(widget, event):
         entryTrabalho.set_text("0" + text)
 
 
-def validate_pause_time(widget, event):
+def validate_pause_time(widget, event) -> None:
     text = entryPausa.get_text()
 
     if text.isnumeric():
@@ -50,7 +56,7 @@ def validate_pause_time(widget, event):
         entryPausa.set_text("0" + text)
 
 
-def pomodoro(work_time, pause_time):
+def pomodoro(work_time, pause_time) -> None:
     work_time_seconds = work_time * 60
     pause_time_seconds = pause_time * 60
 
@@ -72,7 +78,7 @@ def pomodoro(work_time, pause_time):
         subprocess.run(["notify-send", "Focuseer", "Fim da pausa"])
 
 
-def countdown(seconds):
+def countdown(seconds) -> None:
     while seconds:
         mins, secs = divmod(seconds, 60)
         timer = f"{mins:02d}:{secs:02d}"
@@ -81,14 +87,13 @@ def countdown(seconds):
         seconds -= 1
 
 
-def start_pomodoro():
+def start_pomodoro() -> None:
     work_time = int(entryTrabalho.get_text())
     pause_time = int(entryPausa.get_text())
     threading.Thread(target=pomodoro, args=(work_time, pause_time)).start()
 
 
-def on_button_clicked(button):
-    # RESOLVER O PROBLEMA DO BOTAO
+def on_button_clicked(button) -> None:
     start_pomodoro()
 
 
@@ -96,6 +101,7 @@ builder = Gtk.Builder()
 builder.add_from_file("glade_screens/pomodoro_v2.glade")
 
 window = builder.get_object("window")
+window.set_title("Focuseer")
 
 btnPomodoro = builder.get_object("btnPomodoro")
 btnPomodoro.connect("clicked", on_button_clicked)
@@ -118,20 +124,20 @@ css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
-context_window = window.get_style_context().add_provider(
+window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_btnPomodoro = btnPomodoro.get_style_context().add_provider(
+btnPomodoro.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_btnPausa = btnPausa.get_style_context().add_provider(
+btnPausa.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_entryPausa = entryPausa.get_style_context().add_provider(
+entryPausa.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-context_entryTrabalho = entryTrabalho.get_style_context().add_provider(
+entryTrabalho.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
