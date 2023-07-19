@@ -4,8 +4,9 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="window">
     <property name="can-focus">False</property>
+    <property name="window-position">center</property>
     <property name="default-width">450</property>
-    <property name="default-height">300</property>
+    <property name="default-height">350</property>
     <child>
       <object class="GtkFixed">
         <property name="visible">True</property>
@@ -92,6 +93,7 @@
             <property name="can-focus">True</property>
             <property name="max-length">2</property>
             <property name="width-chars">2</property>
+            <property name="text" translatable="yes">00</property>
           </object>
           <packing>
             <property name="x">220</property>
@@ -106,6 +108,7 @@
             <property name="can-focus">True</property>
             <property name="max-length">2</property>
             <property name="width-chars">2</property>
+            <property name="text" translatable="yes">00</property>
           </object>
           <packing>
             <property name="x">220</property>
@@ -122,7 +125,7 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">210</property>
+            <property name="x">240</property>
             <property name="y">225</property>
           </packing>
         </child>
@@ -134,11 +137,26 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <property name="opacity">0</property>
           </object>
           <packing>
-            <property name="x">77</property>
+            <property name="x">95</property>
             <property name="y">225</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblAviso">
+            <property name="width-request">100</property>
+            <property name="height-request">40</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">O tempo deve ser maior que zero</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">80</property>
+            <property name="y">288</property>
           </packing>
         </child>
       </object>

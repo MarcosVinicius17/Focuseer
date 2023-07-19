@@ -112,7 +112,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btnPomdoro">
+          <object class="GtkButton" id="btnPomodoro">
             <property name="label" translatable="yes">Iniciar</property>
             <property name="width-request">100</property>
             <property name="height-request">35</property>

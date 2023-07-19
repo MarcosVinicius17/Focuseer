@@ -177,5 +177,5 @@ entryMinutes.get_style_context().add_provider(
 
 
 window.show_all()
-
+window.set_position(Gtk.WindowPosition.NONE)
 Gtk.main()

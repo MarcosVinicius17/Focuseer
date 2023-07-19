@@ -77,19 +77,19 @@ css_provider.load_from_path(
 )
 
 
-context_btnCadastro = btnCadastro.get_style_context().add_provider(
+btnCadastro.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_window = window.get_style_context().add_provider(
+window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_btnLogin = btnLogin.get_style_context().add_provider(
+btnLogin.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_txtLogin = txtLogin.get_style_context().add_provider(
+txtLogin.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_txtSenha = txtSenha.get_style_context().add_provider(
+txtSenha.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 

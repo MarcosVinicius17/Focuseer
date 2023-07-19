@@ -1,19 +1,66 @@
 import gi, time, threading, subprocess
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
+
+
+def hide_label() -> False:
+    lblAviso.hide()
+    return False
+
+
+def show_label() -> None:
+    lblAviso.set_visible(True)
+    GLib.timeout_add_seconds(2, hide_label)
 
 
 def pause(button):
     print("pausad")
 
 
+def validate_worktime(widget, event):
+    text = entryTrabalho.get_text()
+
+    if text.isnumeric():
+        pass
+    else:
+        entryTrabalho.set_text("00")
+
+    if text.isdigit():
+        hour = int(text)
+        if hour < 0:
+            entryTrabalho.set_text("00")
+    if len(text) == 1:
+        entryTrabalho.set_text("0" + text)
+
+
+def validate_pause_time(widget, event):
+    text = entryPausa.get_text()
+
+    if text.isnumeric():
+        pass
+    else:
+        entryPausa.set_text("00")
+
+    if text.isdigit():
+        hour = int(text)
+        if hour < 0:
+            entryPausa.set_text("00")
+    if len(text) == 1:
+        entryPausa.set_text("0" + text)
+
+
 def pomodoro(work_time, pause_time):
     work_time_seconds = work_time * 60
     pause_time_seconds = pause_time * 60
-    print("Pomodoro Started!")
+
+    if work_time == 0 or pause_time == 0:
+        show_label()
+        return False
 
     while True:
+        print("Pomodoro Started")
+        btnPausa.set_sensitive(True)
         print(f"Work for {work_time} minutes.")
         countdown(work_time_seconds)
         subprocess.run(["notify-send", "Focuseer", "Pausa iniciada"])
@@ -42,7 +89,6 @@ def start_pomodoro():
 
 def on_button_clicked(button):
     # RESOLVER O PROBLEMA DO BOTAO
-    btnPausa.set_sensitive(True)
     start_pomodoro()
 
 
@@ -58,10 +104,13 @@ btnPausa = builder.get_object("btnPausa")
 btnPausa.connect("clicked", pause)
 
 
-# btnPausa.set_visible(False)
-
 entryTrabalho = builder.get_object("entryTrabalho")
 entryPausa = builder.get_object("entryPausa")
+entryTrabalho.connect("focus-out-event", validate_worktime)
+entryPausa.connect("focus-out-event", validate_pause_time)
+
+
+lblAviso = builder.get_object("lblAviso")
 
 
 css_provider = Gtk.CssProvider()
@@ -88,6 +137,6 @@ context_entryTrabalho = entryTrabalho.get_style_context().add_provider(
 
 
 window.show_all()
-
-
+btnPausa.set_sensitive(False)
+lblAviso.set_visible(False)
 Gtk.main()

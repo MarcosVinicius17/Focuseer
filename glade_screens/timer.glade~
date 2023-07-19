@@ -223,7 +223,7 @@
             <property name="draw-indicator">True</property>
           </object>
           <packing>
-            <property name="x">135</property>
+            <property name="x">125</property>
             <property name="y">235</property>
           </packing>
         </child>
