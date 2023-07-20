@@ -99,7 +99,6 @@ def countdown(seconds, pause_event):
         timer = "00:00"
         print(timer, end="\r")
         print("\nfim")
-    # Gtk.main_quit()
 
 
 def start_countdown(pause_event):
