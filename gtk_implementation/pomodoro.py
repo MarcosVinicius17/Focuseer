@@ -56,13 +56,13 @@ logical stuff
 """
 
 
-def stop_pomodoro(button) -> None:
+'''def stop_pomodoro(button) -> None:
     print("fim")
     """
     implementar logica aqui
     """
     btnPausa.set_label("Pausar")
-    btnPausa.set_sensitive(False)
+    btnPausa.set_sensitive(False)'''
 
 
 def pomodoro(work_time, pause_time, pause_event) -> None:
@@ -114,7 +114,7 @@ not 100% about this...but it works for now
 
 def pause_countdown(pause_event):
     if not pause_countdown.disconnected:
-        btnPomodoro.set_label("continuar")
+        btnPomodoro.set_label("Continuar")
 
         btnPomodoro.disconnect(start_id)
         pause_countdown.disconnected = True
