@@ -28,7 +28,7 @@
         </child>
         <child>
           <object class="GtkButton" id="btnStop">
-            <property name="label" translatable="yes">Parar</property>
+            <property name="label" translatable="yes">Pausar</property>
             <property name="width-request">100</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>

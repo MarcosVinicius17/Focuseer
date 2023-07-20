@@ -2,6 +2,11 @@ import gi, time, threading, subprocess
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
+from functools import partial
+
+"""
+QoL stuff
+"""
 
 
 def hide_label() -> False:
@@ -12,16 +17,6 @@ def hide_label() -> False:
 def show_label() -> None:
     lblAviso.set_visible(True)
     GLib.timeout_add_seconds(2, hide_label)
-
-
-def pause(button) -> None:
-    print("pausad")
-    btnPausa.set_label("Cancelar")
-    btnPausa.connect("clicked", stop_pomodoro)
-
-
-def stop_pomodoro(button) -> None:
-    print("the end")
 
 
 def validate_worktime(widget, event) -> None:
@@ -56,7 +51,21 @@ def validate_pause_time(widget, event) -> None:
         entryPausa.set_text("0" + text)
 
 
-def pomodoro(work_time, pause_time) -> None:
+"""
+logical stuff
+"""
+
+
+def stop_pomodoro(button) -> None:
+    print("fim")
+    """
+    implementar logica aqui
+    """
+    btnPausa.set_label("Pausar")
+    btnPausa.set_sensitive(False)
+
+
+def pomodoro(work_time, pause_time, pause_event) -> None:
     work_time_seconds = work_time * 60
     pause_time_seconds = pause_time * 60
 
@@ -68,33 +77,82 @@ def pomodoro(work_time, pause_time) -> None:
         print("Pomodoro Started")
         btnPausa.set_sensitive(True)
         print(f"Work for {work_time} minutes.")
-        countdown(work_time_seconds)
+        countdown(work_time_seconds, pause_event)
         subprocess.run(["notify-send", "Focuseer", "Pausa iniciada"])
         print("Work period ended.\n")
 
         print(f"Pause for {pause_time} minutes.")
-        countdown(pause_time_seconds)
+        countdown(pause_time_seconds, pause_event)
         print("Pause period ended.\n")
         subprocess.run(["notify-send", "Focuseer", "Fim da pausa"])
 
 
-def countdown(seconds) -> None:
-    while seconds:
-        mins, secs = divmod(seconds, 60)
-        timer = f"{mins:02d}:{secs:02d}"
+def countdown(seconds, pause_event):
+    while seconds > 0:
+        if not pause_event.is_set():
+            mins, secs = divmod(seconds, 60)
+            timer = f"{mins:02d}:{secs:02d}"
+            print(timer, end="\r")
+            time.sleep(1)
+            seconds -= 1
+    if seconds == 0:
+        timer = "00:00"
         print(timer, end="\r")
-        time.sleep(1)
-        seconds -= 1
+        print("\nfim")
+    # Gtk.main_quit()
 
 
-def start_pomodoro() -> None:
+def start_countdown(pause_event):
+    global countdown_thread, seconds
+    countdown_thread = threading.Thread(target=countdown, args=(seconds, pause_event))
+    countdown_thread.start()
+
+
+"""
+not 100% about this...but it works for now
+"""
+
+
+def pause_countdown(pause_event):
+    if not pause_countdown.disconnected:
+        btnPomodoro.set_label("continuar")
+
+        btnPomodoro.disconnect(start_id)
+        pause_countdown.disconnected = True
+
+        btnPomodoro.connect("clicked", on_resume_button_clicked, pause_event)
+    pause_event.set()
+
+
+pause_countdown.disconnected = False
+
+
+def resume_countdown(pause_event):
+    global countdown_thread
+    if countdown_thread and not countdown_thread.is_alive():
+        countdown_thread = threading.Thread(
+            target=countdown, args=(seconds, pause_event)
+        )
+        countdown_thread.start()
+    pause_event.clear()
+
+
+def on_start_button_clicked(button, pause_event, entryTrabalho, entryPausa):
     work_time = int(entryTrabalho.get_text())
     pause_time = int(entryPausa.get_text())
-    threading.Thread(target=pomodoro, args=(work_time, pause_time)).start()
+    threading.Thread(target=pomodoro, args=(work_time, pause_time, pause_event)).start()
 
 
-def on_button_clicked(button) -> None:
-    start_pomodoro()
+def on_pause_button_clicked(button, pause_event):
+    pause_countdown(pause_event)
+
+
+def on_resume_button_clicked(button, pause_event):
+    resume_countdown(pause_event)
+
+
+countdown_thread = None
+pause_event = threading.Event()
 
 
 builder = Gtk.Builder()
@@ -104,14 +162,16 @@ window = builder.get_object("window")
 window.set_title("Focuseer")
 
 btnPomodoro = builder.get_object("btnPomodoro")
-btnPomodoro.connect("clicked", on_button_clicked)
-
 btnPausa = builder.get_object("btnPausa")
-btnPausa.connect("clicked", pause)
-
-
 entryTrabalho = builder.get_object("entryTrabalho")
 entryPausa = builder.get_object("entryPausa")
+
+start_id = btnPomodoro.connect(
+    "clicked", on_start_button_clicked, pause_event, entryTrabalho, entryPausa
+)
+
+
+btnPausa.connect("clicked", on_pause_button_clicked, pause_event)
 entryTrabalho.connect("focus-out-event", validate_worktime)
 entryPausa.connect("focus-out-event", validate_pause_time)
 
@@ -141,8 +201,9 @@ entryTrabalho.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-
 window.show_all()
-btnPausa.set_sensitive(False)
+# btnPausa.set_sensitive(False)
 lblAviso.set_visible(False)
+
+
 Gtk.main()
