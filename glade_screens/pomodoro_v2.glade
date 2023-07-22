@@ -147,7 +147,6 @@
           <object class="GtkLabel" id="lblAviso">
             <property name="width-request">100</property>
             <property name="height-request">40</property>
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">O tempo deve ser maior que zero</property>
             <attributes>
@@ -164,13 +163,25 @@
             <property name="label" translatable="yes">Finalizar</property>
             <property name="width-request">100</property>
             <property name="height-request">35</property>
-            <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">175</property>
-            <property name="y">284</property>
+            <property name="x">95</property>
+            <property name="y">225</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnResume">
+            <property name="label" translatable="yes">Continuar</property>
+            <property name="width-request">100</property>
+            <property name="height-request">35</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="x">240</property>
+            <property name="y">225</property>
           </packing>
         </child>
       </object>

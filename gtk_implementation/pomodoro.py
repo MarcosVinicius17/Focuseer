@@ -120,27 +120,10 @@ def start_countdown(pause_event):
     countdown_thread.start()
 
 
-"""
-not 100% about this...but it works for now
-"""
-
-
 def pause_countdown(pause_event):
-    if not pause_countdown.disconnected:
-        btnPomodoro.set_label("Continuar")
-
-        btnPomodoro.disconnect(start_id)
-        pause_countdown.disconnected = True
-
-        resume_id = btnPomodoro.connect(
-            "clicked", on_resume_button_clicked, pause_event
-        )
-        # btnQuit.set_visible(True)
     pause_event.set()
     btnQuit.set_visible(True)
-
-
-pause_countdown.disconnected = False
+    btnResume.set_visible(True)
 
 
 def resume_countdown(pause_event):
@@ -162,22 +145,27 @@ Reset the window isnt the most efficient way...but it works for now
 def quit_countdown(pause_event, quit_event):
     quit_event.set()
     pause_event.set()
-    # btnQuit.set_visible(False)
-    # btnPomodoro.set_label("Iniciar")
-
-    # btnPomodoro.disconnect(resume_id)
-    # window.destroy()
-    """reinicia a janela"""
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
+    btnQuit.set_visible(False)
+    btnResume.set_visible(False)
+    entryTrabalho.set_text("00")
+    entryPausa.set_text("00")
 
 
 def on_start_button_clicked(button, pause_event, entryTrabalho, entryPausa, quit_event):
+    if countdown_thread and countdown_thread.is_alive():
+        # The timer is still running, terminate it gracefully
+        quit_countdown()
+        countdown_thread.join()
+
     try:
         work_time_text = entryTrabalho.get_text()
         pause_time_text = entryPausa.get_text()
         work_time = int(work_time_text)
         pause_time = int(pause_time_text)
+
+        quit_event.clear()
+        pause_event.clear()
+
         threading.Thread(
             target=pomodoro, args=(work_time, pause_time, pause_event, quit_event)
         ).start()
@@ -213,10 +201,11 @@ window.set_title("Focuseer")
 btnPomodoro = builder.get_object("btnPomodoro")
 btnPausa = builder.get_object("btnPausa")
 btnQuit = builder.get_object("btnQuit")
+btnResume = builder.get_object("btnResume")
 entryTrabalho = builder.get_object("entryTrabalho")
 entryPausa = builder.get_object("entryPausa")
 
-start_id = btnPomodoro.connect(
+btnPomodoro.connect(
     "clicked",
     on_start_button_clicked,
     pause_event,
@@ -228,8 +217,11 @@ start_id = btnPomodoro.connect(
 
 btnPausa.connect("clicked", on_pause_button_clicked, pause_event)
 btnQuit.connect("clicked", on_quit_button_clicked, pause_event, quit_event)
+btnResume.connect("clicked", on_resume_button_clicked, pause_event)
 entryTrabalho.connect("focus-out-event", validate_worktime)
 entryPausa.connect("focus-out-event", validate_pause_time)
+
+""" nothing below this"""
 
 
 lblAviso = builder.get_object("lblAviso")
