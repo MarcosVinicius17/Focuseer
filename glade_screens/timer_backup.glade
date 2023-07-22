@@ -228,33 +228,6 @@
             <property name="y">235</property>
           </packing>
         </child>
-        <child>
-          <object class="GtkButton" id="btnResume">
-            <property name="label" translatable="yes">Continuar</property>
-            <property name="width-request">100</property>
-            <property name="height-request">40</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">250</property>
-            <property name="y">290</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnQuit">
-            <property name="label" translatable="yes">Encerrar</property>
-            <property name="width-request">100</property>
-            <property name="height-request">40</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">41</property>
-            <property name="y">277</property>
-          </packing>
-        </child>
       </object>
     </child>
   </object>

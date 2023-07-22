@@ -1,4 +1,4 @@
-import gi, time, threading, subprocess
+import gi, time, threading, subprocess, os, sys
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
@@ -154,13 +154,22 @@ def resume_countdown(pause_event):
     btnQuit.set_visible(False)
 
 
+"""
+Reset the window isnt the most efficient way...but it works for now
+"""
+
+
 def quit_countdown(pause_event, quit_event):
     quit_event.set()
     pause_event.set()
-    btnQuit.set_visible(False)
-    btnPomodoro.set_label("Iniciar")
-    """arrumar esta parte"""
+    # btnQuit.set_visible(False)
+    # btnPomodoro.set_label("Iniciar")
+
     # btnPomodoro.disconnect(resume_id)
+    # window.destroy()
+    """reinicia a janela"""
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 
 def on_start_button_clicked(button, pause_event, entryTrabalho, entryPausa, quit_event):

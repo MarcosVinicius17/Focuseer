@@ -1,24 +1,27 @@
-import gi, time, subprocess
+"""
+backup feito antes de atualiza-lo
+"""
+
+import gi, time, subprocess, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 from playsound import playsound
 
-"""
-simplify the code
-"""
-
 
 class TimerApp:
     def __init__(self):
+        self.pause_event = threading.Event()
+        self.quit_event = threading.Event()
+        self.timer_thread = None  # Store the currently running timer thread
+
         builder = Gtk.Builder()
         builder.add_from_file("glade_screens/timer.glade")
 
-        # self.window = self.builder.get_object("Window")
         self.window = builder.get_object("Window")
-        self.hours_label = builder.get_object("hours")
-        self.minutes_label = builder.get_object("minutes")
-        self.seconds_label = builder.get_object("seconds")
+        self.entryHours = builder.get_object("hours")
+        self.entryMinutes = builder.get_object("minutes")
+        self.entrySeconds = builder.get_object("seconds")
 
         self.hours_inc_btn = builder.get_object("btnHourPlus")
         self.hours_dec_btn = builder.get_object("btnHourMinus")
@@ -30,6 +33,10 @@ class TimerApp:
 
         self.btnStart = builder.get_object("btnStart")
         self.btnStop = builder.get_object("btnStop")
+        self.btnResume = builder.get_object("btnResume")
+        self.btnQuit = builder.get_object("btnQuit")
+
+        self.btnStop.set_sensitive(False)
 
         self.hours_inc_btn.connect("clicked", self.increment_hour)
         self.hours_dec_btn.connect("clicked", self.decrement_hour)
@@ -40,9 +47,10 @@ class TimerApp:
         self.seconds_inc_btn.connect("clicked", self.increment_second)
         self.seconds_dec_btn.connect("clicked", self.decrement_second)
 
-        # self.start_btn.connect("clicked", self.on_start_btn_clicked)
-        self.btnStart.connect("clicked", self.start_timer)
-        self.btnStop.connect("clicked", self.on_stop_btn_clicked)
+        self.btnStart.connect("clicked", self.on_start_button_clicked)
+        self.btnStop.connect("clicked", self.on_btnStop_clicked)
+        self.btnResume.connect("clicked", self.on_resume_button_clicked)
+        self.btnQuit.connect("clicked", self.on_quit_button_clicked)
 
         self.hours = 0
         self.minutes = 0
@@ -55,6 +63,8 @@ class TimerApp:
 
         self.window = builder.get_object("Window")
         self.window.show_all()
+        self.btnResume.set_visible(False)
+        self.btnQuit.set_visible(False)
 
         # CSS
         css_provider = Gtk.CssProvider()
@@ -62,15 +72,15 @@ class TimerApp:
             "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
         )
 
-        self.hours_label.get_style_context().add_provider(
+        self.entryHours.get_style_context().add_provider(
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-        self.minutes_label.get_style_context().add_provider(
+        self.entryMinutes.get_style_context().add_provider(
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-        self.seconds_label.get_style_context().add_provider(
+        self.entrySeconds.get_style_context().add_provider(
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
@@ -105,113 +115,132 @@ class TimerApp:
 
     def increment_hour(self, button):
         self.hours += 1
-        self.hours_label.set_text("{:02d}".format(self.hours))
+        self.entryHours.set_text("{:02d}".format(self.hours))
 
     def decrement_hour(self, button):
         if self.hours > 0:
             self.hours -= 1
-            self.hours_label.set_text("{:02d}".format(self.hours))
+            self.entryHours.set_text("{:02d}".format(self.hours))
 
     def increment_minute(self, button):
         self.minutes += 1
-        self.minutes_label.set_text("{:02d}".format(self.minutes))
+        self.entryMinutes.set_text("{:02d}".format(self.minutes))
 
     def decrement_minute(self, button):
         if self.minutes > 0:
             self.minutes -= 1
-            self.minutes_label.set_text("{:02d}".format(self.minutes))
+            self.entryMinutes.set_text("{:02d}".format(self.minutes))
 
     def increment_second(self, button):
         self.seconds += 1
-        self.seconds_label.set_text("{:02d}".format(self.seconds))
+        self.entrySeconds.set_text("{:02d}".format(self.seconds))
 
     def decrement_second(self, button):
         if self.seconds > 0:
             self.seconds -= 1
-            self.seconds_label.set_text("{:02d}".format(self.seconds))
+            self.entrySeconds.set_text("{:02d}".format(self.seconds))
 
-    def on_start_btn_clicked(self, button):
-        if self.timer_id is not None:
-            return
+    def timer(self, hours, minutes, seconds):
+        total_seconds = hours * 3600 + minutes * 60 + seconds
 
-        total_seconds = self.hours * 3600 + self.minutes * 60 + self.seconds
-        self.timer_id = GLib.timeout_add_seconds(1, self.update_timer, total_seconds)
-        self.start_btn.set_label("Pause")
-
-    def start_timer(self, widget):
-        self.total_seconds = (self.hours * 3600) + (self.minutes * 60) + self.seconds
-        self.last_update = int(time.time())
-
-        # Call update_timer() every 1000 milliseconds (1 second)
-        GLib.timeout_add(1000, self.update_timer)
-
-    def on_stop_btn_clicked(self, button):
-        if self.timer_id is None:
-            return
-
-        GLib.source_remove(self.timer_id)
-        self.timer_id = None
-
-        self.hours = 0
-        self.minutes = 0
-        self.seconds = 0
-
-        self.hours_label.set_text(str(self.hours))
-        self.minutes_label.set_text(str(self.minutes))
-        self.seconds_label.set_text(str(self.seconds))
-
-        self.start_btn.set_label("Start")
-
-    def update_timer(self):
-        # Calculate time elapsed since last update
-        current_time = int(time.time())
-        elapsed_time = current_time - self.last_update
-
-        # Calculate new total number of seconds left on the timer
-        self.total_seconds -= elapsed_time
-        if self.total_seconds < 0:
-            self.total_seconds = 0
-
-        # Check if timer has reached zero
-        if self.total_seconds == 0:
-            # self.on_stop_btn_clicked(None)
-
-            if self.chkTimer.get_active():
-                self.seconds_label.set_text("00")
-                self.minutes_label.set_text("00")
-                self.hours_label.set_text("00")
-                subprocess.run(["notify-send", "Focuseer", "Timer finalizado"])
-
-            else:
-                self.seconds_label.set_text("00")
-                self.minutes_label.set_text("00")
-                self.hours_label.set_text("00")
-                subprocess.run(["notify-send", "Focuseer", "Timer finalizado"])
-                mp3_file = (
-                    "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
-                )
-                playsound(mp3_file)
-
+        if total_seconds == 0:
+            # self.show_label()
             return False
 
-        # Calculate hours, minutes, and seconds left
-        self.hours = int(self.total_seconds / 3600)
-        self.minutes = int((self.total_seconds % 3600) / 60)
-        self.seconds = int(self.total_seconds % 60)
+        print(f"Timer Started: {hours} hours, {minutes} minutes, {seconds} seconds.")
+        self.btnStop.set_sensitive(True)
 
-        # Update labels
-        self.hours_label.set_text("{:02d}".format(self.hours))
-        self.minutes_label.set_text("{:02d}".format(self.minutes))
-        self.seconds_label.set_text("{:02d}".format(self.seconds))
+        self.countdown(total_seconds)
 
-        # Print progress to terminal
-        print(f"{self.hours:02d}:{self.minutes:02d}:{self.seconds:02d}")
+        if self.quit_event.is_set():
+            print("Timer finalizado")
+            self.btnStop.set_sensitive(False)
+            return
 
-        # Update last update time
-        self.last_update = current_time
+        subprocess.run(["notify-send", "Focuseer", "Timer finished"])
+        self.entryHours.set_text("00")
+        self.entryMinutes.set_text("00")
+        self.entrySeconds.set_text("00")
+        self.btnStop.set_sensitive(False)
 
-        # Return True to continue updating the timer
-        return True
+        if self.chkTimer.get_active() == False:
+            mp3_file = "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
+            playsound(mp3_file)
+
+
+
+    def countdown(self, total_seconds):
+        while total_seconds > 0:
+            if self.quit_event.is_set():
+                return
+
+            if not self.pause_event.is_set():
+                hours, remainder = divmod(total_seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                timer = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+                print(timer, end="\r")
+                time.sleep(1)
+                total_seconds -= 1
+            else:
+                time.sleep(1)
+
+    def pause_countdown(self):
+        self.pause_event.set()
+        self.btnResume.set_visible(True)
+        self.btnQuit.set_visible(True)
+
+    def resume_countdown(self):
+        self.pause_event.clear()
+        self.btnResume.set_visible(False)
+        self.btnQuit.set_visible(False)
+        self.btnStart.set_sensitive(False)
+
+    def quit_countdown(self):
+        self.quit_event.set()
+        self.pause_event.set()
+        self.entryHours.set_text("00")
+        self.entryMinutes.set_text("00")
+        self.entrySeconds.set_text("00")
+        self.btnResume.set_visible(False)
+        self.btnQuit.set_visible(False)
+        self.btnStart.set_sensitive(True)
+
+    def on_start_button_clicked(self, button):
+        if self.timer_thread and self.timer_thread.is_alive():
+            # The timer is still running, terminate it gracefully
+            self.quit_countdown()
+            self.timer_thread.join()
+
+        hours_text = self.entryHours.get_text()
+        minutes_text = self.entryMinutes.get_text()
+        seconds_text = self.entrySeconds.get_text()
+
+        if (
+            not hours_text.isdigit()
+            or not minutes_text.isdigit()
+            or not seconds_text.isdigit()
+        ):
+            print("Please enter valid integer values for the timer.")
+            return
+
+        hours = int(hours_text)
+        minutes = int(minutes_text)
+        seconds = int(seconds_text)
+
+        # resolve o problema do timer nao funcionar uma segunda vez
+        self.quit_event.clear()
+        self.pause_event.clear()
+
+        threading.Thread(target=self.timer, args=(hours, minutes, seconds)).start()
+
+    def on_btnStop_clicked(self, button):
+        self.pause_countdown()
+
+    def on_resume_button_clicked(self, button):
+        self.resume_countdown()
+
+    def on_quit_button_clicked(self, button):
+        self.quit_countdown()
 
 
 if __name__ == "__main__":
