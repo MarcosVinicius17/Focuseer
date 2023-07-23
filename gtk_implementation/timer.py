@@ -1,7 +1,3 @@
-"""
-backup feito antes de atualiza-lo
-"""
-
 import gi, time, subprocess, threading
 
 gi.require_version("Gtk", "3.0")
@@ -30,13 +26,15 @@ class TimerApp:
         self.seconds_inc_btn = builder.get_object("btnSecondPlus")
         self.seconds_dec_btn = builder.get_object("btnSecondMinus")
         self.chkTimer = builder.get_object("chkTimer")
+        self.lblTempo = builder.get_object("lblTempo")
+        self.lblTempo2 = builder.get_object("lblTempo2")
+        self.lblPonto1 = builder.get_object("lblPonto1")
+        self.lblPonto2 = builder.get_object("lblPonto2")
 
         self.btnStart = builder.get_object("btnStart")
         self.btnStop = builder.get_object("btnStop")
         self.btnResume = builder.get_object("btnResume")
         self.btnQuit = builder.get_object("btnQuit")
-
-        self.btnStop.set_sensitive(False)
 
         self.hours_inc_btn.connect("clicked", self.increment_hour)
         self.hours_dec_btn.connect("clicked", self.decrement_hour)
@@ -65,6 +63,9 @@ class TimerApp:
         self.window.show_all()
         self.btnResume.set_visible(False)
         self.btnQuit.set_visible(False)
+        self.lblTempo.set_visible(False)
+        self.lblTempo2.set_visible(False)
+        self.btnStop.set_sensitive(False)
 
         # CSS
         css_provider = Gtk.CssProvider()
@@ -113,6 +114,43 @@ class TimerApp:
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+    def switch_interfaces(self, status) -> None:
+        if status == 0:
+            self.hours_inc_btn.set_visible(False)
+            self.hours_dec_btn.set_visible(False)
+            self.minutes_inc_btn.set_visible(False)
+            self.minutes_dec_btn.set_visible(False)
+            self.seconds_inc_btn.set_visible(False)
+            self.seconds_dec_btn.set_visible(False)
+            self.entryHours.set_visible(False)
+            self.entryMinutes.set_visible(False)
+            self.entrySeconds.set_visible(False)
+            self.chkTimer.set_visible(False)
+            self.lblPonto1.set_visible(False)
+            self.lblPonto2.set_visible(False)
+            self.lblTempo.set_visible(True)
+            self.lblTempo2.set_visible(True)
+        if status == 1:
+            self.hours_inc_btn.set_visible(True)
+            self.hours_dec_btn.set_visible(True)
+            self.minutes_inc_btn.set_visible(True)
+            self.minutes_dec_btn.set_visible(True)
+            self.seconds_inc_btn.set_visible(True)
+            self.seconds_dec_btn.set_visible(True)
+            self.chkTimer.set_visible(True)
+            self.entryHours.set_visible(True)
+            self.entryMinutes.set_visible(True)
+            self.entrySeconds.set_visible(True)
+            self.lblPonto1.set_visible(True)
+            self.lblPonto2.set_visible(True)
+            self.lblTempo.set_visible(False)
+            self.lblTempo2.set_visible(False)
+
+    def show_label() -> None:
+        #lblAviso.set_visible(True)
+        #GLib.timeout_add_seconds(2, hide_label)
+        pass
+
     def increment_hour(self, button):
         self.hours += 1
         self.entryHours.set_text("{:02d}".format(self.hours))
@@ -144,17 +182,19 @@ class TimerApp:
         total_seconds = hours * 3600 + minutes * 60 + seconds
 
         if total_seconds == 0:
-            # self.show_label()
+            self.show_label()
             return False
 
         print(f"Timer Started: {hours} hours, {minutes} minutes, {seconds} seconds.")
+
         self.btnStop.set_sensitive(True)
-
+        self.btnStart.set_sensitive(False)
+        self.switch_interfaces(0)
         self.countdown(total_seconds)
-
         if self.quit_event.is_set():
             print("Timer finalizado")
             self.btnStop.set_sensitive(False)
+            self.switch_interfaces(1)
             return
 
         subprocess.run(["notify-send", "Focuseer", "Timer finished"])
@@ -162,12 +202,12 @@ class TimerApp:
         self.entryMinutes.set_text("00")
         self.entrySeconds.set_text("00")
         self.btnStop.set_sensitive(False)
+        self.btnStart.set_sensitive(True)
+        self.switch_interfaces(1)
 
         if self.chkTimer.get_active() == False:
             mp3_file = "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
             playsound(mp3_file)
-
-
 
     def countdown(self, total_seconds):
         while total_seconds > 0:
@@ -179,6 +219,7 @@ class TimerApp:
                 minutes, seconds = divmod(remainder, 60)
                 timer = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
                 print(timer, end="\r")
+                self.lblTempo2.set_text(timer)
                 time.sleep(1)
                 total_seconds -= 1
             else:
