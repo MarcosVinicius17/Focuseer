@@ -9,6 +9,31 @@ QoL stuff
 """
 
 
+def switch_interfaces(status) -> None:
+    if status == 0:
+        lblTempoTrabalho.set_visible(False)
+        lblTempoPausa.set_visible(False)
+        lblMinutos.set_visible(False)
+        lblMinutos2.set_visible(False)
+        entryTrabalho.set_visible(False)
+        entryPausa.set_visible(False)
+        lblTempo.set_visible(True)
+        lblTempo2.set_visible(True)
+        lblRestante.set_visible(True)
+        lblRestante2.set_visible(True)
+    if status == 1:
+        lblTempoTrabalho.set_visible(True)
+        lblTempoPausa.set_visible(True)
+        lblMinutos.set_visible(True)
+        lblMinutos2.set_visible(True)
+        entryTrabalho.set_visible(True)
+        entryPausa.set_visible(True)
+        lblTempo.set_visible(False)
+        lblTempo2.set_visible(False)
+        lblRestante.set_visible(False)
+        lblRestante2.set_visible(False)
+
+
 def hide_label() -> False:
     lblAviso.hide()
     return False
@@ -59,6 +84,8 @@ logical stuff
 def pomodoro(work_time, pause_time, pause_event, quit_event):
     work_time_seconds = work_time * 60
     pause_time_seconds = pause_time * 60
+    lblRestante.set_text(str(work_time) + ":00")
+    lblRestante2.set_text(str(pause_time) + ":00")
 
     if work_time == 0 or pause_time == 0:
         show_label()
@@ -71,20 +98,22 @@ def pomodoro(work_time, pause_time, pause_event, quit_event):
             return
 
         print("Pomodoro Started")
+        switch_interfaces(0)
         btnPausa.set_sensitive(True)
         print(f"Work for {work_time} minutes.")
-        countdown(work_time_seconds, pause_event, quit_event)
+        countdown(work_time_seconds, pause_event, quit_event, 0)
 
         if quit_event.is_set():
             print("Countdown Quit")
             btnPausa.set_sensitive(False)
+            switch_interfaces(1)
             return
 
         subprocess.run(["notify-send", "Focuseer", "Pausa iniciada"])
         print("Work period ended.\n")
-
+        lblRestante.set_text(str(work_time) + ":00")
         print(f"Pause for {pause_time} minutes.")
-        countdown(pause_time_seconds, pause_event, quit_event)
+        countdown(pause_time_seconds, pause_event, quit_event, 1)
 
         if quit_event.is_set():
             print("Countdown Quit")
@@ -94,15 +123,26 @@ def pomodoro(work_time, pause_time, pause_event, quit_event):
 
         subprocess.run(["notify-send", "Focuseer", "Fim da pausa"])
         print("Pause period ended.\n")
+        lblRestante2.set_text(str(pause_time) + ":00")
 
 
-def countdown(seconds, pause_event, quit_event):
+"""
+type = 0 -> work
+type = 1 -> pause
+"""
+
+
+def countdown(seconds, pause_event, quit_event, type):
     while seconds > 0:
         if quit_event.is_set():
             return
         if not pause_event.is_set():
             mins, secs = divmod(seconds, 60)
             timer = f"{mins:02d}:{secs:02d}"
+            if type == 0:
+                lblRestante.set_text(timer)
+            if type == 1:
+                lblRestante2.set_text(timer)
             print(timer, end="\r")
             time.sleep(1)
             seconds -= 1
@@ -135,11 +175,6 @@ def resume_countdown(pause_event):
         countdown_thread.start()
     pause_event.clear()
     btnQuit.set_visible(False)
-
-
-"""
-Reset the window isnt the most efficient way...but it works for now
-"""
 
 
 def quit_countdown(pause_event, quit_event):
@@ -204,6 +239,16 @@ btnQuit = builder.get_object("btnQuit")
 btnResume = builder.get_object("btnResume")
 entryTrabalho = builder.get_object("entryTrabalho")
 entryPausa = builder.get_object("entryPausa")
+
+
+lblTempoTrabalho = builder.get_object("lblTempoTrabalho")
+lblMinutos = builder.get_object("lblMinutos")
+lblTempoPausa = builder.get_object("lblTempoPausa")
+lblMinutos2 = builder.get_object("lblMinutos2")
+lblTempo = builder.get_object("lblTempo")
+lblTempo2 = builder.get_object("lblTempo2")
+lblRestante = builder.get_object("lblRestante")
+lblRestante2 = builder.get_object("lblRestante2")
 
 btnPomodoro.connect(
     "clicked",

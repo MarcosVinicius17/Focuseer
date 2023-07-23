@@ -54,7 +54,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="lblTempoPause">
+          <object class="GtkLabel" id="lblTempoPausa">
             <property name="width-request">100</property>
             <property name="height-request">60</property>
             <property name="visible">True</property>
@@ -182,6 +182,66 @@
           <packing>
             <property name="x">240</property>
             <property name="y">225</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblTempo">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Tempo de trabalho:</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">85</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblTempo2">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Tempo de pausa:</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">100</property>
+            <property name="y">150</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblRestante">
+            <property name="width-request">100</property>
+            <property name="height-request">40</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">00:00</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">270</property>
+            <property name="y">107</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lblRestante2">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">00:00</property>
+            <attributes>
+              <attribute name="font-desc" value="Ubuntu Mono 15"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">270</property>
+            <property name="y">150</property>
           </packing>
         </child>
       </object>

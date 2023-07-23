@@ -6,9 +6,15 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 # Traduz o texto do subtitulo da headerbar
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
-'''
+"""
+https://refactoring.guru/design-patterns/observer
+"""
+
+"""
 aplicar css ao about
-'''
+"""
+
+
 def set_headerbar_title(username):
     headerbar.set_title(username)
     window.show_all()
@@ -259,5 +265,5 @@ menuLogout.connect("activate", logout)
 # start the window with light mode
 set_css(css_style)
 
-#window.show_all()
-#Gtk.main()
+# window.show_all()
+# Gtk.main()
