@@ -28,6 +28,9 @@ def salvarNota(button) -> None:
     old_note = note.find_one({"data": current_date})
 
     if old_note:
+        if text == "":
+            delete_note = note.delete_one({"data": current_date})
+
         note_update = note.find_one_and_update(old_note, {"$set": {"mensagem": text}})
 
     else:
