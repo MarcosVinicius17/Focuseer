@@ -13,10 +13,12 @@ def format_time(seconds):
 
 
 """
-1 - Verificar como pausar o processo
-1.1 - Talvez salvar em um json contendo o nome do processo e o tempo. 
-Quando o processo for selecionado, verificar se ele consta no json. Se sim, obter o tempo e soma-lo.
-Descartar o json no final do dia
+Logica da aplicacao
+1) verificar se o processo existe. caso contrario, fim
+2) se ele existir, iniciar um timer
+3) quando o processo deixa de ser executado, o tempo eh salvo em um .json
+4) caso o processo rode novamente, o tempo eh incrementado
+5) no final do dia de trabalho, utilizar os valores para gerar graficos, estatisticas, etc [elaborar]
 
 """
 

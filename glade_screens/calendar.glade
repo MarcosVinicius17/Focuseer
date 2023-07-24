@@ -6,7 +6,7 @@
     <property name="can-focus">False</property>
     <property name="window-position">center</property>
     <property name="default-width">600</property>
-    <property name="default-height">400</property>
+    <property name="default-height">405</property>
     <child>
       <object class="GtkFixed">
         <property name="visible">True</property>
@@ -47,8 +47,8 @@
             <property name="receives-default">True</property>
           </object>
           <packing>
-            <property name="x">265</property>
-            <property name="y">369</property>
+            <property name="x">250</property>
+            <property name="y">364</property>
           </packing>
         </child>
         <child>
