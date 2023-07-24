@@ -265,8 +265,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">115</property>
-            <property name="y">120</property>
+            <property name="x">145</property>
+            <property name="y">100</property>
           </packing>
         </child>
         <child>

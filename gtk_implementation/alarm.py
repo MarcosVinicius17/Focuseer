@@ -1,8 +1,40 @@
-import gi, datetime, subprocess, threading
+import gi, datetime, subprocess, threading, time
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from playsound import playsound
+
+
+alarm_canceled = False
+
+
+def switch_interfaces(status) -> None:
+    if status == 0:
+        btnAlarm.set_visible(False)
+        btnHourPlus.set_visible(False)
+        btnHourMinus.set_visible(False)
+        btnMinuteMinus.set_visible(False)
+        btnMinutePlus.set_visible(False)
+        lblPonto.set_visible(False)
+        entryHours.set_visible(False)
+        entryMinutes.set_visible(False)
+        chkAlarm.set_visible(False)
+        btnCancelar.set_visible(True)
+        lblMensagem.set_visible(True)
+        lblTempo.set_visible(True)
+    if status == 1:
+        btnAlarm.set_visible(True)
+        btnHourPlus.set_visible(True)
+        btnHourMinus.set_visible(True)
+        btnMinuteMinus.set_visible(True)
+        btnMinutePlus.set_visible(True)
+        lblPonto.set_visible(True)
+        entryHours.set_visible(True)
+        entryMinutes.set_visible(True)
+        chkAlarm.set_visible(True)
+        btnCancelar.set_visible(False)
+        lblMensagem.set_visible(False)
+        lblTempo.set_visible(False)
 
 
 def increment_hour(button) -> None:
@@ -90,6 +122,7 @@ def start_alarm(button) -> None:
 
 
 def alarm() -> None:
+    global alarm_canceled
     runs = 0
 
     alarm_time = "00:00"
@@ -99,14 +132,19 @@ def alarm() -> None:
     alarm_time = alarm_hour + ":" + alarm_minute
     alarm_time = datetime.datetime.strptime(alarm_time, "%H:%M")
     print(f"Alarm set for {alarm_time}")
-    while True:
+    lblTempo.set_text(str(alarm_hour + ":" + alarm_minute))
+    switch_interfaces(0)
+
+    while not alarm_canceled:
         current_time = datetime.datetime.now()
         if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
             if runs < 1:
                 if chkAlarm.get_active():
+                    switch_interfaces(1)
                     subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
                     runs += 1
                 else:
+                    switch_interfaces(1)
                     subprocess.run(["notify-send", "Focuseer", "Seu alarme"])
                     mp3_file = (
                         "/home/marcos/Desktop/UNIP/tcc/nao_programacao/sounds/alarm.mp3"
@@ -115,6 +153,17 @@ def alarm() -> None:
                     runs += 1
             if runs == 1:
                 break
+
+        # adiciona um delay de 30 segundos para verificar a hora
+        time.sleep(30)
+    alarm_canceled = False
+
+
+def cancel_alarm(button) -> None:
+    global alarm_canceled
+    alarm_canceled = True
+    print("alarme cancelado")
+    switch_interfaces(1)
 
 
 builder = Gtk.Builder()
@@ -125,6 +174,8 @@ window = builder.get_object("Window")
 
 btnAlarm = builder.get_object("btnAlarm")
 btnAlarm.connect("clicked", start_alarm)
+btnCancelar = builder.get_object("btnCancelar")
+btnCancelar.connect("clicked", cancel_alarm)
 
 btnHourMinus = builder.get_object("btnHoursMinus")
 btnHourPlus = builder.get_object("btnHoursPlus")
@@ -134,12 +185,17 @@ btnMinutePlus = builder.get_object("btnMinutePlus")
 
 entryHours = builder.get_object("hours")
 entryMinutes = builder.get_object("minutes")
+lblPonto = builder.get_object("lblPonto")
+
 
 # Instead of "changed" effect, the entries are validated after the user leave the focus
 entryHours.connect("focus-out-event", validate_hour)
 entryMinutes.connect("focus-out-event", validate_minute)
 
 chkAlarm = builder.get_object("chkAlarm")
+
+lblMensagem = builder.get_object("lblMensagem")
+lblTempo = builder.get_object("lblTempo")
 
 
 btnHourMinus.connect("clicked", decrement_hour)
@@ -177,5 +233,7 @@ entryMinutes.get_style_context().add_provider(
 
 
 window.show_all()
-window.set_position(Gtk.WindowPosition.NONE)
+lblMensagem.set_visible(False)
+lblTempo.set_visible(False)
+btnCancelar.set_visible(False)
 Gtk.main()
