@@ -28,7 +28,7 @@ def monitora_processo(process_name):
     # Check if the process is already running
     for proc in psutil.process_iter(["pid", "name"]):
         if proc.info["name"] == process_name:
-            print("process found")
+            print("processo encontrado")
             start_time = time.time()
             while psutil.pid_exists(proc.info["pid"]):
                 time.sleep(1)
@@ -37,30 +37,35 @@ def monitora_processo(process_name):
             end_time = time.time()
             elapsed_time = int(end_time - start_time)
 
+            # Load existing process data from JSON file
             try:
                 with open("process_data.json", "r") as f:
                     data = json.load(f)
             except FileNotFoundError:
-                data = {"date": "", "process_data": {}}
+                data = {"day_data": {"date": "", "process_data": {}}}
+
+            # Get the current date in DD/MM/YYYY format
             current_date = datetime.now().strftime("%d/%m/%Y")
 
             # Update or add the elapsed time for the process
-            if "date" in data and data["date"] == current_date:
-                data["process_data"][process_name] = (
-                    data["process_data"].get(process_name, 0) + elapsed_time
+            if "date" in data["day_data"] and data["day_data"]["date"] == current_date:
+                data["day_data"]["process_data"][process_name] = (
+                    data["day_data"]["process_data"].get(process_name, 0) + elapsed_time
                 )
             else:
-                data["date"] = current_date
-                data["process_data"] = {process_name: elapsed_time}
+                data["day_data"]["date"] = current_date
+                data["day_data"]["process_data"] = {process_name: elapsed_time}
 
+            # Save updated process data to JSON file
             with open("process_data.json", "w") as f:
                 json.dump(data, f, indent=4)
 
             print(f"The process '{process_name}' ran for {elapsed_time} seconds.")
             return elapsed_time
 
+    # If the process is not running, return None
     print(f"The process '{process_name}' is not currently running.")
-    return False
+    return None
 
 
 def inicia_timer(process_name):
