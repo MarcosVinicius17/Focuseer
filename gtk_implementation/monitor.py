@@ -1,7 +1,8 @@
-import gi, psutil, time
+import gi, psutil, time, json, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
+from datetime import datetime
 
 
 def format_time(seconds):
@@ -23,34 +24,47 @@ Logica da aplicacao
 """
 
 
-def monitora_processo(process):
+def monitora_processo(process_name):
     # Check if the process is already running
-    for proc in psutil.process_iter(["name"]):
-        if proc.info["name"] == process:
-            print(f"Process '{process}' is already running.")
-            break
-    else:
-        print(f"Process '{process}' is not running.")
-        return
+    for proc in psutil.process_iter(["pid", "name"]):
+        if proc.info["name"] == process_name:
+            print("process found")
+            start_time = time.time()
+            while psutil.pid_exists(proc.info["pid"]):
+                time.sleep(1)
 
-    # Process is running, start the stopwatch
-    start_time = time.time()
-    print("Stopwatch started.")
-
-    # Check if the process is still running in a loop
-    while True:
-        for proc in psutil.process_iter(["name"]):
-            if proc.info["name"] == process:
-                # Process is still running, continue the loop
-                break
-        else:
-            # Process is no longer running, stop the stopwatch
+            # Process has stopped, calculate elapsed time
             end_time = time.time()
-            elapsed_time = end_time - start_time
-            elapsed_formatted = format_time(elapsed_time)
-            print(f"Process '{process}' stopped. Elapsed time: {elapsed_formatted}")
-            break
-        time.sleep(1)  # Wait for 1 second before checking again
+            elapsed_time = int(end_time - start_time)
+
+            try:
+                with open("process_data.json", "r") as f:
+                    data = json.load(f)
+            except FileNotFoundError:
+                data = {"date": "", "process_data": {}}
+            current_date = datetime.now().strftime("%d/%m/%Y")
+
+            # Update or add the elapsed time for the process
+            if "date" in data and data["date"] == current_date:
+                data["process_data"][process_name] = (
+                    data["process_data"].get(process_name, 0) + elapsed_time
+                )
+            else:
+                data["date"] = current_date
+                data["process_data"] = {process_name: elapsed_time}
+
+            with open("process_data.json", "w") as f:
+                json.dump(data, f, indent=4)
+
+            print(f"The process '{process_name}' ran for {elapsed_time} seconds.")
+            return elapsed_time
+
+    print(f"The process '{process_name}' is not currently running.")
+    return False
+
+
+def inicia_timer(process_name):
+    threading.Thread(target=monitora_processo, args=(process_name,)).start()
 
 
 """
@@ -61,7 +75,7 @@ Administra o status dos processos
 def update_process_to_monitor(process, status):
     if status == "checked":
         print("O processo", process, "esta ativo")
-        monitora_processo(process)
+        threading.Thread(target=monitora_processo, args=(process,)).start()
 
     if status == "unchecked":
         print("O processo", process, "esta inativo")
@@ -208,52 +222,38 @@ btnRemovePermitidos.connect("clicked", lambda btn: remove_processo(btn, 1))
 btnRemoveNaoPermitidos.connect("clicked", lambda btn: remove_processo(btn, 2))
 
 
-"""
-CSS
-"""
-
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
 )
 
-context_window = window.get_style_context().add_provider(
+window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_btnPermitidos = btnRemovePermitidos.get_style_context().add_provider(
-    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-)
-context_btnRemoveNaoPermitidos = (
-    btnRemoveNaoPermitidos.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-)
-context_listPermitidos = listPermitidos.get_style_context().add_provider(
+btnRemovePermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-context_listNaoPermitidos = listNaoPermitidos.get_style_context().add_provider(
+btnRemoveNaoPermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-context_btnAttNaoPermitidos = btnAddNaoPermitidos.get_style_context().add_provider(
+listPermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-context_btnAttPermitidos = btnAddPermitidos.get_style_context().add_provider(
+listNaoPermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-"""
-END CSS
-"""
 
-# add_nao_permitido("steam")
-# add_permitido("VSCode")
-# add_permitido("Teams")
-# add_nao_permitido("Spotify")
+btnAddNaoPermitidos.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
+btnAddPermitidos.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
 window.show_all()
-# window_show_all() coloca todos os widgets como visiveis
 lblAviso.set_visible(False)
 Gtk.main()
