@@ -15,20 +15,24 @@ def blacklisted_process_time(json_file):
         data = json.load(file)
 
     # Get the date from the JSON
-    date = data["date"]
+    date = data["day_data"]["date"]
 
     # Get the process_data dictionary and sort it in ascending order by values
-    process_data = data["process_data"]
+    process_data = data["day_data"]["process_data"]
     sorted_data = sorted(process_data.items(), key=lambda item: item[1])
 
     items, values = zip(*sorted_data)
 
+    # Convert the values from seconds to minutes
     values_in_minutes = [value / 60 for value in values]
-    # Create a bar graph
-    plt.bar(items, values_in_minutes, width=0.4)
-    plt.xlabel("Nome do processo")
-    plt.ylabel("Tempo gasto (em minutos)")
-    plt.title(f"Dados do dia {date}")
+
+    # Create a bar graph with thinner bars
+    plt.bar(
+        items, values_in_minutes, width=0.4
+    )  # Adjust the width as per your preference
+    plt.xlabel("Process")
+    plt.ylabel("Value (Minutes)")
+    plt.title(f"Data for {date}")
     plt.show()
 
 
