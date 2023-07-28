@@ -4,15 +4,6 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 from datetime import datetime
 
-"""
-1) usuario add o processo para uma das listas
-2) o processo eh adicionado a uma lista
-3) quando o usuario ativa um processo, verificar se ele faz parte de qual lista
-4) dependendo de qual lista estiver, ir para whitelisted_data ou blacklisted_data
-
-adiciona/remove_processo -> 
-
-"""
 whitelisted_processes = []
 blacklisted_processes = []
 
@@ -26,15 +17,17 @@ def format_time(seconds):
 
 
 def monitora_processo(process_name, data_type):
+    # Check if the process is already running
     for proc in psutil.process_iter(["pid", "name"]):
         if proc.info["name"] == process_name:
-            print("processo encontrado")
+            # Process is already running
             start_time = time.time()
             while psutil.pid_exists(proc.info["pid"]):
                 time.sleep(1)
 
+            # Process has stopped, calculate elapsed time in minutes
             end_time = time.time()
-            elapsed_time = int(end_time - start_time)
+            elapsed_time_minutes = round((end_time - start_time) / 60, 1)
 
             # Load existing process data from JSON file
             try:
@@ -51,32 +44,34 @@ def monitora_processo(process_name, data_type):
             # Update or add the elapsed time for the process based on data_type
             if "date" in data["day_data"] and data["day_data"]["date"] == current_date:
                 if data_type == 0:
-                    print("Blacklist process")
-                    data["day_data"]["blacklist_data"][process_name] = (
+                    data["day_data"]["blacklist_data"][process_name] = round(
                         data["day_data"]["blacklist_data"].get(process_name, 0)
-                        + elapsed_time
+                        + elapsed_time_minutes,
+                        1,
                     )
                 elif data_type == 1:
-                    print("whitelisted process")
-                    data["day_data"]["whitelist_data"][process_name] = (
+                    data["day_data"]["whitelist_data"][process_name] = round(
                         data["day_data"]["whitelist_data"].get(process_name, 0)
-                        + elapsed_time
+                        + elapsed_time_minutes,
+                        1,
                     )
             else:
                 data["day_data"]["date"] = current_date
                 data["day_data"]["blacklist_data"] = (
-                    {process_name: elapsed_time} if data_type == 0 else {}
+                    {process_name: elapsed_time_minutes} if data_type == 0 else {}
                 )
                 data["day_data"]["whitelist_data"] = (
-                    {process_name: elapsed_time} if data_type == 1 else {}
+                    {process_name: elapsed_time_minutes} if data_type == 1 else {}
                 )
 
             # Save updated process data to JSON file
             with open("process_data.json", "w") as f:
                 json.dump(data, f, indent=4)
 
-            print(f"The process '{process_name}' ran for {elapsed_time} seconds.")
-            return elapsed_time
+            print(
+                f"The process '{process_name}' ran for {elapsed_time_minutes:.1f} minutes."
+            )
+            return elapsed_time_minutes
 
     # If the process is not running, return None
     print(f"The process '{process_name}' is not currently running.")

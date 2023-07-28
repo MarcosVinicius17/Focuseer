@@ -53,9 +53,9 @@
         <img src="file:///home/marcos/Desktop/UNIP/tcc/templates_pdf/logo.png" alt="Logo">
         <div>
             <h1>Focuseer - Relatório diário</h1>
-            <p>Funcionário: {{nome}}</p>
-            <p>Emitido em: {{data_criacao}}</p>
-            <p>Início do dia: {{hora_entrada}} - Final do dia: {{hora_saida}}</p>
+            <p>Funcionário: xxxx</p>
+            <p>Emitido em: 28/07/2023 - 20:19</p>
+            <p>Início: 08:30 - Fim: 17:30</p>
         </div>
     </div>
     <div class="checklist">
@@ -63,22 +63,22 @@
         <ul>
 
             <input type="checkbox" id="task1">
-            <label style="font-weight: bold" for="task1">{{task1}}</label>
+            <label style="font-weight: bold" for="task1"></label>
             <br />
             <input style="font-weight: bold" type="checkbox" id="task2">
-            <label style="font-weight: bold" for="task2">{{task2}}</label>
+            <label style="font-weight: bold" for="task2"></label>
             <br />
 
             <input type="checkbox" id="task3">
-            <label style="font-weight: bold" for="task3">{{task3}}</label>
+            <label style="font-weight: bold" for="task3"></label>
         </ul>
     </div>
     <div class="user-stats">
         <h2>Estatísticas</h2>
         <ul>
-            <label style="font-weight: bold">Tempo trabalhado: </label>{{time_spent}} <br /><br />
-            <label style="font-weight: bold">Tempo do dia anterior:</label>{{previous_time}}<br /><br />
-            <label style="font-weight: bold">Média semanal: </label>{{week_time_spent}}
+            <label style="font-weight: bold">Tempo trabalhado: </label>07:00 <br /><br />
+            <label style="font-weight: bold">Tempo do dia anterior:</label>07:30<br /><br />
+            <label style="font-weight: bold">Média semanal: </label>07:30
 
 
         </ul>
@@ -90,9 +90,9 @@
         <h2>Gráficos</h2>
         <ul>
             <label style="font-weight: bold;">Tempo gasto em aplicações:</label><br />
-            <img src="{{ whitelist_graph }}" alt="Whitelist Graph">
+            <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png" alt="Whitelist Graph">
             <label style="font-weight: bold;">Tempo gasto em aplicações banidas:</label><br />
-            <img src="{{ blacklist_graph }}" alt="Blacklist Graph">
+            <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png" alt="Blacklist Graph">
         </ul>
     </div>
 </body>

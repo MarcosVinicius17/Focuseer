@@ -3,31 +3,53 @@ from jinja2 import Template
 from datetime import datetime
 import os
 
-# Conteudo das variaveis
-nome = "Marcos Vinícius F. Vieira"
-now = datetime.now()
-formatted_date = now.strftime("%d/%m/%Y - %H:%M")
 
-data_criacao = formatted_date
-hora_entrada = "08:30"
-hora_saida = "17:30"
+# Function to generate the PDF
+def generate_pdf(data):
+    # Load the Jinja2 environment and the HTML template
+    env = Template(data)
+
+    # Conteudo das variaveis
+    nome = "admin"
+    now = datetime.now()
+    formatted_date = now.strftime("%d/%m/%Y - %H:%M")
+
+    # Examples
+    data_criacao = formatted_date
+    hora_entrada = "08:30"
+    hora_saida = "17:30"
+    time_spent = "07:00"
+    previous_time = "07:30"
+    week_time_spent = "07:30"
+    whitelist_graph = "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png"
+    blacklist_graph = "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png"
+
+    # Associa as variaveis
+    html_out = env.render(
+        nome=nome,
+        data_criacao=data_criacao,
+        hora_entrada=hora_entrada,
+        hora_saida=hora_saida,
+        time_spent=time_spent,
+        previous_time=previous_time,
+        week_time_spent=week_time_spent,
+        whitelist_graph=whitelist_graph,
+        blacklist_graph=blacklist_graph,
+    )
+
+    # Cria o PDF
+    with open("relatorio.html", "w") as f:
+        f.write(html_out)
+
+    HTML(filename="relatorio.html").write_pdf("output.pdf")
+    print("PDF has been created")
 
 
-new_directory = "/home/marcos/Desktop/UNIP/tcc/templates_pdf"
-os.chdir(new_directory)
+# Example usage:
+if __name__ == "__main__":
+    # Load the template from the file
+    with open("templates_pdf/relatorio.html", "r") as f:
+        html_template = f.read()
 
-with open("relatorio.html", "r") as f:
-    html_template = Template(f.read())
-
-
-# Associa as variaveis
-html_out = html_template.render(
-    nome=nome,
-    data_criacao=data_criacao,
-    hora_entrada=hora_entrada,
-    hora_saida=hora_saida,
-)
-
-# Cria o PDF
-HTML(string=html_out).write_pdf("output.pdf")
-print("pdf criado")
+    # Generate the PDF
+    generate_pdf(html_template)
