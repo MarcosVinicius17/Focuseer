@@ -43,7 +43,7 @@ def generate_pdf(data):
         f.write(html_out)
 
     HTML(filename="relatorio.html").write_pdf(archive_name + ".pdf")
-    print("PDF has been created")
+    print(archive_name, "PDF has been created")
 
 
 # Example usage:
