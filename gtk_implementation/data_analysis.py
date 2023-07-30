@@ -2,7 +2,6 @@
 Contem os metodos que analisam os dados do usuario (principalmente os provenientes do monitor de processos) para a criacao de graficos e estatisticas
 """
 import json
-from pymongo import MongoClient
 import matplotlib.pyplot as plt
 
 

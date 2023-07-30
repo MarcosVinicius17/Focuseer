@@ -13,6 +13,7 @@ def generate_pdf(data):
     nome = "admin"
     now = datetime.now()
     formatted_date = now.strftime("%d/%m/%Y - %H:%M")
+    archive_name = now.strftime("%d_%m_%Y_%H_%M")
 
     # Examples
     data_criacao = formatted_date
@@ -41,7 +42,7 @@ def generate_pdf(data):
     with open("relatorio.html", "w") as f:
         f.write(html_out)
 
-    HTML(filename="relatorio.html").write_pdf("output.pdf")
+    HTML(filename="relatorio.html").write_pdf(archive_name + ".pdf")
     print("PDF has been created")
 
 
