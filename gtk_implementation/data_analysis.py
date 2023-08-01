@@ -1,16 +1,8 @@
-"""'
-Contem os metodos que analisam os dados do usuario (principalmente os provenientes do monitor de processos) para a criacao de graficos e estatisticas
-"""
-import json
+import json, io, base64
 import matplotlib.pyplot as plt
 
 
-"""
-Analisa o tempo gasto com aplicativos da blacklist. O resultado final deve ser em forma de graficos.
-"""
-
-
-def blacklisted_process_time(json_file):
+def tempo_blacklist(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
@@ -21,9 +13,6 @@ def blacklisted_process_time(json_file):
     blacklist_data = data["day_data"]["blacklist_data"]
     sorted_blacklist_data = sorted(blacklist_data.items(), key=lambda item: item[1])
 
-    # Convert the values from seconds to minutes for blacklist data
-    blacklist_values_in_minutes = [value / 60 for value in blacklist_data.values()]
-
     # Create the bar graph for blacklist data
     plt.bar(
         *zip(*sorted_blacklist_data), width=0.4
@@ -31,7 +20,15 @@ def blacklisted_process_time(json_file):
     plt.xlabel("Process")
     plt.ylabel("Value (Minutes)")
     plt.title(f"Blacklist Data for {date}")
-    plt.show()
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format="png")
+    plt.close()
+
+    buffer.seek(0)
+    base64_image = base64.b64encode(buffer.getvalue()).decode()
+
+    return base64_image
 
 
 """
@@ -39,7 +36,7 @@ Analisa o tempo gasto com aplicativos da whitelist. O resultado final deve ser e
 """
 
 
-def whitelisted_process_time(json_file):
+def tempo_whitelist(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
@@ -81,7 +78,6 @@ def time_spend_working(json_file):
     return
 
 
-# Example usage:
 json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
-blacklisted_process_time(json_file)
-whitelisted_process_time(json_file)
+# tempo_blacklist(json_file)
+# tempo_whitelist(json_file)

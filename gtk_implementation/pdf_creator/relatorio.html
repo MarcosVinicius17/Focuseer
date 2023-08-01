@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Focuseer - Relatório diário</title>
+    <title>Focuseer</title>
     <style>
         @page {
             margin: 0;
@@ -27,7 +27,7 @@
         }
 
         .header img {
-            width: 100px;
+            width: 150px;
             height: 100px;
             object-fit: cover;
             object-position: center;
@@ -42,12 +42,12 @@
         .header h1 {
             font-size: 24px;
             font-weight: bold;
-            text-align: center;
+            /*text-align: center;*/
         }
 
         .header p {
             font-size: 16px;
-            text-align: center;
+            /*text-align: center;*/
         }
     </style>
 </head>
@@ -57,46 +57,70 @@
         <img src="file:///home/marcos/Desktop/UNIP/tcc/templates_pdf/logo.png" alt="Logo">
         <div>
             <h1>Focuseer - Relatório diário</h1>
-            <p>Funcionário: {{nome}}</p>
-            <p>Emitido em: {{data_criacao}}</p>
-            <p>Início do dia: {{hora_entrada}} - Final do dia: {{hora_saida}}</p>
+            <p>Funcionário: admin</p>
+            <p>Emitido em: 31/07/2023 - 19:59</p>
+            <p>Início: 08:30 - Final: 17:30</p>
         </div>
     </div>
     <div class="checklist">
-        <h2>Objetivos do dia</h2>
+        <h2>Objetivos para o dia</h2>
         <ul>
 
             <input type="checkbox" id="task1">
-            <label style="font-weight: bold" for="task1">{{task1}}</label>
+            <label style="font-weight: bold" for="task1"></label>
             <br />
             <input style="font-weight: bold" type="checkbox" id="task2">
-            <label style="font-weight: bold" for="task2">{{task2}}</label>
+            <label style="font-weight: bold" for="task2"></label>
             <br />
 
             <input type="checkbox" id="task3">
-            <label style="font-weight: bold" for="task3">{{task3}}</label>
+            <label style="font-weight: bold" for="task3"></label>
         </ul>
     </div>
-    <div class="user-stats">
-        <h2>Estatísticas</h2>
+    <div class="checklist">
+        <h2>Objetivos de longo prazo</h2>
         <ul>
-            <label style="font-weight: bold">Tempo trabalhado: </label>{{time_spent}} <br /><br />
-            <label style="font-weight: bold">Tempo do dia anterior:</label>{{previous_time}}<br /><br />
-            <label style="font-weight: bold">Média semanal: </label>{{week_time_spent}}
 
+            <input type="checkbox" id="task1">
+            <label style="font-weight: bold" for="task1"></label>
+            <br />
+            <input style="font-weight: bold" type="checkbox" id="task2">
+            <label style="font-weight: bold" for="task2"></label>
 
         </ul>
+    </div>
+
+
+    <div class="user-stats">
+        <h2>Gerenciamento de tempo</h2>
+
 
 
 
     </div>
     <div class="graphs">
-        <h2>Gráficos</h2>
         <ul>
             <label style="font-weight: bold;">Tempo gasto em aplicações:</label><br />
-            <img src="{{ whitelist_graph }}" alt="Whitelist Graph">
+            <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png" alt="Whitelist Graph">
+            <br />
+            <label>Você gastou x % do tempo de hoje com estas aplicações</label> <br /><br />
+
+
+
+
+
             <label style="font-weight: bold;">Tempo gasto em aplicações banidas:</label><br />
-            <img src="{{ blacklist_graph }}" alt="Blacklist Graph">
+
+            <img src="data:image/png;base64,{{ blacklist_graph }}" alt="Sample Graph">
+            <br />
+            <label>Você gastou x % do tempo de hoje com estas aplicações</label><br />
+        </ul>
+        <ul>
+            <label style="font-weight: bold">Tempo trabalhado: </label>09:00 <br /><br />
+            <label style="font-weight: bold">Tempo do dia anterior:</label>07:30<br /><br />
+            <label style="font-weight: bold">Média semanal: </label>07:30
+
+
         </ul>
     </div>
 </body>
