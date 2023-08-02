@@ -2,6 +2,7 @@ from weasyprint import HTML
 from jinja2 import Template
 from datetime import datetime
 import data_analysis
+import os
 
 # temporario
 json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
@@ -49,8 +50,8 @@ def generate_pdf(data):
     hora_saida = "17:30"
     previous_time = "07:30"
     week_time_spent = "07:30"
-    whitelist_graph = "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png"
-    blacklist_buffer = data_analysis.tempo_blacklist(json_file)
+    whitelist_graphic = data_analysis.tempo_whitelist(json_file)
+    blacklist_graphic = data_analysis.tempo_blacklist(json_file)
 
     tempo_gasto = tempo_trabalhado(hora_entrada, hora_saida)
 
@@ -62,8 +63,8 @@ def generate_pdf(data):
         hora_saida=hora_saida,
         previous_time=previous_time,
         week_time_spent=week_time_spent,
-        whitelist_graph=whitelist_graph,
-        blacklist_graph=blacklist_buffer,
+        whitelist_graph=whitelist_graphic,
+        blacklist_graph=blacklist_graphic,
         time_spent=tempo_gasto,
     )
 
@@ -75,6 +76,8 @@ def generate_pdf(data):
         archive_name + ".pdf"
     )
     print(archive_name, "PDF has been created")
+    os.remove("blacklist_graph.png")
+    os.remove("whitelist_graph.png")
 
 
 if __name__ == "__main__":

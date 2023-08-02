@@ -1,5 +1,6 @@
 import json, io, base64
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 def tempo_blacklist(json_file):
@@ -17,18 +18,22 @@ def tempo_blacklist(json_file):
     plt.bar(
         *zip(*sorted_blacklist_data), width=0.4
     )  # Adjust the width as per your preference
-    plt.xlabel("Process")
-    plt.ylabel("Value (Minutes)")
+    plt.xlabel("Processo")
+    plt.ylabel("Tempo (Em minutos)")
     plt.title(f"Blacklist Data for {date}")
 
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format="png")
+    image_path = "blacklist_graph.png"
+    plt.savefig(image_path, format="png", dpi=100)
     plt.close()
+    image = Image.open(image_path)
+    new_height = int(image.height * 0.7)
+    new_width = int(image.width * 0.7)
+    resized_img = image.resize((new_width, new_height), Image.ANTIALIAS)
+    resized_img.save("blacklist_graph.png", format="png")
 
-    buffer.seek(0)
-    base64_image = base64.b64encode(buffer.getvalue()).decode()
+    image.close()
 
-    return base64_image
+    return image_path
 
 
 """
@@ -40,24 +45,29 @@ def tempo_whitelist(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
-    # Get the date from the JSON
     date = data["day_data"]["date"]
 
-    # Get the whitelist_data dictionary and sort it in ascending order by values
     whitelist_data = data["day_data"]["whitelist_data"]
     sorted_whitelist_data = sorted(whitelist_data.items(), key=lambda item: item[1])
 
-    # Convert the values from seconds to minutes for whitelist data
-    # whitelist_values_in_minutes = [value / 60 for value in whitelist_data.values()]
-
-    # Create the bar graph for whitelist data
-    plt.bar(
-        *zip(*sorted_whitelist_data), width=0.4
-    )  # Adjust the width as per your preference
-    plt.xlabel("Process")
-    plt.ylabel("Value (Minutes)")
+    plt.bar(*zip(*sorted_whitelist_data), width=0.4)
+    plt.xlabel("Processo")
+    plt.ylabel("Tempo (Em minutos)")
     plt.title(f"Whitelist Data for {date}")
-    plt.show()
+
+    image_path = "whitelist_graph.png"
+    plt.savefig(image_path, format="png")
+    plt.close()
+
+    image = Image.open(image_path)
+    new_height = int(image.height * 0.7)
+    new_width = int(image.width * 0.7)
+    resized_img = image.resize((new_width, new_height), Image.ANTIALIAS)
+    resized_img.save("whitelist_graph.png", format="png")
+
+    image.close()
+
+    return image_path
 
 
 """
@@ -79,5 +89,3 @@ def time_spend_working(json_file):
 
 
 json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
-# tempo_blacklist(json_file)
-# tempo_whitelist(json_file)
