@@ -9,7 +9,7 @@ from playsound import playsound
 """
 
 
-class AlarmApp:
+class Alarm:
     def __init__(self):
         self.alarm_canceled = False
 
@@ -44,9 +44,7 @@ class AlarmApp:
         self.lblTempo = self.builder.get_object("lblTempo")
 
         self.css_provider = Gtk.CssProvider()
-        self.css_provider.load_from_path(
-            "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-        )
+        self.css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
         self.window.get_style_context().add_provider(
             self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
@@ -214,7 +212,7 @@ class AlarmApp:
 
     def cancel_alarm(self, button):
         global alarm_canceled
-        alarm_canceled = True
+        self.alarm_canceled = True
         print("alarme cancelado")
         self.switch_interfaces(1)
 
@@ -227,5 +225,5 @@ class AlarmApp:
 
 
 if __name__ == "__main__":
-    app = AlarmApp()
+    app = Alarm()
     app.run()
