@@ -34,9 +34,9 @@ def tempo_trabalhado(inicio, final):
         return "Formato invalido. Use o formato HH:MM "
 
 
-def generate_pdf(data):
+def generate_pdf(html_template):
     # Load the Jinja2 environment and the HTML template
-    env = Template(data)
+    env = Template(html_template)
 
     # Conteudo das variaveis
     nome = "admin"

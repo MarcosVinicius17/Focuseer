@@ -9,7 +9,6 @@
             margin: 0;
         }
 
-        /* Add some basic styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0mm;
@@ -42,24 +41,26 @@
         .header h1 {
             font-size: 24px;
             font-weight: bold;
-            /*text-align: center;*/
         }
 
         .header p {
             font-size: 16px;
-            /*text-align: center;*/
+        }
+
+        .graphs {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <img src="file:///home/marcos/Desktop/UNIP/tcc/templates_pdf/logo.png" alt="Logo">
+        <img src="logo.png" alt="Logo">
         <div>
             <h1>Focuseer - Relatório diário</h1>
             <p>Funcionário: admin</p>
-            <p>Emitido em: 31/07/2023 - 19:59</p>
-            <p>Início: 08:30 - Final: 17:30</p>
+            <p>Emitido em: {{data_criacao}}</p>
+            <p>Início: - Final: </p>
         </div>
     </div>
     <div class="checklist">
@@ -113,14 +114,14 @@
             <br />
             <label>Você gastou x % do tempo de hoje com estas aplicações</label><br />
         </ul>
-        <ul>
-            <label style="font-weight: bold">Tempo trabalhado: </label>09:00 <br /><br />
-            <label style="font-weight: bold">Tempo do dia anterior:</label>07:30<br /><br />
-            <label style="font-weight: bold">Média semanal: </label>07:30
 
-
-        </ul>
     </div>
+    <ul>
+        <label style="font-weight: bold">Tempo trabalhado: </label>09:00 <br /><br />
+        <label style="font-weight: bold">Tempo do dia anterior:</label>07:30<br /><br />
+        <label style="font-weight: bold">Média semanal: </label>07:30
+
+    </ul>
 </body>
 
 </html>

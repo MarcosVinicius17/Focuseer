@@ -72,9 +72,12 @@ lblSenha = builder.get_object("lblSenha")
 
 
 css_provider = Gtk.CssProvider()
+"""
+relative path is better
 css_provider.load_from_path(
     "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-)
+)"""
+css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
 
 btnCadastro.get_style_context().add_provider(

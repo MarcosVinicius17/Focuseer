@@ -36,11 +36,6 @@ def tempo_blacklist(json_file):
     return image_path
 
 
-"""
-Analisa o tempo gasto com aplicativos da whitelist. O resultado final deve ser em forma de graficos.
-"""
-
-
 def tempo_whitelist(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)

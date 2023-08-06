@@ -73,7 +73,6 @@ def monitora_processo(process_name, data_type):
             )
             return elapsed_time_minutes
 
-    # If the process is not running, return None
     print(f"The process '{process_name}' is not currently running.")
     return None
 
