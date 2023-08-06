@@ -49,6 +49,10 @@ def add_item_processos() -> None:
     pass
 
 
+def add_item_tempo() -> None:
+    pass
+
+
 def set_tempo_trabalho(inicio, fim) -> None:
     lblInicio.set_text(inicio)
     lblFim.set_text(fim)
@@ -86,4 +90,6 @@ btnHome.get_style_context().add_provider(
 )
 
 window.show_all()
+# exemplo
+# set_tempo_trabalho("06:00", "12:00")
 Gtk.main()
