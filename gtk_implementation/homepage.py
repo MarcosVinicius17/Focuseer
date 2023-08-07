@@ -7,10 +7,6 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 """
-https://refactoring.guru/design-patterns/observer
-"""
-
-"""
 aplicar css ao about
 """
 
@@ -148,7 +144,7 @@ def open_about(button):
 
 
 def start_work(button):
-    print("ok")
+    subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
 
 
 def open_alarm(button):

@@ -4,9 +4,18 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 
 
-"""
-QoL stuff
-"""
+def update_pomodoro_info(active, status) -> None:
+    with open("gtk_implementation/estruturas.py", "r") as file:
+        lines = file.readlines()
+
+    for i, line in enumerate(lines):
+        if "active_pomodoro" in line:
+            lines[i] = f'    "active_pomodoro": {active},\n'
+        elif "status" in line:
+            lines[i] = f'    "status": "{status}",\n'
+
+    with open("gtk_implementation/estruturas.py", "w") as file:
+        file.writelines(lines)
 
 
 def switch_interfaces(status) -> None:
@@ -98,6 +107,7 @@ def pomodoro(work_time, pause_time, pause_event, quit_event):
             return
 
         print("Pomodoro Started")
+        update_pomodoro_info(True, "Working")
         switch_interfaces(0)
         btnPausa.set_sensitive(True)
         print(f"Work for {work_time} minutes.")
@@ -107,23 +117,27 @@ def pomodoro(work_time, pause_time, pause_event, quit_event):
             print("Countdown Quit")
             btnPausa.set_sensitive(False)
             switch_interfaces(1)
+            update_pomodoro_info(False, "Not working")
             return
 
         subprocess.run(["notify-send", "Focuseer", "Pausa iniciada"])
         print("Work period ended.\n")
         lblRestante.set_text(str(work_time) + ":00")
         print(f"Pause for {pause_time} minutes.")
+        update_pomodoro_info(True, "Pause")
         countdown(pause_time_seconds, pause_event, quit_event, 1)
 
         if quit_event.is_set():
             print("Countdown Quit")
             btnPausa.set_sensitive(False)
             btnPomodoro.set_label("Iniciar")
+            update_pomodoro_info(False, "Not working")
             return
 
         subprocess.run(["notify-send", "Focuseer", "Fim da pausa"])
         print("Pause period ended.\n")
         lblRestante2.set_text(str(pause_time) + ":00")
+        update_pomodoro_info(False, "Working")
 
 
 """
@@ -265,8 +279,6 @@ btnQuit.connect("clicked", on_quit_button_clicked, pause_event, quit_event)
 btnResume.connect("clicked", on_resume_button_clicked, pause_event)
 entryTrabalho.connect("focus-out-event", validate_worktime)
 entryPausa.connect("focus-out-event", validate_pause_time)
-
-""" nothing below this"""
 
 
 lblAviso = builder.get_object("lblAviso")

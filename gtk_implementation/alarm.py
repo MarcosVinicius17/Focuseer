@@ -4,9 +4,21 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from playsound import playsound
 
-"""
-6th of august - now we use classes
-"""
+import estruturas
+
+
+def update_alarm_info(active, ring_time):
+    with open("gtk_implementation/estruturas.py", "r") as file:
+        lines = file.readlines()
+
+    for i, line in enumerate(lines):
+        if "active_alarm" in line:
+            lines[i] = f'    "active_alarm": {active},\n'
+        elif "ring_time" in line:
+            lines[i] = f'    "ring_time": "{ring_time}",\n'
+
+    with open("gtk_implementation/estruturas.py", "w") as file:
+        file.writelines(lines)
 
 
 class Alarm:
@@ -189,6 +201,12 @@ class Alarm:
         self.lblTempo.set_text(str(alarm_hour + ":" + alarm_minute))
         self.switch_interfaces(0)
 
+        """
+        atualiza a estrutura contendo informacoes para a workscreen
+        """
+
+        update_alarm_info(True, str(alarm_hour + ":" + alarm_minute))
+
         while not self.alarm_canceled:
             current_time = datetime.datetime.now()
             if current_time.strftime("%H:%M") == alarm_time.strftime("%H:%M"):
@@ -215,6 +233,7 @@ class Alarm:
         self.alarm_canceled = True
         print("alarme cancelado")
         self.switch_interfaces(1)
+        update_alarm_info(False, None)
 
     def run(self):
         self.window.show_all()

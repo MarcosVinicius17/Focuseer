@@ -3,10 +3,18 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+
+import estruturas
+
 """
 6/8
 ver como ira implementar as boxes para tempo (alarme, timer e pomodoro) e o monitor de processos
 """
+
+
+# atualiza a pagina em um certo intervalo de tempo para ver se ha algum update
+def atualizar_pagina() -> None:
+    pass
 
 
 def add_item_objetivos(button) -> None:
@@ -50,7 +58,46 @@ def add_item_processos() -> None:
 
 
 def add_item_tempo() -> None:
-    pass
+    """
+    1 - alarme
+    """
+    alarm_exists = estruturas.alarm_info
+    if alarm_exists["active_alarm"] == False:
+        new_label = Gtk.Label("Nao ha alarme ativo")
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
+    else:
+        # print(f"Alarme programado para {alarm_exists['ring_time']}")
+        text_to_label = f"Alarme: {alarm_exists['ring_time']}"
+        new_label = Gtk.Label(text_to_label)
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
+    """
+    2 - timer
+    """
+    timer_exists = estruturas.timer_info
+    if timer_exists["active_timer"] == False:
+        new_label = Gtk.Label("Nao ha timer ativo")
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
+    else:
+        text_to_label = f"Timer: {timer_exists['timer_end']}"
+        new_label = Gtk.Label(text_to_label)
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
+    """
+    3 - pomodoro
+    """
+    pomodoro_exists = estruturas.pomodoro_info
+    if pomodoro_exists["active_pomodoro"] == False:
+        new_label = Gtk.Label("Nao ha pomodoro ativo")
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
+    else:
+        text_to_label = f"Status do pomodoro: {pomodoro_exists['status']}"
+        new_label = Gtk.Label(text_to_label)
+        boxTempo.pack_start(new_label, True, True, 0)
+        new_label.show()
 
 
 def set_tempo_trabalho(inicio, fim) -> None:
@@ -92,4 +139,5 @@ btnHome.get_style_context().add_provider(
 window.show_all()
 # exemplo
 # set_tempo_trabalho("06:00", "12:00")
+add_item_tempo()
 Gtk.main()
