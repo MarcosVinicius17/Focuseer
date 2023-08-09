@@ -102,7 +102,7 @@ def add_item_tempo() -> None:
     """
     alarm_exists = estruturas.alarm_info
     if alarm_exists["active_alarm"] == False:
-        new_label = Gtk.Label("Nao ha alarme ativo")
+        new_label = Gtk.Label(label="Nao ha alarme ativo")
         boxTempo.pack_start(new_label, True, True, 0)
         new_label.show()
     else:
@@ -116,7 +116,7 @@ def add_item_tempo() -> None:
     """
     timer_exists = estruturas.timer_info
     if timer_exists["active_timer"] == False:
-        new_label = Gtk.Label("Nao ha timer ativo")
+        new_label = Gtk.Label(label="Nao ha timer ativo")
         boxTempo.pack_start(new_label, True, True, 0)
         new_label.show()
     else:
@@ -129,7 +129,7 @@ def add_item_tempo() -> None:
     """
     pomodoro_exists = estruturas.pomodoro_info
     if pomodoro_exists["active_pomodoro"] == False:
-        new_label = Gtk.Label("Nao ha pomodoro ativo")
+        new_label = Gtk.Label(label="Nao ha pomodoro ativo")
         boxTempo.pack_start(new_label, True, True, 0)
         new_label.show()
     else:
@@ -158,7 +158,7 @@ btnObjetivos = builder.get_object("btnObjetivos")
 lblProgresso = builder.get_object("lblProgresso")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
-window.connect("realize", set_tempo_trabalho, "17:00", "16:33")
+window.connect("realize", set_tempo_trabalho, "17:00", "16:51")
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("gtk_implementation/custom_colors.css")
@@ -172,4 +172,5 @@ btnHome.get_style_context().add_provider(
 )
 
 window.show_all()
+add_item_tempo()
 Gtk.main()
