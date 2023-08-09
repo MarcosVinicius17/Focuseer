@@ -1,4 +1,4 @@
-import gi
+import gi, datetime, time, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -6,10 +6,49 @@ from gi.repository import Gtk
 
 import estruturas
 
-"""
-6/8
-ver como ira implementar as boxes para tempo (alarme, timer e pomodoro) e o monitor de processos
-"""
+
+def set_tempo_trabalho(window, inicio, fim) -> None:
+    lblInicio.set_text(inicio)
+    lblFim.set_text(fim)
+    update_thread = threading.Thread(target=update_progress)
+    update_thread.start()
+
+
+def update_progress() -> None:
+    ending_time_text = lblFim.get_text()
+    print(ending_time_text)
+    try:
+        ending_time_text = datetime.datetime.strptime(ending_time_text, "%H:%M").time()
+        current_time = datetime.datetime.now().time()
+        current_total_minutes = current_time.hour * 60 + current_time.minute
+        ending_total_minutes = ending_time_text.hour * 60 + ending_time_text.minute
+        total_minutes_difference = ending_total_minutes - current_total_minutes
+
+        if total_minutes_difference <= 0:
+            print("The target time is in the past", ending_time_text)
+            return
+
+        print(f"Start time: {current_time.strftime('%H:%M')}")
+        print(f"End time: {ending_time_text.strftime('%H:%M')}")
+
+        while current_total_minutes < ending_total_minutes:
+            current_time = datetime.datetime.now().time()
+            current_total_minutes = current_time.hour * 60 + current_time.minute
+            current_progress = (
+                (
+                    current_total_minutes
+                    - (ending_total_minutes - total_minutes_difference)
+                )
+                / total_minutes_difference
+                * 100
+            )
+            print(f"Progress: {current_progress:.2f}%")
+            lblProgresso.set_text(str(current_progress) + "%")
+            if current_progress == 100:
+                break
+            time.sleep(10)
+    except ValueError:
+        print("Invalid time format. Please use HH:MM.")
 
 
 # atualiza a pagina em um certo intervalo de tempo para ver se ha algum update
@@ -100,11 +139,6 @@ def add_item_tempo() -> None:
         new_label.show()
 
 
-def set_tempo_trabalho(inicio, fim) -> None:
-    lblInicio.set_text(inicio)
-    lblFim.set_text(fim)
-
-
 builder = Gtk.Builder()
 builder.add_from_file("glade_screens/workscreen.glade")
 
@@ -121,9 +155,10 @@ lblProcessos = builder.get_object("lblProcessos")
 lblObjetivos = builder.get_object("lblObjetivos")
 btnHome = builder.get_object("btnHome")
 btnObjetivos = builder.get_object("btnObjetivos")
+lblProgresso = builder.get_object("lblProgresso")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
-
+window.connect("realize", set_tempo_trabalho, "17:00", "16:33")
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("gtk_implementation/custom_colors.css")
@@ -137,7 +172,4 @@ btnHome.get_style_context().add_provider(
 )
 
 window.show_all()
-# exemplo
-# set_tempo_trabalho("06:00", "12:00")
-add_item_tempo()
 Gtk.main()
