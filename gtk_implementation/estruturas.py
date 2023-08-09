@@ -1,6 +1,6 @@
 alarm_info = {
-    "active_alarm": False,
-    "ring_time": "None",
+    "active_alarm": True,
+    "ring_time": "17:40",
 }
 
 

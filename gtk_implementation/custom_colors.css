@@ -128,3 +128,9 @@ textview text {
 
 
 /*labels de workscreen.py*/
+.label_workscreen {
+
+    font-size: 16px;
+    margin: 5px;
+    font-family: monospace;
+}
