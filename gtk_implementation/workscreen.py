@@ -1,4 +1,4 @@
-import gi, datetime, time, threading
+import gi, datetime, time, threading, sys, subprocess
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -76,24 +76,29 @@ def add_item_objetivos(button) -> None:
     response = dialog.run()
     if response == Gtk.ResponseType.OK:
         text = text_entry.get_text()
-        check_button = Gtk.CheckButton.new_with_label(text)
 
-        # Temporarily remove the "Add Item" button
-        boxObjetivos.remove(button)
+        # item nao pode ficar em branco
+        if text == "":
+            pass
+        else:
+            check_button = Gtk.CheckButton.new_with_label(text)
 
-        # Add the new check button
-        boxObjetivos.add(check_button)
+            # Temporarily remove the "Add Item" button
+            boxObjetivos.remove(button)
 
-        # Re-add the "Add Item" button at the end
-        boxObjetivos.add(button)
+            # Add the new check button
+            boxObjetivos.add(check_button)
 
-        boxObjetivos.show_all()  # Show all items in the box
+            # Re-add the "Add Item" button at the end
+            boxObjetivos.add(button)
+
+            boxObjetivos.show_all()  # Show all items in the box
 
     dialog.destroy()
 
 
 def add_item_processos() -> None:
-    pass
+    processes_list = estruturas.monitor_data
 
 
 def add_item_tempo() -> None:
@@ -108,7 +113,7 @@ def add_item_tempo() -> None:
     else:
         # print(f"Alarme programado para {alarm_exists['ring_time']}")
         text_to_label = f"Alarme: {alarm_exists['ring_time']}"
-        alarm_label = Gtk.Label(text_to_label)
+        alarm_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(alarm_label, True, True, 0)
         alarm_label.show()
     alarm_label.get_style_context().add_class("label_workscreen")
@@ -127,7 +132,7 @@ def add_item_tempo() -> None:
         timer_label.show()
     else:
         text_to_label = f"Timer: {timer_exists['timer_end']}"
-        timer_label = Gtk.Label(text_to_label)
+        timer_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(timer_label, True, True, 0)
         timer_label.show()
     timer_label.get_style_context().add_class("label_workscreen")
@@ -145,7 +150,7 @@ def add_item_tempo() -> None:
         pomodoro_label.show()
     else:
         text_to_label = f"Status do pomodoro: {pomodoro_exists['status']}"
-        pomodoro_label = Gtk.Label(text_to_label)
+        pomodoro_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(pomodoro_label, True, True, 0)
         pomodoro_label.show()
     pomodoro_label.get_style_context().add_class("label_workscreen")
@@ -153,6 +158,10 @@ def add_item_tempo() -> None:
     pomodoro_label.get_style_context().add_provider(
         css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
     )
+
+
+def open_home(button) -> None:
+    subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])
 
 
 builder = Gtk.Builder()
@@ -175,6 +184,7 @@ lblProgresso = builder.get_object("lblProgresso")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
 window.connect("realize", set_tempo_trabalho, "17:00", "16:51")
+btnHome.connect("clicked", open_home)
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("gtk_implementation/custom_colors.css")

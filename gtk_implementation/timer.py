@@ -1,10 +1,10 @@
-import gi, time, subprocess, threading
+import gi, time, subprocess, threading, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 from playsound import playsound
 from datetime import datetime, timedelta
-import estruturas
+
 
 """
 bug grave quando se executa o timer.
@@ -26,16 +26,14 @@ def get_timer_end(add_hour, add_minute, add_second) -> str:
 
 
 def update_timer_info(active, timer_end) -> None:
-    with open("gtk_implementation/estruturas.py", "r") as file:
-        lines = file.readlines()
-    for i, line in enumerate(lines):
-        if "active_timer" in line:
-            lines[i] = f'    "active_timer": {active},\n'
-        elif "timer_end" in line:
-            lines[i] = f'    "timer_end": "{timer_end}",\n'
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
 
-    with open("gtk_implementation/estruturas.py", "w") as file:
-        file.writelines(lines)
+    data["timer_info"]["active_timer"] = active
+    data["timer_info"]["timer_end"] = timer_end
+
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 
 class TimerApp:

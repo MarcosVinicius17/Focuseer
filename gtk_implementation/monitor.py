@@ -1,11 +1,27 @@
-import gi, psutil, time, json, threading
+import gi, psutil, time, json, threading, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 from datetime import datetime
 
+
 whitelisted_processes = []
 blacklisted_processes = []
+
+
+# type = 0 ou 1. usado apenas para determinar a categoria
+def update_monitor_info(category, name) -> None:
+    if category == "whitelisted" or category == "blacklisted":
+        with open("gtk_implementation/temp_data.json", "r") as file:
+            data = json.load(file)
+
+        data["monitor_data"][category].append(name)
+
+        with open("gtk_implementation/temp_data.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+    else:
+        raise ValueError("Invalid category")
 
 
 def format_time(seconds):
@@ -99,11 +115,6 @@ def update_process_to_monitor(process, status):
         print("O processo", process, "esta inativo")
 
 
-"""
-dialog para receber o nome do processo 
-"""
-
-
 def adiciona_processo(button, listbox):
     dialog = Gtk.Dialog(
         title="Adicionar processo",
@@ -135,7 +146,7 @@ def adiciona_processo(button, listbox):
     dialog.destroy()
 
 
-def remove_processo(button, listbox):
+def remove_processo(button, listbox) -> None:
     # Create the dialog
     dialog = Gtk.Dialog(
         title="Remover processo",
@@ -248,9 +259,7 @@ btnRemoveNaoPermitidos.connect("clicked", lambda btn: remove_processo(btn, 2))
 
 
 css_provider = Gtk.CssProvider()
-css_provider.load_from_path(
-    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-)
+css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
 window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
@@ -279,6 +288,9 @@ btnAddPermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-window.show_all()
-lblAviso.set_visible(False)
-Gtk.main()
+# window.show_all()
+# lblAviso.set_visible(False)
+update_monitor_info("whitelisted", "steam")
+update_monitor_info("blacklisted", "brave")
+update_monitor_info("whitelisted", "steam")
+# Gtk.main()

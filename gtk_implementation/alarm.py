@@ -1,24 +1,19 @@
-import gi, datetime, subprocess, threading, time
+import gi, datetime, subprocess, threading, time, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from playsound import playsound
 
-import estruturas
-
 
 def update_alarm_info(active, ring_time):
-    with open("gtk_implementation/estruturas.py", "r") as file:
-        lines = file.readlines()
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
 
-    for i, line in enumerate(lines):
-        if "active_alarm" in line:
-            lines[i] = f'    "active_alarm": {active},\n'
-        elif "ring_time" in line:
-            lines[i] = f'    "ring_time": "{ring_time}",\n'
+    data["alarm_info"]["active"] = active
+    data["alarm_info"]["ring_time"] = ring_time
 
-    with open("gtk_implementation/estruturas.py", "w") as file:
-        file.writelines(lines)
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 
 class Alarm:
