@@ -9,15 +9,15 @@
         ]
     },
     "alarm_info": {
-        "active_timer": false,
-        "timer_end": null
+        "active": false,
+        "ring_time": null
     },
     "timer_info": {
         "active_timer": true,
         "timer_end": "20:54:00"
     },
     "pomodoro_info": {
-        "active_pomodoro": false,
-        "status": null
+        "active_pomodoro": true,
+        "status": "Working"
     }
 }

@@ -1,21 +1,18 @@
-import gi, time, threading, subprocess, os, sys
+import gi, time, threading, subprocess, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 
 
 def update_pomodoro_info(active, status) -> None:
-    with open("gtk_implementation/estruturas.py", "r") as file:
-        lines = file.readlines()
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
 
-    for i, line in enumerate(lines):
-        if "active_pomodoro" in line:
-            lines[i] = f'    "active_pomodoro": {active},\n'
-        elif "status" in line:
-            lines[i] = f'    "status": "{status}",\n'
+    data["pomodoro_info"]["active_pomodoro"] = active
+    data["pomodoro_info"]["status"] = status
 
-    with open("gtk_implementation/estruturas.py", "w") as file:
-        file.writelines(lines)
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 
 def switch_interfaces(status) -> None:

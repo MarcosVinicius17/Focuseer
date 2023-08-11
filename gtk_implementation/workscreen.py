@@ -1,10 +1,7 @@
-import gi, datetime, time, threading, sys, subprocess
+import gi, datetime, time, threading, sys, subprocess, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-
-
-import estruturas
 
 
 def set_tempo_trabalho(window, inicio, fim) -> None:
@@ -105,17 +102,22 @@ def add_item_tempo() -> None:
     """
     1 - alarme
     """
-    alarm_exists = estruturas.alarm_info
-    if alarm_exists["active_alarm"] == False:
-        alarm_label = Gtk.Label(label="Nao ha alarme ativo")
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+        alarm_info = data["alarm_info"]
+
+    if alarm_info["active"] == False:
+        print("nao ha alarme")
+        alarm_label = Gtk.Label(label="Nenhum alarme ativo")
         boxTempo.pack_start(alarm_label, True, True, 0)
         alarm_label.show()
     else:
-        # print(f"Alarme programado para {alarm_exists['ring_time']}")
-        text_to_label = f"Alarme: {alarm_exists['ring_time']}"
+        print(alarm_info["ring_time"])
+        text_to_label = f"Alarme: {alarm_info['ring_time']}"
         alarm_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(alarm_label, True, True, 0)
         alarm_label.show()
+
     alarm_label.get_style_context().add_class("label_workscreen")
 
     alarm_label.get_style_context().add_provider(
@@ -125,34 +127,37 @@ def add_item_tempo() -> None:
     """
     2 - timer
     """
-    timer_exists = estruturas.timer_info
-    if timer_exists["active_timer"] == False:
-        timer_label = Gtk.Label(label="Nao ha timer ativo")
+    timer_info = data["timer_info"]
+    if timer_info["active_timer"] == False:
+        timer_label = Gtk.Label(label="Nenhum timer ativo")
         boxTempo.pack_start(timer_label, True, True, 0)
         timer_label.show()
     else:
-        text_to_label = f"Timer: {timer_exists['timer_end']}"
+        text_to_label = f"Timer: {timer_info['timer_end']}"
         timer_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(timer_label, True, True, 0)
         timer_label.show()
+
     timer_label.get_style_context().add_class("label_workscreen")
 
     timer_label.get_style_context().add_provider(
         css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
     )
+
     """
     3 - pomodoro
     """
-    pomodoro_exists = estruturas.pomodoro_info
-    if pomodoro_exists["active_pomodoro"] == False:
-        pomodoro_label = Gtk.Label(label="Nao ha pomodoro ativo")
+    pomodoro_info = data["pomodoro_info"]
+    if pomodoro_info["active_pomodoro"] == False:
+        pomodoro_label = Gtk.Label(label="Nenhum pomodoro ativo")
         boxTempo.pack_start(pomodoro_label, True, True, 0)
         pomodoro_label.show()
     else:
-        text_to_label = f"Status do pomodoro: {pomodoro_exists['status']}"
+        text_to_label = f"Status: {pomodoro_info['status']}"
         pomodoro_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(pomodoro_label, True, True, 0)
         pomodoro_label.show()
+
     pomodoro_label.get_style_context().add_class("label_workscreen")
 
     pomodoro_label.get_style_context().add_provider(
