@@ -24,6 +24,19 @@ def update_monitor_info(category, name) -> None:
         raise ValueError("Invalid category")
 
 
+def remove_process_from_json(category, item) -> None:
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+
+    if "monitor_data" in data and category in data["monitor_data"]:
+        itens = data["monitor_data"][category]
+        if item in itens:
+            itens.remove(item)
+
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
+
+
 def format_time(seconds):
     seconds = int(seconds)
     hours = seconds // 3600
@@ -171,8 +184,10 @@ def remove_processo(button, listbox) -> None:
         text = entry.get_text()
         if listbox == 1:
             remove_permitido(text)
+            remove_process_from_json("whitelisted", text)
         if listbox == 2:
             remove_nao_permitido(text)
+            remove_process_from_json("blacklisted", text)
     dialog.destroy()
 
 
@@ -199,6 +214,7 @@ def add_permitido(process):
     checkbox.show_all()
     lblAviso.set_text(f"O processo " + process + " foi adicionado")
     show_label()
+    update_monitor_info("whitelisted", process)
 
 
 def add_nao_permitido(process):
@@ -208,6 +224,7 @@ def add_nao_permitido(process):
     checkbox.show_all()
     lblAviso.set_text(f"O processo " + process + " foi adicionado")
     show_label()
+    update_monitor_info("blacklisted", process)
 
 
 def remove_permitido(process):
@@ -288,9 +305,6 @@ btnAddPermitidos.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-# window.show_all()
-# lblAviso.set_visible(False)
-update_monitor_info("whitelisted", "steam")
-update_monitor_info("blacklisted", "brave")
-update_monitor_info("whitelisted", "steam")
-# Gtk.main()
+window.show_all()
+lblAviso.set_visible(False)
+Gtk.main()

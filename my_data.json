@@ -1,8 +1,11 @@
 {
     "monitor_data": {
-        "whitelisted": [],
+        "whitelisted": [
+            "delete_this"
+        ],
         "blacklisted": [
-            "brave"
+            "brave",
+            "wad"
         ]
     },
     "alarm_info": {
