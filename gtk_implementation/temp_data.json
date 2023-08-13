@@ -1,20 +1,18 @@
 {
     "monitor_data": {
         "whitelisted": [],
-        "blacklisted": [
-            "brave"
-        ]
+        "blacklisted": []
     },
     "alarm_info": {
         "active": false,
         "ring_time": null
     },
     "timer_info": {
-        "active_timer": true,
-        "timer_end": "20:54:00"
+        "active_timer": false,
+        "timer_end": null
     },
     "pomodoro_info": {
-        "active_pomodoro": true,
+        "active_pomodoro": false,
         "status": "Working"
     }
 }

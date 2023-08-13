@@ -2,6 +2,11 @@ import gi, datetime, time, threading, sys, subprocess, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from deepdiff import DeepDiff
+
+"""
+para atualizar a pagina, vc pode simplesmente esvaziar a GtkBox e chamar os metodos novamente...
+"""
 
 
 def set_tempo_trabalho(window, inicio, fim) -> None:
@@ -48,9 +53,39 @@ def update_progress() -> None:
         print("Invalid time format. Please use HH:MM.")
 
 
-# atualiza a pagina em um certo intervalo de tempo para ver se ha algum update
+def ler_arquivo_json(arquivo):
+    with open(arquivo, "r") as file:
+        content = json.load(file)
+    return content
+
+
+def monitor_json_file():
+    last_content = ler_arquivo_json("gtk_implementation/temp_data.json")
+
+    while True:
+        print("monitorando...")
+        current_content = ler_arquivo_json("gtk_implementation/temp_data.json")
+
+        if current_content != last_content:
+            diff = DeepDiff(last_content, current_content)
+            print("Changes detected in JSON:")
+            atualizar_pagina()
+            last_content = current_content
+
+        time.sleep(10)
+
+
+# quando ha mudanca no json, apaga a GtkBox e as preenche novamente com os valores atualizados
 def atualizar_pagina() -> None:
-    pass
+    processes_children = boxProcessos.get_children()
+    time_children = boxTempo.get_children()
+
+    for i in processes_children[1:]:
+        boxProcessos.remove(i)
+    for j in time_children[1:]:
+        boxTempo.remove(j)
+    monitor_tempo()
+    monitor_processos()
 
 
 def add_item_objetivos(button) -> None:
@@ -94,11 +129,36 @@ def add_item_objetivos(button) -> None:
     dialog.destroy()
 
 
-def add_item_processos() -> None:
-    processes_list = estruturas.monitor_data
+def monitor_processos() -> None:
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+        blacklist_data = data["monitor_data"]["blacklisted"]
+        whitelist_data = data["monitor_data"]["whitelisted"]
+        whitelist_label = Gtk.Label(label="Whitelist")
+        boxProcessos.pack_start(whitelist_label, True, True, 0)
+        whitelist_label.show()
+        for j in whitelist_data:
+            lbl = Gtk.Label(label=j)
+            boxProcessos.pack_start(lbl, True, True, 0)
+            lbl.show()
+        blacklist_label = Gtk.Label(label="Blacklist")
+        boxProcessos.pack_start(blacklist_label, True, True, 0)
+        blacklist_label.show()
+        for i in blacklist_data:
+            lbl = Gtk.Label(label=i)
+            boxProcessos.pack_start(lbl, True, True, 0)
+            lbl.show()
+        whitelist_label.get_style_context().add_class("label_workscreen")
+        blacklist_label.get_style_context().add_class("label_workscreen")
+        whitelist_label.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+        blacklist_label.get_style_context().add_provider(
+            css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
 
-def add_item_tempo() -> None:
+def monitor_tempo() -> None:
     """
     1 - alarme
     """
@@ -107,12 +167,10 @@ def add_item_tempo() -> None:
         alarm_info = data["alarm_info"]
 
     if alarm_info["active"] == False:
-        print("nao ha alarme")
         alarm_label = Gtk.Label(label="Nenhum alarme ativo")
         boxTempo.pack_start(alarm_label, True, True, 0)
         alarm_label.show()
     else:
-        print(alarm_info["ring_time"])
         text_to_label = f"Alarme: {alarm_info['ring_time']}"
         alarm_label = Gtk.Label(label=text_to_label)
         boxTempo.pack_start(alarm_label, True, True, 0)
@@ -201,7 +259,11 @@ window.get_style_context().add_provider(
 btnHome.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-
-window.show_all()
-add_item_tempo()
-Gtk.main()
+if __name__ == "__main__":
+    window.show_all()
+    monitor_tempo()
+    monitor_processos()
+    my_thread = threading.Thread(target=monitor_json_file)
+    my_thread.start()
+    # atualizar_pagina()
+    Gtk.main()
