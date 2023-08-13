@@ -7,7 +7,10 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 """
-aplicar css ao about
+13/8
+vale a pena substituir subprocess.popen por threads?
+
+
 """
 
 
@@ -143,8 +146,60 @@ def open_about(button):
     about_dialog.destroy()
 
 
+import re
+
+
+def validate_time_format(input_string):
+    # regex para o formato HH:MM
+    pattern = r"^[0-9]{2}:[0-9]{2}$"
+
+    # verifica se a entrada o usuario eh compativel com o regex
+    if re.match(pattern, input_string):
+        # separa horas de minutos
+        hours, minutes = input_string.split(":")
+
+        # verifica se eh um horario valido
+        if 0 <= int(hours) <= 23 and 0 <= int(minutes) <= 59:
+            return True
+    return False
+
+
 def start_work(button):
-    subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
+    dialog = Gtk.Dialog(
+        title="Horário de encerramento",
+        buttons=(
+            Gtk.STOCK_OK,
+            Gtk.ResponseType.OK,
+        ),
+    )
+    dialog.set_default_size(200, 50)
+
+    # Create a text entry field
+    entry = Gtk.Entry()
+    entry.set_text("Hora de encerramento:")
+    entry.set_activates_default(True)
+    dialog.vbox.pack_start(entry, True, True, 0)
+    entry.show()
+
+    # Run the dialog and get the response
+    response = dialog.run()
+
+    if response == Gtk.ResponseType.OK:
+        is_entry_valid = validate_time_format(entry.get_text())
+        if is_entry_valid:
+            subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
+        else:
+            dialog.destroy()
+            warning_dialog = Gtk.MessageDialog(
+                parent=None,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Horário inválido. Utilize o formato HH:MM",
+            )
+            warning_dialog.run()
+            warning_dialog.destroy()
+    dialog.destroy()
 
 
 def open_alarm(button):
@@ -261,5 +316,5 @@ menuLogout.connect("activate", logout)
 # start the window with light mode
 set_css(css_style)
 
-# window.show_all()
-# Gtk.main()
+window.show_all()
+Gtk.main()

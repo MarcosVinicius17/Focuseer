@@ -5,7 +5,8 @@ from gi.repository import Gtk
 from deepdiff import DeepDiff
 
 """
-para atualizar a pagina, vc pode simplesmente esvaziar a GtkBox e chamar os metodos novamente...
+https://pypi.org/project/tqdm/
+caso vc decida voltar a usar uma barra de progresso
 """
 
 
@@ -63,12 +64,10 @@ def monitor_json_file():
     last_content = ler_arquivo_json("gtk_implementation/temp_data.json")
 
     while True:
-        print("monitorando...")
         current_content = ler_arquivo_json("gtk_implementation/temp_data.json")
 
         if current_content != last_content:
             diff = DeepDiff(last_content, current_content)
-            print("Changes detected in JSON:")
             atualizar_pagina()
             last_content = current_content
 
@@ -246,7 +245,7 @@ btnObjetivos = builder.get_object("btnObjetivos")
 lblProgresso = builder.get_object("lblProgresso")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
-window.connect("realize", set_tempo_trabalho, "17:00", "16:51")
+# window.connect("realize", set_tempo_trabalho, "17:00", "16:51")
 btnHome.connect("clicked", open_home)
 
 css_provider = Gtk.CssProvider()
@@ -265,5 +264,5 @@ if __name__ == "__main__":
     monitor_processos()
     my_thread = threading.Thread(target=monitor_json_file)
     my_thread.start()
-    # atualizar_pagina()
+    # set_tempo_trabalho(window, "00:00", "00:00")
     Gtk.main()
