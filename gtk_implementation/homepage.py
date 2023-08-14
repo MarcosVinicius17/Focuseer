@@ -1,4 +1,4 @@
-import gi, subprocess, sys, datetime, locale
+import gi, subprocess, sys, datetime, locale, re, json
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Gdk
@@ -6,12 +6,20 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 # Traduz o texto do subtitulo da headerbar
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
+
 """
 13/8
 vale a pena substituir subprocess.popen por threads?
-
-
 """
+
+
+def set_hora_fim(hora) -> None:
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+    data["hora_encerramento"]["hora"] = hora
+
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 
 def set_headerbar_title(username):
@@ -146,9 +154,6 @@ def open_about(button):
     about_dialog.destroy()
 
 
-import re
-
-
 def validate_time_format(input_string):
     # regex para o formato HH:MM
     pattern = r"^[0-9]{2}:[0-9]{2}$"
@@ -187,7 +192,9 @@ def start_work(button):
     if response == Gtk.ResponseType.OK:
         is_entry_valid = validate_time_format(entry.get_text())
         if is_entry_valid:
+            set_hora_fim(entry.get_text())
             subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
+
         else:
             dialog.destroy()
             warning_dialog = Gtk.MessageDialog(
@@ -316,5 +323,5 @@ menuLogout.connect("activate", logout)
 # start the window with light mode
 set_css(css_style)
 
-window.show_all()
-Gtk.main()
+# window.show_all()
+# Gtk.main()

@@ -10,9 +10,19 @@ caso vc decida voltar a usar uma barra de progresso
 """
 
 
-def set_tempo_trabalho(window, inicio, fim) -> None:
-    lblInicio.set_text(inicio)
-    lblFim.set_text(fim)
+def get_hora_final() -> str:
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+        hora_final = data["hora_encerramento"]["hora"]
+    return hora_final
+
+
+def set_tempo_trabalho(window) -> None:
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%H:%M")
+    hora_final = get_hora_final()
+    lblInicio.set_text(formatted_time)
+    lblFim.set_text(hora_final)
     update_thread = threading.Thread(target=update_progress)
     update_thread.start()
 
@@ -245,7 +255,7 @@ btnObjetivos = builder.get_object("btnObjetivos")
 lblProgresso = builder.get_object("lblProgresso")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
-# window.connect("realize", set_tempo_trabalho, "17:00", "16:51")
+window.connect("realize", set_tempo_trabalho)
 btnHome.connect("clicked", open_home)
 
 css_provider = Gtk.CssProvider()

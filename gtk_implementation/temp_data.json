@@ -20,5 +20,8 @@
     "pomodoro_info": {
         "active_pomodoro": true,
         "status": "Working"
+    },
+    "hora_encerramento": {
+        "hora": "19:00"
     }
 }
