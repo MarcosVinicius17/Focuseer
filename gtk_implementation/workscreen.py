@@ -8,6 +8,13 @@ from deepdiff import DeepDiff
 https://pypi.org/project/tqdm/
 caso vc decida voltar a usar uma barra de progresso
 """
+"""
+implementar o metodo para encerrar o dia, e ele precisa "zerar" o json
+"""
+
+
+def encerrar_dia() -> None:
+    pass
 
 
 def get_hora_final() -> str:
@@ -257,6 +264,8 @@ lblProgresso = builder.get_object("lblProgresso")
 btnObjetivos.connect("clicked", add_item_objetivos)
 window.connect("realize", set_tempo_trabalho)
 btnHome.connect("clicked", open_home)
+btnEncerrar = builder.get_object("btnEncerrar")
+
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("gtk_implementation/custom_colors.css")

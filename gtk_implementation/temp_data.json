@@ -1,27 +1,21 @@
 {
     "monitor_data": {
-        "whitelisted": [
-            "vscode",
-            "teams"
-        ],
-        "blacklisted": [
-            "steam",
-            "brave"
-        ]
+        "whitelisted": [],
+        "blacklisted": []
     },
     "alarm_info": {
-        "active": true,
-        "ring_time": "20:00"
+        "active": false,
+        "ring_time": null
     },
     "timer_info": {
-        "active_timer": true,
-        "timer_end": "05:45:00"
+        "active_timer": false,
+        "timer_end": null
     },
     "pomodoro_info": {
-        "active_pomodoro": true,
-        "status": "Working"
+        "active_pomodoro": false,
+        "status": null
     },
     "hora_encerramento": {
-        "hora": "19:00"
+        "hora": "20:00"
     }
 }
