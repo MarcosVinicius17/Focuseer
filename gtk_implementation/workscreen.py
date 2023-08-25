@@ -33,10 +33,8 @@ def esvaziar_json():
 
 
 """
-1) "coletar" os checkboxes e verificar a % de quantos foram completos
-2) esvaziar o json (limpar os campos)
-3) obter data dos processos (tempo gasto)
-4) gerar relatório (passar valores para o .py responsavel)
+1) obter data dos processos (tempo gasto)
+2) gerar relatório (passar valores para o .py responsavel)
 """
 
 
@@ -46,21 +44,30 @@ def encerrar_dia(button) -> None:
     checked = []
     unchecked = []
 
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+
     for child in boxObjetivos.get_children():
         if isinstance(child, Gtk.CheckButton):
             total_items += 1
             if child.get_active():
                 checked_items += 1
                 checked.append(child.get_label())
+                data["objetivos_dia"]["checked"].append(child.get_label())
             else:
                 unchecked.append(child.get_label())
+                data["objetivos_dia"]["unchecked"].append(child.get_label())
     print(f"checked: {checked}")
     print(f"unchecked: {unchecked}")
+
     if total_items == 0:
         return 0.0
     else:
         percentage = (checked_items / total_items) * 100
+        data["objetivos_dia"]["completion_rate"] = percentage
         print("completion:", percentage)
+    with open("gtk_implementation/temp_data.json", "w") as file:
+        json.dump(data, file, indent=4)
 
 
 def get_hora_final() -> str:

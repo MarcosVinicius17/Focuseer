@@ -138,6 +138,7 @@
             <property name="spacing">34</property>
             <child>
               <object class="GtkMenuButton" id="menuButton">
+                <property name="name">menuButton</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="focus-on-click">False</property>

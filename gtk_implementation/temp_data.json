@@ -1,7 +1,12 @@
 {
     "monitor_data": {
-        "whitelisted": [],
-        "blacklisted": []
+        "whitelisted": [
+            "okular-bin"
+        ],
+        "blacklisted": [
+            "mpv",
+            "mpv"
+        ]
     },
     "alarm_info": {
         "active": false,
@@ -16,6 +21,28 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "20:00"
+        "hora": "19:00"
+    },
+    "objetivos_dia": {
+        "nome_usuario": "admin",
+        "checked": [
+            "adsad",
+            "gfdgdg"
+        ],
+        "unchecked": [
+            "##",
+            "$$"
+        ],
+        "completion_rate": 50.0,
+        "tempo_gasto": null
+    },
+    "tempo_gasto_processos": {
+        "date": "25/08/2023",
+        "blacklist_data": {
+            "mpv": 0.7
+        },
+        "whitelist_data": {
+            "okular-bin": 0.5
+        }
     }
 }

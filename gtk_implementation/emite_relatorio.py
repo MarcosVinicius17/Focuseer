@@ -2,10 +2,12 @@ from weasyprint import HTML
 from jinja2 import Template
 from datetime import datetime
 import data_analysis
-import os
+import os, json
+
 
 # temporario
-json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
+# json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
+json_file = "gtk_implementation/temp_data.json"
 
 
 def tempo_trabalhado(inicio, final):
@@ -38,14 +40,21 @@ def generate_pdf(html_template):
     # Load the Jinja2 environment and the HTML template
     env = Template(html_template)
 
-    # Conteudo das variaveis
-    nome = "admin"
+    with open("gtk_implementation/temp_data.json", "r") as file:
+        data = json.load(file)
+
+        nome = data["objetivos_dia"]["nome_usuario"]
+        tempo_gasto = data["objetivos_dia"]["tempo_gasto"]
+        completion_rate = data["objetivos_dia"]["completion_rate"]
+        hora_encerramento = data["hora_encerramento"]["hora"]
+
     now = datetime.now()
-    formatted_date = now.strftime("%d/%m/%Y - %H:%M")
+    hora_emissao = now.strftime("%d/%m/%Y - %H:%M")
     archive_name = now.strftime("%d_%m_%Y_%H_%M")
 
     # exemples
-    data_criacao = formatted_date
+    # data_criacao = formatted_date
+    data_criacao = "$$;$$"
     hora_entrada = "08:30"
     hora_saida = "17:30"
     previous_time = "07:30"
@@ -57,6 +66,20 @@ def generate_pdf(html_template):
 
     # Associa as variaveis
     html_out = env.render(
+        nome_usuario=nome,
+        hora_emissao=hora_emissao,
+        inicio=hora_entrada,
+        fim=hora_saida,
+        week_average_time=week_time_spent,
+        whitelist_graph=whitelist_graphic,
+        blacklist_graph=blacklist_graphic,
+        time_spent=tempo_gasto,
+        rate_completion=completion_rate,
+        whitelist_time_spent="$$",
+        blacklist_time_spent="$$",
+    )
+
+    """html_out = env.render(
         nome=nome,
         data_criacao=data_criacao,
         hora_entrada=hora_entrada,
@@ -66,7 +89,7 @@ def generate_pdf(html_template):
         whitelist_graph=whitelist_graphic,
         blacklist_graph=blacklist_graphic,
         time_spent=tempo_gasto,
-    )
+    )"""
 
     # Cria o PDF
     with open("gtk_implementation/pdf_creator/relatorio.html", "w") as f:

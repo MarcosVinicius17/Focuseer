@@ -42,7 +42,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">90</property>
+            <property name="x">150</property>
             <property name="y">55</property>
           </packing>
         </child>
@@ -58,8 +58,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">90</property>
-            <property name="y">85</property>
+            <property name="x">360</property>
+            <property name="y">55</property>
           </packing>
         </child>
         <child>
@@ -83,7 +83,7 @@
                   <object class="GtkLabel" id="lblObjetivos">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Objetivos</property>
+                    <property name="label" translatable="yes">Objetivos do dia</property>
                     <attributes>
                       <attribute name="font-desc" value="Ubuntu Mono 15"/>
                     </attributes>
@@ -96,10 +96,11 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btnObjetivos">
-                    <property name="label" translatable="yes">Adicionar</property>
+                    <property name="label" translatable="yes">Novo objetivo</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="halign">center</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -195,12 +196,13 @@
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Início:</property>
+            <property name="label" translatable="yes">Hora de início:</property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>
           </object>
           <packing>
+            <property name="x">5</property>
             <property name="y">55</property>
           </packing>
         </child>
@@ -210,13 +212,14 @@
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Fim:</property>
+            <property name="label" translatable="yes">Final do dia: </property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>
           </object>
           <packing>
-            <property name="y">85</property>
+            <property name="x">230</property>
+            <property name="y">55</property>
           </packing>
         </child>
         <child>
@@ -231,8 +234,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">270</property>
-            <property name="y">70</property>
+            <property name="x">460</property>
+            <property name="y">55</property>
           </packing>
         </child>
         <child>
@@ -247,8 +250,8 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">370</property>
-            <property name="y">70</property>
+            <property name="x">560</property>
+            <property name="y">55</property>
           </packing>
         </child>
         <child>

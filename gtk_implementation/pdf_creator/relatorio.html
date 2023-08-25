@@ -13,14 +13,14 @@
             font-family: Arial, sans-serif;
             margin: 0mm;
             padding: 0px;
-            background-color: #D8DEE9;
+            background-color: #E5E9F0;
         }
 
         .header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 10px;
+            /*justify-content: center;*/
+            padding: 20px;
             background-color: #2E3440;
             color: #D8DEE9;
         }
@@ -57,17 +57,19 @@
     <div class="header">
         <img src="logo.png" alt="Logo">
         <div>
-            <h1>Focuseer - Relatório diário</h1>
-            <p>Funcionário: admin</p>
-            <p>Emitido em: {{data_criacao}}</p>
-            <p>Início: - Final: </p>
+            <h1>Focuseer - Relatório de produtividade</h1>
+            <p>Usuário: {{nome_usuario}}</p>
+            <p>Início da atividade: 08:30 - Final: 17:30</p>
+            <p>Emitido em: 25/08/2023 - 18:47</p>
+
         </div>
     </div>
     <div class="checklist">
-        <h2>Objetivos para o dia</h2>
+        <h2>Objetivos do dia</h2>
+        <h4>Concluidos</h4>
         <ul>
 
-            <input type="checkbox" id="task1">
+            <!--<input type="checkbox" id="task1">
             <label style="font-weight: bold" for="task1"></label>
             <br />
             <input style="font-weight: bold" type="checkbox" id="task2">
@@ -75,28 +77,19 @@
             <br />
 
             <input type="checkbox" id="task3">
-            <label style="font-weight: bold" for="task3"></label>
+            <label style="font-weight: bold" for="task3"></label>-->
         </ul>
-    </div>
-    <div class="checklist">
-        <h2>Objetivos de longo prazo</h2>
+        <h4>Não concluidos</h4>
         <ul>
-
-            <input type="checkbox" id="task1">
+            <!--<input type="checkbox" id="task1">
             <label style="font-weight: bold" for="task1"></label>
-            <br />
-            <input style="font-weight: bold" type="checkbox" id="task2">
-            <label style="font-weight: bold" for="task2"></label>
-
+            <br />-->
         </ul>
+        <h4>None% dos objetivos foram alcançados </h4>
     </div>
-
 
     <div class="user-stats">
         <h2>Gerenciamento de tempo</h2>
-
-
-
 
     </div>
     <div class="graphs">
@@ -104,7 +97,7 @@
             <label style="font-weight: bold;">Tempo gasto em aplicações:</label><br />
             <img src="../../whitelist_graph.png" alt="whitelist_graph">
             <br />
-            <label>Você gastou x % do tempo de hoje com estas aplicações</label> <br /><br />
+            <label>Você gastou {{rate_completion}} % do tempo de hoje com estas aplicações</label> <br /><br />
 
 
 
@@ -112,16 +105,16 @@
 
             <img src="../../blacklist_graph.png" alt=" Blacklist Graph">
             <br />
-            <label>Você gastou x % do tempo de hoje com estas aplicações</label><br />
+            <label>Você gastou $$ % do tempo de hoje com estas aplicações</label><br />
         </ul>
 
     </div>
     <ul>
         <label style="font-weight: bold">Tempo trabalhado: </label>09:00 <br /><br />
-        <label style="font-weight: bold">Tempo do dia anterior:</label>07:30<br /><br />
         <label style="font-weight: bold">Média semanal: </label>07:30
 
     </ul>
+
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-import gi, psutil, time, json, threading, json
+import gi, psutil, time, json, threading
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
@@ -60,41 +60,57 @@ def monitora_processo(process_name, data_type):
 
             # Load existing process data from JSON file
             try:
-                with open("process_data.json", "r") as f:
+                with open("gtk_implementation/temp_data.json", "r") as f:
                     data = json.load(f)
             except FileNotFoundError:
-                data = {
-                    "day_data": {"date": "", "blacklist_data": {}, "whitelist_data": {}}
-                }
+                print("json faltando")
+                """data = {
+                    "tempo_gasto_processos": {
+                        "date": "",
+                        "blacklist_data": {},
+                        "whitelist_data": {},
+                    }
+                }"""
 
             # Get the current date in DD/MM/YYYY format
             current_date = datetime.now().strftime("%d/%m/%Y")
 
             # Update or add the elapsed time for the process based on data_type
-            if "date" in data["day_data"] and data["day_data"]["date"] == current_date:
+            if (
+                "date" in data["tempo_gasto_processos"]
+                and data["tempo_gasto_processos"]["date"] == current_date
+            ):
                 if data_type == 0:
-                    data["day_data"]["blacklist_data"][process_name] = round(
-                        data["day_data"]["blacklist_data"].get(process_name, 0)
+                    data["tempo_gasto_processos"]["blacklist_data"][
+                        process_name
+                    ] = round(
+                        data["tempo_gasto_processos"]["blacklist_data"].get(
+                            process_name, 0
+                        )
                         + elapsed_time_minutes,
                         1,
                     )
                 elif data_type == 1:
-                    data["day_data"]["whitelist_data"][process_name] = round(
-                        data["day_data"]["whitelist_data"].get(process_name, 0)
+                    data["tempo_gasto_processos"]["whitelist_data"][
+                        process_name
+                    ] = round(
+                        data["tempo_gasto_processos"]["whitelist_data"].get(
+                            process_name, 0
+                        )
                         + elapsed_time_minutes,
                         1,
                     )
             else:
-                data["day_data"]["date"] = current_date
-                data["day_data"]["blacklist_data"] = (
+                data["tempo_gasto_processos"]["date"] = current_date
+                data["tempo_gasto_processos"]["blacklist_data"] = (
                     {process_name: elapsed_time_minutes} if data_type == 0 else {}
                 )
-                data["day_data"]["whitelist_data"] = (
+                data["tempo_gasto_processos"]["whitelist_data"] = (
                     {process_name: elapsed_time_minutes} if data_type == 1 else {}
                 )
 
             # Save updated process data to JSON file
-            with open("process_data.json", "w") as f:
+            with open("gtk_implementation/temp_data.json", "w") as f:
                 json.dump(data, f, indent=4)
 
             print(

@@ -1,4 +1,4 @@
-import json, io, base64
+import json
 import matplotlib.pyplot as plt
 from PIL import Image
 
@@ -8,10 +8,10 @@ def tempo_blacklist(json_file):
         data = json.load(file)
 
     # Get the date from the JSON
-    date = data["day_data"]["date"]
+    date = data["tempo_gasto_processos"]["date"]
 
     # Get the blacklist_data dictionary and sort it in ascending order by values
-    blacklist_data = data["day_data"]["blacklist_data"]
+    blacklist_data = data["tempo_gasto_processos"]["blacklist_data"]
     sorted_blacklist_data = sorted(blacklist_data.items(), key=lambda item: item[1])
 
     # Create the bar graph for blacklist data
@@ -40,9 +40,9 @@ def tempo_whitelist(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
-    date = data["day_data"]["date"]
+    date = data["tempo_gasto_processos"]["date"]
 
-    whitelist_data = data["day_data"]["whitelist_data"]
+    whitelist_data = data["tempo_gasto_processos"]["whitelist_data"]
     sorted_whitelist_data = sorted(whitelist_data.items(), key=lambda item: item[1])
 
     plt.bar(*zip(*sorted_whitelist_data), width=0.4)

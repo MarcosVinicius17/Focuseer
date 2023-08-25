@@ -1,4 +1,4 @@
-import gi, bcrypt, subprocess, sys
+import gi, bcrypt, subprocess, sys, json
 from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
@@ -37,9 +37,18 @@ def login(button) -> None:
         pw_match = verifica_senha(password, hashed_password)
 
         if pw_match:
+            with open("gtk_implementation/temp_data.json", "r") as file:
+                data = json.load(file)
+
+            data["objetivos_dia"]["nome_usuario"] = username
+
+            with open("gtk_implementation/temp_data.json", "w") as file:
+                json.dump(data, file, indent=4)
+
             subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])
             set_headerbar_title(username)
             window.destroy()
+
         else:
             lblSenha.set_text("Senha incorreta")
             show_label()
