@@ -16,6 +16,11 @@ def update_alarm_info(active, ring_time):
         json.dump(data, file, indent=4)
 
 
+def on_delete_event(widget, event):
+    widget.hide()
+    return True
+
+
 class Alarm:
     def __init__(self):
         self.alarm_canceled = False
@@ -23,6 +28,7 @@ class Alarm:
         self.builder = Gtk.Builder()
         self.builder.add_from_file("glade_screens/alarm.glade")
         self.window = self.builder.get_object("Window")
+        self.window.connect("delete-event", on_delete_event)
 
         self.btnAlarm = self.builder.get_object("btnAlarm")
         self.btnAlarm.connect("clicked", self.start_alarm)

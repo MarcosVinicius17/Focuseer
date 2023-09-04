@@ -4,6 +4,11 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
 
 
+def on_delete_event(widget, event):
+    widget.hide()
+    return True
+
+
 def update_pomodoro_info(active, status) -> None:
     with open("gtk_implementation/temp_data.json", "r") as file:
         data = json.load(file)
@@ -80,11 +85,6 @@ def validate_pause_time(widget, event) -> None:
             entryPausa.set_text("00")
     if len(text) == 1:
         entryPausa.set_text("0" + text)
-
-
-"""
-logical stuff
-"""
 
 
 def pomodoro(work_time, pause_time, pause_event, quit_event):
@@ -243,6 +243,7 @@ builder.add_from_file("glade_screens/pomodoro_v2.glade")
 
 window = builder.get_object("window")
 window.set_title("Focuseer")
+window.connect("delete-event", on_delete_event)
 
 btnPomodoro = builder.get_object("btnPomodoro")
 btnPausa = builder.get_object("btnPausa")

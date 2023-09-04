@@ -7,12 +7,6 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 
-"""
-13/8
-vale a pena substituir subprocess.popen por threads?
-"""
-
-
 def set_hora_fim(hora) -> None:
     with open("gtk_implementation/temp_data.json", "r") as file:
         data = json.load(file)
@@ -25,7 +19,6 @@ def set_hora_fim(hora) -> None:
 def set_headerbar_title(username):
     headerbar.set_title(username)
     window.show_all()
-    # Gtk.Main()
 
 
 global css_style
@@ -52,15 +45,11 @@ def set_css(mode):
     css_provider = Gtk.CssProvider()
     if mode == 0:
         set_css_style(0)
-        css_provider.load_from_path(
-            "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-        )
+        css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
     if mode == 1:
         set_css_style(1)
-        css_provider.load_from_path(
-            "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/nightmode.css"
-        )
+        css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
     window.get_style_context().add_provider(
         css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
@@ -134,16 +123,14 @@ def open_about(button):
     about_dialog.set_authors(["Marcos Vinícius F. Vieira"])
 
     logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
-        "/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_login_white.png"
+        "nao_programacao/logos/logo_login_white.png"
     )
 
     about_dialog.set_logo(logo_pixbuf)
 
     # Aplica CSS ao dialog
     css_provider = Gtk.CssProvider()
-    css_provider.load_from_path(
-        "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-    )
+    css_provider.load_from_path("gtk_implementation/custom_colors.css")
     screen = Gdk.Screen.get_default()
     style_context = Gtk.StyleContext()
     style_context.add_provider_for_screen(
@@ -230,7 +217,7 @@ def open_process_monitor(button):
 
 
 def open_trello(button):
-    print("trello")
+    subprocess.Popen([sys.executable, "gtk_implementation/trello_start.py"])
 
 
 def open_notes(button):
@@ -250,7 +237,7 @@ def open_reports(button):
 
 
 def open_stats(button):
-    print("stats")
+    print("Stats")
 
 
 builder = Gtk.Builder()

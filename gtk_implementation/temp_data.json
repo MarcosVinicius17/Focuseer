@@ -9,19 +9,19 @@
         ]
     },
     "alarm_info": {
-        "active": false,
-        "ring_time": null
+        "active": true,
+        "ring_time": "20:33"
     },
     "timer_info": {
         "active_timer": false,
         "timer_end": null
     },
     "pomodoro_info": {
-        "active_pomodoro": false,
-        "status": null
+        "active_pomodoro": true,
+        "status": "Working"
     },
     "hora_encerramento": {
-        "hora": "20:00"
+        "hora": "23:15"
     },
     "objetivos_dia": {
         "nome_usuario": "admin",
