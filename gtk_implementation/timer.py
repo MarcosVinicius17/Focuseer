@@ -1,14 +1,22 @@
 import gi, time, subprocess, threading, json
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk
 from playsound import playsound
 from datetime import datetime, timedelta
+
+
+import Xlib
 
 
 """
 bug grave quando se executa o timer.
 """
+
+
+def on_delete_event(widget, event):
+    widget.hide()
+    return True
 
 
 # calcula que horas o timer ira tocar
@@ -26,13 +34,17 @@ def get_timer_end(add_hour, add_minute, add_second) -> str:
 
 
 def update_timer_info(active, timer_end) -> None:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open(
+        "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/temp_data.json", "r"
+    ) as file:
         data = json.load(file)
 
     data["timer_info"]["active_timer"] = active
     data["timer_info"]["timer_end"] = timer_end
 
-    with open("gtk_implementation/temp_data.json", "w") as file:
+    with open(
+        "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/temp_data.json", "w"
+    ) as file:
         json.dump(data, file, indent=4)
 
 
@@ -43,9 +55,10 @@ class TimerApp:
         self.timer_thread = None  # Store the currently running timer thread
 
         builder = Gtk.Builder()
-        builder.add_from_file("glade_screens/timer.glade")
+        builder.add_from_file("/home/marcos/Desktop/UNIP/tcc/glade_screens/timer.glade")
 
         self.window = builder.get_object("Window")
+        self.window.connect("delete-event", on_delete_event)
         self.entryHours = builder.get_object("hours")
         self.entryMinutes = builder.get_object("minutes")
         self.entrySeconds = builder.get_object("seconds")
@@ -100,9 +113,7 @@ class TimerApp:
 
         # CSS
         css_provider = Gtk.CssProvider()
-        css_provider.load_from_path(
-            "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-        )
+        css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
         self.entryHours.get_style_context().add_provider(
             css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION

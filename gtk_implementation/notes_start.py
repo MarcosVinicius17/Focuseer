@@ -18,9 +18,7 @@ MAS AO FECHAR A NOTA E ABRIR OUTRA, O PROGRAMA FECHA
 
 # CSS
 css_provider = Gtk.CssProvider()
-css_provider.load_from_path(
-    "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/custom_colors.css"
-)
+css_provider.load_from_path("gtk_implementation/custom_colors.css")
 
 
 def open_blank_note(button):
@@ -136,23 +134,23 @@ btnAddNote.connect("clicked", open_blank_note)
 textviewTitulo.connect("button-release-event", textview_click)
 
 
-context_window = window.get_style_context().add_provider(
+window.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_textviewTitulo = textviewTitulo.get_style_context().add_provider(
+textviewTitulo.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_textviewHora = textviewHora.get_style_context().add_provider(
+textviewHora.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_lblHora = lblHora.get_style_context().add_provider(
+lblHora.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-context_lblTitulo = lblTitulo.get_style_context().add_provider(
+lblTitulo.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
-context_btnAddNote = btnAddNote.get_style_context().add_provider(
+btnAddNote.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 

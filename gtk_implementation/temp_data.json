@@ -1,20 +1,24 @@
 {
     "monitor_data": {
         "whitelisted": [
-            "okular-bin"
+            "okular-bin",
+            "##",
+            "steam"
         ],
         "blacklisted": [
             "mpv",
-            "mpv"
+            "mpv",
+            "$$",
+            "$$"
         ]
     },
     "alarm_info": {
         "active": true,
-        "ring_time": "20:33"
+        "ring_time": "00:00"
     },
     "timer_info": {
-        "active_timer": false,
-        "timer_end": null
+        "active_timer": true,
+        "timer_end": "20:26:03"
     },
     "pomodoro_info": {
         "active_pomodoro": true,

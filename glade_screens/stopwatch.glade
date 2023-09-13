@@ -5,27 +5,11 @@
   <object class="GtkWindow" id="Window">
     <property name="can-focus">False</property>
     <property name="default-width">400</property>
-    <property name="default-height">250</property>
+    <property name="default-height">300</property>
     <child>
       <object class="GtkFixed">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <child>
-          <object class="GtkLabel">
-            <property name="width-request">100</property>
-            <property name="height-request">80</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Stopwatch</property>
-            <attributes>
-              <attribute name="font-desc" value="Ubuntu Mono 15"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="x">150</property>
-            <property name="y">20</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkBox">
             <property name="width-request">100</property>
@@ -109,37 +93,46 @@
             </child>
           </object>
           <packing>
-            <property name="x">120</property>
-            <property name="y">125</property>
+            <property name="x">115</property>
+            <property name="y">100</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="btnStart">
-            <property name="label" translatable="yes">Start</property>
+            <property name="label" translatable="yes">Iniciar</property>
             <property name="width-request">100</property>
-            <property name="height-request">80</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-          </object>
-          <packing>
-            <property name="x">100</property>
-            <property name="y">277</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnStop">
-            <property name="label" translatable="yes">Stop</property>
-            <property name="width-request">100</property>
-            <property name="height-request">80</property>
+            <property name="height-request">35</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
           </object>
           <packing>
             <property name="x">225</property>
-            <property name="y">277</property>
+            <property name="y">200</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btnStop">
+            <property name="label" translatable="yes">Pausar</property>
+            <property name="width-request">100</property>
+            <property name="height-request">35</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="x">90</property>
+            <property name="y">200</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHeaderBar">
+            <property name="width-request">400</property>
+            <property name="height-request">40</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="title" translatable="yes">Cronômetro</property>
+          </object>
         </child>
       </object>
     </child>

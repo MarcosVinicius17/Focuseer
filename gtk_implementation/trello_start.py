@@ -15,6 +15,9 @@ entryApiSecret = builder.get_object("entryApiSecret")
 entryToken = builder.get_object("entryToken")
 
 btnIniciar = builder.get_object("btnIniciar")
+btnLink = builder.get_object("btnLink")
+btnLink.set_use_underline(False)
+
 
 css_provider = Gtk.CssProvider()
 
@@ -35,6 +38,10 @@ entryApiSecret.get_style_context().add_provider(
 )
 
 btnIniciar.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+btnLink.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 

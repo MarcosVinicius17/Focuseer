@@ -156,7 +156,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">100</property>
+            <property name="x">150</property>
             <property name="y">465</property>
           </packing>
         </child>

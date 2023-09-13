@@ -93,7 +93,7 @@
             <property name="text" translatable="yes">00</property>
           </object>
           <packing>
-            <property name="x">210</property>
+            <property name="x">212</property>
             <property name="y">135</property>
           </packing>
         </child>

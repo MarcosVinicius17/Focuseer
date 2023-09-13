@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkWindow">
+  <object class="GtkWindow" id="Window">
     <property name="can-focus">False</property>
     <property name="window-position">center</property>
     <property name="default-width">580</property>
@@ -40,7 +40,7 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Trello é uma ferramenta para o controle
-de tarefas (continuar)</property>
+de tarefas utilizando-se de quadros contendo notas</property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>
@@ -67,18 +67,19 @@ de tarefas (continuar)</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLinkButton">
+          <object class="GtkLinkButton" id="btnLink">
             <property name="label" translatable="yes">aqui</property>
-            <property name="width-request">100</property>
+            <property name="name">btnLink</property>
+            <property name="width-request">82</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="relief">none</property>
-            <property name="uri">https://www.google.com/</property>
+            <property name="uri">https://trello.com/power-ups/admin</property>
           </object>
           <packing>
-            <property name="x">389</property>
+            <property name="x">377</property>
             <property name="y">250</property>
           </packing>
         </child>

@@ -9,6 +9,15 @@ client = TrelloClient(
 )
 
 
+def get_board_name(board_id) -> str:
+    try:
+        board = client.get_board(board_id)
+        return board.name
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+
 # exemplo
 # board_name = "Teste_api"
 def get_board_info(board_name):

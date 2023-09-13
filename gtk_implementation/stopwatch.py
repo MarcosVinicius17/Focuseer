@@ -9,12 +9,18 @@ REFATORAR
 """
 
 
+def on_delete_event(widget, event):
+    widget.hide()
+    return True
+
+
 class Stopwatch:
     def __init__(self):
         self.builder = Gtk.Builder()
         self.builder.add_from_file("glade_screens/stopwatch.glade")
         self.builder.connect_signals(self)
         self.window = self.builder.get_object("Window")
+        self.window.connect("delete-event", on_delete_event)
         self.label_hours = self.builder.get_object("lblHours")
         self.label_minutes = self.builder.get_object("lblMinutes")
         self.label_seconds = self.builder.get_object("lblSeconds")
@@ -25,6 +31,21 @@ class Stopwatch:
 
         self.start_button.connect("clicked", self.on_start_button_clicked)
         self.pause_button.connect("clicked", self.on_pause_button_clicked)
+
+        self.css_provider = Gtk.CssProvider()
+        self.css_provider.load_from_path("gtk_implementation/custom_colors.css")
+
+        self.window.get_style_context().add_provider(
+            self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.start_button.get_style_context().add_provider(
+            self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        self.pause_button.get_style_context().add_provider(
+            self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def on_start_button_clicked(self, button):
         self.is_running = True
