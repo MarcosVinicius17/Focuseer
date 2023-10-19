@@ -18,6 +18,7 @@ def update_alarm_info(active, ring_time):
 
 def on_delete_event(widget, event):
     widget.hide()
+    print("escondendo janela")
     return True
 
 

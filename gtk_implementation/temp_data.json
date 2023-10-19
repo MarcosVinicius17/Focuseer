@@ -1,52 +1,37 @@
 {
     "monitor_data": {
-        "whitelisted": [
-            "okular-bin",
-            "##",
-            "steam"
-        ],
-        "blacklisted": [
-            "mpv",
-            "mpv",
-            "$$",
-            "$$"
-        ]
+        "whitelisted": [],
+        "blacklisted": []
     },
     "alarm_info": {
-        "active": true,
-        "ring_time": "00:00"
+        "active": false,
+        "ring_time": null
     },
     "timer_info": {
-        "active_timer": true,
-        "timer_end": "20:26:03"
+        "active_timer": false,
+        "timer_end": null
     },
     "pomodoro_info": {
-        "active_pomodoro": true,
-        "status": "Working"
+        "active_pomodoro": false,
+        "status": null
     },
     "hora_encerramento": {
-        "hora": "23:15"
+        "hora": null
     },
     "objetivos_dia": {
         "nome_usuario": "admin",
-        "checked": [
-            "adsad",
-            "gfdgdg"
-        ],
-        "unchecked": [
-            "##",
-            "$$"
-        ],
-        "completion_rate": 50.0,
+        "checked": [],
+        "unchecked": [],
+        "completion_rate": null,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {
-        "date": "25/08/2023",
+        "date": null,
         "blacklist_data": {
-            "mpv": 0.7
+            "mpv": null
         },
         "whitelist_data": {
-            "okular-bin": 0.5
+            "okular-bin": null
         }
     }
 }

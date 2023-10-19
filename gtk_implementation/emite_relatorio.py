@@ -4,10 +4,26 @@ from datetime import datetime
 import data_analysis
 import os, json
 
+"""
+lista de variaveis do template
+------------header-----
+nome_usuario
+hora_inicio
+hora_final
+hora_emissao
+------------checklist aka objetivos do dia-----
+completion_rate - % dos objetivos foram alcançados
+whitelist_time - % do tempo em apps da whitelist
+blacklist_time - % do tempo em apps da blacklist
+------------ graphs
+total_time_spent
+week_average
+"""
 
-# temporario
-# json_file = "/home/marcos/Desktop/UNIP/tcc/process_data.json"
+
 json_file = "gtk_implementation/temp_data.json"
+
+"""calcula a diferenca entre hora do fim e inicio"""
 
 
 def tempo_trabalhado(inicio, final):
@@ -78,18 +94,6 @@ def generate_pdf(html_template):
         whitelist_time_spent="$$",
         blacklist_time_spent="$$",
     )
-
-    """html_out = env.render(
-        nome=nome,
-        data_criacao=data_criacao,
-        hora_entrada=hora_entrada,
-        hora_saida=hora_saida,
-        previous_time=previous_time,
-        week_time_spent=week_time_spent,
-        whitelist_graph=whitelist_graphic,
-        blacklist_graph=blacklist_graphic,
-        time_spent=tempo_gasto,
-    )"""
 
     # Cria o PDF
     with open("gtk_implementation/pdf_creator/relatorio.html", "w") as f:

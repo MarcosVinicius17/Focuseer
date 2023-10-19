@@ -6,14 +6,6 @@ from playsound import playsound
 from datetime import datetime, timedelta
 
 
-import Xlib
-
-
-"""
-bug grave quando se executa o timer.
-"""
-
-
 def on_delete_event(widget, event):
     widget.hide()
     return True

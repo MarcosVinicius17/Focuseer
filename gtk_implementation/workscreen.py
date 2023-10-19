@@ -4,10 +4,9 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from deepdiff import DeepDiff
 
-"""
-https://pypi.org/project/tqdm/
-barra de progresso
-"""
+
+def gerar_relatorio() -> None:
+    return
 
 
 def esvaziar_json():
@@ -38,7 +37,7 @@ def esvaziar_json():
 """
 
 
-def encerrar_dia(button) -> None:
+def encerrar_dia() -> None:
     total_items = 0
     checked_items = 0
     checked = []
@@ -68,6 +67,29 @@ def encerrar_dia(button) -> None:
         print("completion:", percentage)
     with open("gtk_implementation/temp_data.json", "w") as file:
         json.dump(data, file, indent=4)
+
+
+def encerrar_dia_antes(button, yes_text="sim", no_text="Nao") -> None:
+    dialog = Gtk.MessageDialog(
+        None,
+        0,  # Gtk.DialogFlags
+        Gtk.MessageType.OTHER,
+        Gtk.ButtonsType.YES_NO,
+        "Isso irá encerrar as atividades do dia. \n\nTem certeza?",
+    )
+
+    dialog.set_title("Encerrar dia")
+
+    dialog.set_default_size(200, 50)
+
+    response = dialog.run()
+    dialog.destroy()
+
+    if response == Gtk.ResponseType.YES:
+        encerrar_dia()
+        esvaziar_json()
+    elif response == Gtk.ResponseType.NO:
+        return False
 
 
 def get_hora_final() -> str:
@@ -118,6 +140,8 @@ def update_progress() -> None:
             print(f"Progress: {current_progress:.2f}%")
             lblProgresso.set_text(str(current_progress) + "%")
             if current_progress == 100:
+                print("fim do dia")
+                encerrar_dia()
                 break
             time.sleep(10)
     except ValueError:
@@ -319,7 +343,7 @@ btnHome.connect("clicked", open_home)
 
 
 btnEncerrar = builder.get_object("btnEncerrar")
-btnEncerrar.connect("clicked", encerrar_dia)
+btnEncerrar.connect("clicked", encerrar_dia_antes)
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path("gtk_implementation/custom_colors.css")

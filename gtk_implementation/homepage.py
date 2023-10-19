@@ -240,6 +240,13 @@ def open_stats(button):
     print("Stats")
 
 
+def show_hide_window(button, window_to_toggle):
+    if window_to_toggle.get_property("visible"):
+        window_to_toggle.hide()
+    else:
+        window_to_toggle.show()
+
+
 builder = Gtk.Builder()
 builder.add_from_file("glade_screens/homepage.glade")
 
