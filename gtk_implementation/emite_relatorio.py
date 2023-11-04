@@ -21,7 +21,8 @@ week_average
 """
 
 
-json_file = "gtk_implementation/temp_data.json"
+json_file = "gtk_implementation/reports/data.json"
+
 
 """calcula a diferenca entre hora do fim e inicio"""
 
@@ -52,11 +53,16 @@ def tempo_trabalhado(inicio, final):
         return "Formato invalido. Use o formato HH:MM "
 
 
+def calculate_week_average() -> int:
+    return 1
+
+
 def generate_pdf(html_template):
+    print("\n\n metodo generate_pdf() \n\n")
     # Load the Jinja2 environment and the HTML template
     env = Template(html_template)
 
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
         nome = data["objetivos_dia"]["nome_usuario"]
@@ -71,8 +77,8 @@ def generate_pdf(html_template):
     # exemples
     # data_criacao = formatted_date
     data_criacao = "$$;$$"
-    hora_entrada = "08:30"
-    hora_saida = "17:30"
+    hora_entrada = hora_emissao
+    hora_saida = hora_encerramento
     previous_time = "07:30"
     week_time_spent = "07:30"
     whitelist_graphic = data_analysis.tempo_whitelist(json_file)
@@ -84,22 +90,22 @@ def generate_pdf(html_template):
     html_out = env.render(
         nome_usuario=nome,
         hora_emissao=hora_emissao,
-        inicio=hora_entrada,
-        fim=hora_saida,
-        week_average_time=week_time_spent,
+        hora_inicio=hora_entrada,
+        hora_final=hora_saida,
+        week_average=week_time_spent,
         whitelist_graph=whitelist_graphic,
         blacklist_graph=blacklist_graphic,
-        time_spent=tempo_gasto,
-        rate_completion=completion_rate,
-        whitelist_time_spent="$$",
-        blacklist_time_spent="$$",
+        total_time_spent=tempo_gasto,
+        completion_rate=completion_rate,
+        whitelist_time="$$",
+        blacklist_time="$$",
     )
 
     # Cria o PDF
-    with open("gtk_implementation/pdf_creator/relatorio.html", "w") as f:
+    with open("gtk_implementation/reports/relatorio.html", "w") as f:
         f.write(html_out)
 
-    HTML(filename="gtk_implementation/pdf_creator/relatorio.html").write_pdf(
+    HTML(filename="gtk_implementation/reports/relatorio.html").write_pdf(
         archive_name + ".pdf"
     )
     print(archive_name, "PDF has been created")
@@ -107,8 +113,8 @@ def generate_pdf(html_template):
     os.remove("whitelist_graph.png")
 
 
-if __name__ == "__main__":
-    with open("gtk_implementation/pdf_creator/relatorio.html", "r") as f:
+"""if __name__ == "__main__":
+    with open("gtk_implementation/reports/relatorio.html", "r") as f:
         html_template = f.read()
 
-    generate_pdf(html_template)
+    generate_pdf(html_template)"""

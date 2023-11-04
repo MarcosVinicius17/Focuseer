@@ -26,17 +26,13 @@ def get_timer_end(add_hour, add_minute, add_second) -> str:
 
 
 def update_timer_info(active, timer_end) -> None:
-    with open(
-        "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/temp_data.json", "r"
-    ) as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
     data["timer_info"]["active_timer"] = active
     data["timer_info"]["timer_end"] = timer_end
 
-    with open(
-        "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/temp_data.json", "w"
-    ) as file:
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 

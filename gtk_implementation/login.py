@@ -6,6 +6,10 @@ from gi.repository import Gtk, GLib
 
 from homepage import set_headerbar_title
 
+"""
+acredito que vc possa remover o item "configuracoes" do menu...
+"""
+
 
 def hide_label() -> False:
     lblSenha.hide()
@@ -37,12 +41,12 @@ def login(button) -> None:
         pw_match = verifica_senha(password, hashed_password)
 
         if pw_match:
-            with open("gtk_implementation/temp_data.json", "r") as file:
+            with open("gtk_implementation/reports/data.json", "r") as file:
                 data = json.load(file)
 
             data["objetivos_dia"]["nome_usuario"] = username
 
-            with open("gtk_implementation/temp_data.json", "w") as file:
+            with open("gtk_implementation/reports/data.json", "w") as file:
                 json.dump(data, file, indent=4)
 
             subprocess.Popen([sys.executable, "gtk_implementation/homepage.py"])

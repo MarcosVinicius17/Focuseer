@@ -7,104 +7,18 @@ from gi.repository import Gtk, GdkPixbuf, Gdk
 locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 
-def set_hora_fim(hora) -> None:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+def set_hora_encerramento(hora) -> None:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
     data["hora_encerramento"]["hora"] = hora
 
-    with open("gtk_implementation/temp_data.json", "w") as file:
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 
 def set_headerbar_title(username):
     headerbar.set_title(username)
     window.show_all()
-
-
-global css_style
-css_style = 0
-
-
-def get_css_style():
-    return css_style
-
-
-def set_css_style(value):
-    global css_style
-    css_style = value
-    print("css style:", css_style)
-
-
-"""
-0 - light mode
-1 - night mode
-"""
-
-
-def set_css(mode):
-    css_provider = Gtk.CssProvider()
-    if mode == 0:
-        set_css_style(0)
-        css_provider.load_from_path("gtk_implementation/custom_colors.css")
-
-    if mode == 1:
-        set_css_style(1)
-        css_provider.load_from_path("gtk_implementation/custom_colors.css")
-
-    window.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnAlarm.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnTimer.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnNotes.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnTrello.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnPomodoro.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnSettings.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnStats.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnReports.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnStart.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    btnMonitor.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    headerbar.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-
-    btnCalendar.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-    menuButton.get_style_context().add_provider(
-        css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
-
-
-def switch_theme(menu_item):
-    current_theme = get_css_style()
-
-    if current_theme == 0:
-        # print("light->dark")
-        set_css(1)
-    if current_theme == 1:
-        # print("dark->light")
-        set_css(0)
 
 
 def logout(menu_item):
@@ -179,7 +93,7 @@ def start_work(button):
     if response == Gtk.ResponseType.OK:
         is_entry_valid = validate_time_format(entry.get_text())
         if is_entry_valid:
-            set_hora_fim(entry.get_text())
+            set_hora_encerramento(entry.get_text())
             subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
 
         else:
@@ -305,17 +219,63 @@ menuButton = builder.get_object("menuButton")
 
 menuButton.set_label("●●●")
 
-menuModoNoturno = builder.get_object("modoNoturno")
+
 menuAbout = builder.get_object("about")
 menuLogout = builder.get_object("logout")
 
-menuModoNoturno.connect("activate", switch_theme)
+
 menuAbout.connect("activate", open_about)
 menuLogout.connect("activate", logout)
 
+css_provider = Gtk.CssProvider()
 
-# start the window with light mode
-set_css(css_style)
+css_provider.load_from_path("gtk_implementation/custom_colors.css")
+
+
+window.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnAlarm.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnTimer.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnNotes.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnTrello.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnPomodoro.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnSettings.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnStats.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnReports.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnStart.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+btnMonitor.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+headerbar.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+btnCalendar.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+menuButton.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
 
 # window.show_all()
 # Gtk.main()

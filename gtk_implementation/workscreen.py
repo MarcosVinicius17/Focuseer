@@ -3,14 +3,38 @@ import gi, datetime, time, threading, sys, subprocess, json
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from deepdiff import DeepDiff
+import emite_relatorio
+
+"""
+1) obter o dia atual no formato DD/MM e colocar em ["tempo_gasto_processos"]["date"]
+"""
+
+
+"""
+workscreen -> encerrar_dia -> gerar_relatorio ->
+emite_relatorio.py -> generate_pdf() -> 
+data_analysis.py -> tempo_whitelist() / tempo_blacklist() -> emite relatorio
+"""
+
+
+def close_window() -> None:
+    Gtk.quit()
 
 
 def gerar_relatorio() -> None:
-    return
+    print("\n\n metodo gerar_relatorio() \n\n")
+    with open("gtk_implementation/reports/relatorio.html", "r") as f:
+        html_template = f.read()
+    print("gerar_relatorio()")
+    emite_relatorio.generate_pdf(html_template)
 
 
-def esvaziar_json():
-    with open("gtk_implementation/temp_data.json", "r") as file:
+def open_monitor(button) -> None:
+    subprocess.Popen([sys.executable, "gtk_implementation/monitor.py"])
+
+
+def empty_json():
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
     def empty_recursive(obj):
@@ -27,46 +51,53 @@ def esvaziar_json():
 
     new_data = empty_recursive(data)
 
-    with open("gtk_implementation/temp_data.json", "w") as file:
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(new_data, file, indent=4)
-
-
-"""
-1) obter data dos processos (tempo gasto)
-2) gerar relatório (passar valores para o .py responsavel)
-"""
+    print("JSON esvaziado")
 
 
 def encerrar_dia() -> None:
-    total_items = 0
-    checked_items = 0
-    checked = []
+    print("\n\n metodo encerrar_dia() \n\n")
+    total_de_items = 0
+    itens_concluidos = 0
+    itens_com_check = []
     unchecked = []
 
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    """prepara o arquivo json"""
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
+    """verifica quais objetivos foram concluidos"""
     for child in boxObjetivos.get_children():
         if isinstance(child, Gtk.CheckButton):
-            total_items += 1
+            total_de_items += 1
             if child.get_active():
-                checked_items += 1
-                checked.append(child.get_label())
+                itens_concluidos += 1
+                itens_com_check.append(child.get_label())
                 data["objetivos_dia"]["checked"].append(child.get_label())
             else:
                 unchecked.append(child.get_label())
                 data["objetivos_dia"]["unchecked"].append(child.get_label())
-    print(f"checked: {checked}")
-    print(f"unchecked: {unchecked}")
+    print(f"Concluidos:<> {itens_com_check}")
+    print(f"Nao concluidos:<> {unchecked}")
 
-    if total_items == 0:
-        return 0.0
+    """
+    erro
+    """
+
+    """calcula % de itens concluidos"""
+    if total_de_items == 0:
+        print("sem itens detectados")
+        # return 0.0
+        percentage = 0
     else:
-        percentage = (checked_items / total_items) * 100
+        percentage = (itens_concluidos / total_de_items) * 100
         data["objetivos_dia"]["completion_rate"] = percentage
-        print("completion:", percentage)
-    with open("gtk_implementation/temp_data.json", "w") as file:
+        print("Taxa de conclusao:", percentage)
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
+    print("gerando relatorio")
+    gerar_relatorio()
 
 
 def encerrar_dia_antes(button, yes_text="sim", no_text="Nao") -> None:
@@ -87,24 +118,38 @@ def encerrar_dia_antes(button, yes_text="sim", no_text="Nao") -> None:
 
     if response == Gtk.ResponseType.YES:
         encerrar_dia()
-        esvaziar_json()
+        empty_json()
     elif response == Gtk.ResponseType.NO:
         return False
 
 
+"""retorna a hora do encerramento"""
+
+
 def get_hora_final() -> str:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
         hora_final = data["hora_encerramento"]["hora"]
     return hora_final
 
 
 def set_tempo_trabalho(window) -> None:
+    """obtem hora atual no formato HH:MM"""
     current_time = datetime.datetime.now()
     formatted_time = current_time.strftime("%H:%M")
+    """obtem o dia atual no formato DD/MM"""
+    current_day = current_time.strftime("%d/%m")
+
+    with open("gtk_implementation/reports/data.json", "r") as file:
+        data = json.load(file)
+        data["tempo_gasto_processos"]["date"]
+
+    """le o data.json para obter a hora de encerramento"""
     hora_final = get_hora_final()
+    """atualiza as labels"""
     lblInicio.set_text(formatted_time)
     lblFim.set_text(hora_final)
+    """abre uma thread para atualizar o progresso"""
     update_thread = threading.Thread(target=update_progress)
     update_thread.start()
 
@@ -138,14 +183,15 @@ def update_progress() -> None:
                 * 100
             )
             print(f"Progress: {current_progress:.2f}%")
-            lblProgresso.set_text(str(current_progress) + "%")
+            progress = "{:.2f}%".format(current_progress)
+            lblProgresso.set_text(str(progress))
             if current_progress == 100:
-                print("fim do dia")
+                print("Dia encerrado")
                 encerrar_dia()
                 break
             time.sleep(10)
     except ValueError:
-        print("Invalid time format. Please use HH:MM.")
+        print("Formado inválido. Utilize o formato HH:MM.")
 
 
 def ler_arquivo_json(arquivo):
@@ -155,17 +201,17 @@ def ler_arquivo_json(arquivo):
 
 
 def monitor_json_file():
-    last_content = ler_arquivo_json("gtk_implementation/temp_data.json")
+    last_content = ler_arquivo_json("gtk_implementation/reports/data.json")
 
     while True:
-        current_content = ler_arquivo_json("gtk_implementation/temp_data.json")
+        current_content = ler_arquivo_json("gtk_implementation/reports/data.json")
 
         if current_content != last_content:
             diff = DeepDiff(last_content, current_content)
             atualizar_pagina()
             last_content = current_content
 
-        time.sleep(10)
+        time.sleep(5)
 
 
 # quando ha mudanca no json, apaga a GtkBox e as preenche novamente com os valores atualizados
@@ -222,18 +268,18 @@ def add_item_objetivos(button) -> None:
 
 
 def monitor_processos() -> None:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
         blacklist_data = data["monitor_data"]["blacklisted"]
         whitelist_data = data["monitor_data"]["whitelisted"]
-        whitelist_label = Gtk.Label(label="Whitelist")
+        whitelist_label = Gtk.Label(label="Permitidos")
         boxProcessos.pack_start(whitelist_label, True, True, 0)
         whitelist_label.show()
         for j in whitelist_data:
             lbl = Gtk.Label(label=j)
             boxProcessos.pack_start(lbl, True, True, 0)
             lbl.show()
-        blacklist_label = Gtk.Label(label="Blacklist")
+        blacklist_label = Gtk.Label(label="Não permitidos")
         boxProcessos.pack_start(blacklist_label, True, True, 0)
         blacklist_label.show()
         for i in blacklist_data:
@@ -254,7 +300,7 @@ def monitor_tempo() -> None:
     """
     1 - alarme
     """
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
         alarm_info = data["alarm_info"]
 
@@ -336,10 +382,12 @@ lblObjetivos = builder.get_object("lblObjetivos")
 btnHome = builder.get_object("btnHome")
 btnObjetivos = builder.get_object("btnObjetivos")
 lblProgresso = builder.get_object("lblProgresso")
+btnMonitor = builder.get_object("btnMonitor")
 
 btnObjetivos.connect("clicked", add_item_objetivos)
 window.connect("realize", set_tempo_trabalho)
 btnHome.connect("clicked", open_home)
+btnMonitor.connect("clicked", open_monitor)
 
 
 btnEncerrar = builder.get_object("btnEncerrar")
@@ -361,5 +409,4 @@ if __name__ == "__main__":
     monitor_processos()
     my_thread = threading.Thread(target=monitor_json_file)
     my_thread.start()
-    # set_tempo_trabalho(window, "00:00", "00:00")
     Gtk.main()

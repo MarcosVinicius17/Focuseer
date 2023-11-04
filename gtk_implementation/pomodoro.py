@@ -10,13 +10,13 @@ def on_delete_event(widget, event):
 
 
 def update_pomodoro_info(active, status) -> None:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
     data["pomodoro_info"]["active_pomodoro"] = active
     data["pomodoro_info"]["status"] = status
 
-    with open("gtk_implementation/temp_data.json", "w") as file:
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 

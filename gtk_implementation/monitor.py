@@ -12,12 +12,12 @@ blacklisted_processes = []
 # type = 0 ou 1. usado apenas para determinar a categoria
 def update_monitor_info(category, name) -> None:
     if category == "whitelisted" or category == "blacklisted":
-        with open("gtk_implementation/temp_data.json", "r") as file:
+        with open("gtk_implementation/reports/data.json", "r") as file:
             data = json.load(file)
 
         data["monitor_data"][category].append(name)
 
-        with open("gtk_implementation/temp_data.json", "w") as file:
+        with open("gtk_implementation/reports/data.json", "w") as file:
             json.dump(data, file, indent=4)
 
     else:
@@ -25,7 +25,7 @@ def update_monitor_info(category, name) -> None:
 
 
 def remove_process_from_json(category, item) -> None:
-    with open("gtk_implementation/temp_data.json", "r") as file:
+    with open("gtk_implementation/reports/data.json", "r") as file:
         data = json.load(file)
 
     if "monitor_data" in data and category in data["monitor_data"]:
@@ -33,7 +33,7 @@ def remove_process_from_json(category, item) -> None:
         if item in itens:
             itens.remove(item)
 
-    with open("gtk_implementation/temp_data.json", "w") as file:
+    with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 
@@ -60,7 +60,7 @@ def monitora_processo(process_name, data_type):
 
             # Load existing process data from JSON file
             try:
-                with open("gtk_implementation/temp_data.json", "r") as f:
+                with open("gtk_implementation/reports/data.json", "r") as f:
                     data = json.load(f)
             except FileNotFoundError:
                 print("json faltando")
@@ -110,7 +110,7 @@ def monitora_processo(process_name, data_type):
                 )
 
             # Save updated process data to JSON file
-            with open("gtk_implementation/temp_data.json", "w") as f:
+            with open("gtk_implementation/reports/data.json", "w") as f:
                 json.dump(data, f, indent=4)
 
             print(

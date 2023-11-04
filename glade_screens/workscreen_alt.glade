@@ -58,7 +58,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">340</property>
+            <property name="x">365</property>
             <property name="y">55</property>
           </packing>
         </child>
@@ -116,7 +116,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btnObjetivos">
-                    <property name="label" translatable="yes">Adicionar</property>
+                    <property name="label" translatable="yes">Novo objetivo</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
@@ -196,18 +196,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btnMonitor">
-                    <property name="label" translatable="yes">Monitor</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="pack-type">end</property>
-                    <property name="position">2</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -250,7 +239,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">260</property>
+            <property name="x">280</property>
             <property name="y">55</property>
           </packing>
         </child>

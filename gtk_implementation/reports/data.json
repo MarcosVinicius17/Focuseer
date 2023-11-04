@@ -1,0 +1,48 @@
+{
+    "monitor_data": {
+        "whitelisted": [
+            "VSCode",
+            "Firefox"
+        ],
+        "blacklisted": [
+            "Spotify"
+        ]
+    },
+    "alarm_info": {
+        "active": false,
+        "ring_time": null
+    },
+    "timer_info": {
+        "active_timer": false,
+        "timer_end": null
+    },
+    "pomodoro_info": {
+        "active_pomodoro": false,
+        "status": null
+    },
+    "hora_encerramento": {
+        "hora": "21:15"
+    },
+    "objetivos_dia": {
+        "nome_usuario": "admin",
+        "checked": [
+            "11111",
+            "33333"
+        ],
+        "unchecked": [
+            "22222"
+        ],
+        "completion_rate": 66.66666666666666,
+        "tempo_gasto": null
+    },
+    "tempo_gasto_processos": {
+        "date": null,
+        "blacklist_data": {},
+        "whitelist_data": {}
+    },
+    "dados_dia": {
+        "data": null,
+        "hora_encerramento": null,
+        "hora_inicio": null
+    }
+}
