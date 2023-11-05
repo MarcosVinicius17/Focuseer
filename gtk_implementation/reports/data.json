@@ -1,12 +1,7 @@
 {
     "monitor_data": {
-        "whitelisted": [
-            "VSCode",
-            "Firefox"
-        ],
-        "blacklisted": [
-            "Spotify"
-        ]
+        "whitelisted": [],
+        "blacklisted": []
     },
     "alarm_info": {
         "active": false,
@@ -21,18 +16,13 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "21:15"
+        "hora": null
     },
     "objetivos_dia": {
-        "nome_usuario": "admin",
-        "checked": [
-            "11111",
-            "33333"
-        ],
-        "unchecked": [
-            "22222"
-        ],
-        "completion_rate": 66.66666666666666,
+        "nome_usuario": null,
+        "checked": [],
+        "unchecked": [],
+        "completion_rate": null,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {

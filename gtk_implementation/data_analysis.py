@@ -4,23 +4,27 @@ from PIL import Image
 
 
 def tempo_blacklist(json_file):
-    print("\n\n metodo tempo_whitelist() \n\n")
+    print("metodo tempo_blacklist()")
     with open(json_file, "r") as file:
         data = json.load(file)
 
     date = data["tempo_gasto_processos"]["date"]
 
-    whitelist_data = data["tempo_gasto_processos"]["blacklist_data"]
+    blacklist_data = data["tempo_gasto_processos"]["blacklist_data"]
+
+    if not blacklist_data:
+        print("No data to create the graph.")
+        return None
 
     # Replace None values with zero
-    for key in whitelist_data:
-        if whitelist_data[key] is None:
-            whitelist_data[key] = 0
+    for key in blacklist_data:
+        if blacklist_data[key] is None:
+            blacklist_data[key] = 0
 
-    sorted_whitelist_data = sorted(whitelist_data.items(), key=lambda item: item[1])
+    sorted_blacklist_data = sorted(blacklist_data.items(), key=lambda item: item[1])
 
     try:
-        plt.bar(*zip(*sorted_whitelist_data), width=0.4)
+        plt.bar(*zip(*sorted_blacklist_data), width=0.4)
         plt.xlabel("Processo")
         plt.ylabel("Tempo (Em minutos)")
         plt.title(f"Blacklist Data for {date}")
@@ -44,13 +48,17 @@ def tempo_blacklist(json_file):
 
 
 def tempo_whitelist(json_file):
-    print("\n\n metodo tempo_whitelist() \n\n")
+    print("metodo tempo_whitelist()")
     with open(json_file, "r") as file:
         data = json.load(file)
 
     date = data["tempo_gasto_processos"]["date"]
 
     whitelist_data = data["tempo_gasto_processos"]["whitelist_data"]
+
+    if not whitelist_data:
+        print("No data to create the graph.")
+        return None
 
     # Replace None values with zero
     for key in whitelist_data:
@@ -84,17 +92,28 @@ def tempo_whitelist(json_file):
 
 
 """
-Analisa se o usuario alcancou as metas para o dia. Analisar o periodo de uma semana a um mes (verificar)
-"""
-
-
-def achieved_goal_rate(json_file):
-    return
-
-
-"""
 Analisa o tempo gasto
 """
+
+
+def whitelist_time_spent(json_file):
+    with open(json_file, "r") as file:
+        data = json.load(file)
+
+    whitelist_data = data.get("tempo_gasto_processos", {}).get("whitelist_data", {})
+
+    total_sum = sum(whitelist_data.values())
+    return total_sum
+
+
+def blacklist_time_spent(json_file):
+    with open(json_file, "r") as file:
+        data = json.load(file)
+
+    blacklist_data = data.get("tempo_gasto_processos", {}).get("blacklist_data", {})
+
+    total_sum = sum(blacklist_data.values())
+    return total_sum
 
 
 def time_spend_working(json_file):

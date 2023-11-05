@@ -65,9 +65,9 @@
         <img src="logo.png" alt="Logo">
         <div>
             <h1>Focuseer - Relatório de produtividade</h1>
-            <p>Usuário: admin</p>
-            <p>Horário de início: 22/10/2023 - 19:49 - Horário de encerramento: 21:15</p>
-            <p>Emitido em: 22/10/2023 - 19:49</p>
+            <p>Usuário: {{nome_usuario}}</p>
+            <p>Horário de início: {{hora_inicio}} - Horário de encerramento: {{hora_final}}</p>
+            <p>Emitido em: {{hora_emissao}}</p>
 
         </div>
     </div>
@@ -92,7 +92,7 @@
             <label style="font-weight: bold" for="task1"></label>
             <br />-->
         </ul>
-        <h4>0.0% dos objetivos foram alcançados </h4>
+        <h4>{{completion_rate}}% dos objetivos foram alcançados </h4>
     </div>
 
     <div class="user-stats">
@@ -102,25 +102,26 @@
     <div class="graphs">
         <ul>
             <label style="font-weight: bold;">Tempo gasto em aplicações permitidas:</label><br /><br />
-            <!--<img src="../../whitelist_graph.png" alt="whitelist_graph">-->
-            <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png">
+            <!-- <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png"-->
+            <label>Nenhuma aplicação foi adicionada</label>
             <br />
-            <label>Você gastou $$ % do tempo de hoje com estas aplicações</label> <br /><br />
+            <label>Você gastou {{whitelist_time}} % do tempo de hoje com estas aplicações</label> <br /><br />
 
 
 
             <label style="font-weight: bold;">Tempo gasto com aplicações banidas:</label><br /><br />
 
-            <!--<img src="../../blacklist_graph.png" alt=" Blacklist Graph">-->
-            <img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png">
+
+            <!--<img src="/home/marcos/Desktop/UNIP/tcc/nao_programacao/logos/logo_v2.png">-->
+            <label>Nenhuma aplicação foi adicionada</label>
             <br />
-            <label>Você gastou $$ % do tempo de hoje com estas aplicações</label><br />
+            <label>Você gastou {{blacklist_time}} % do tempo de hoje com estas aplicações</label><br />
         </ul>
 
     </div>
     <ul>
-        <label style="font-weight: bold">Tempo trabalhado: </label>Formato invalido. Use o formato HH:MM  <br /><br />
-        <label style="font-weight: bold">Média semanal: </label>07:30
+        <label style="font-weight: bold">Tempo trabalhado: </label>{{total_time_spent}}<br /><br />
+
 
     </ul>
 

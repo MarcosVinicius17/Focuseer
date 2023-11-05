@@ -22,7 +22,7 @@ def close_window() -> None:
 
 
 def gerar_relatorio() -> None:
-    print("\n\n metodo gerar_relatorio() \n\n")
+    print("metodo gerar_relatorio(")
     with open("gtk_implementation/reports/relatorio.html", "r") as f:
         html_template = f.read()
     print("gerar_relatorio()")
@@ -57,7 +57,7 @@ def empty_json():
 
 
 def encerrar_dia() -> None:
-    print("\n\n metodo encerrar_dia() \n\n")
+    print("metodo encerrar_dia()")
     total_de_items = 0
     itens_concluidos = 0
     itens_com_check = []
