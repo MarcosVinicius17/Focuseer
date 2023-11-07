@@ -35,7 +35,6 @@ def login(button) -> None:
 
     # se o usuario existe no BD
     if user:
-        print("user found")
         hashed_password = user["senha"]
         username = user["nome"]
         pw_match = verifica_senha(password, hashed_password)

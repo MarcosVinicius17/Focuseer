@@ -1,7 +1,13 @@
 {
     "monitor_data": {
-        "whitelisted": [],
-        "blacklisted": []
+        "whitelisted": [
+            "whitelist.exe",
+            "whitelist2.exe"
+        ],
+        "blacklisted": [
+            "blacklist.exe",
+            "blacklist2.exe"
+        ]
     },
     "alarm_info": {
         "active": false,
@@ -16,19 +22,39 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": null
+        "hora": "23:46"
     },
     "objetivos_dia": {
-        "nome_usuario": null,
-        "checked": [],
-        "unchecked": [],
-        "completion_rate": null,
+        "nome_usuario": "Marcos Vinicius",
+        "checked": [
+            "obj1",
+            "obj2",
+            "obj3",
+            "final1"
+        ],
+        "unchecked": [
+            "obj4",
+            "obj5",
+            "wwwwwwww",
+            "ffffinal"
+        ],
+        "completion_rate": 0.0,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {
         "date": null,
-        "blacklist_data": {},
-        "whitelist_data": {}
+        "blacklist_data": {
+            "mpv": 20,
+            "spotify": 30,
+            "steam": 10,
+            "blacklist2.exe": 5
+        },
+        "whitelist_data": {
+            "brave": 10,
+            "vscode": 15,
+            "glade": 15,
+            "whitelist2.exe": 5
+        }
     },
     "dados_dia": {
         "data": null,

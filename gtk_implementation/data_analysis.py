@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 
-def tempo_blacklist(json_file):
-    print("metodo tempo_blacklist()")
+def generate_blacklist_graph(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
@@ -47,8 +46,7 @@ def tempo_blacklist(json_file):
         return None
 
 
-def tempo_whitelist(json_file):
-    print("metodo tempo_whitelist()")
+def generate_whitelist_graph(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
 
@@ -102,8 +100,15 @@ def whitelist_time_spent(json_file):
 
     whitelist_data = data.get("tempo_gasto_processos", {}).get("whitelist_data", {})
 
-    total_sum = sum(whitelist_data.values())
-    return total_sum
+    values = [value if value is not None else 0 for value in whitelist_data.values()]
+
+    try:
+        total_sum = sum(values)
+        total_sum_formatted = round(total_sum, 2)
+        print(total_sum_formatted)
+        return total_sum_formatted
+    except Exception as e:
+        print("Error:", e)
 
 
 def blacklist_time_spent(json_file):
@@ -112,8 +117,15 @@ def blacklist_time_spent(json_file):
 
     blacklist_data = data.get("tempo_gasto_processos", {}).get("blacklist_data", {})
 
-    total_sum = sum(blacklist_data.values())
-    return total_sum
+    values = [value if value is not None else 0 for value in blacklist_data.values()]
+
+    try:
+        total_sum = sum(values)
+        total_sum_formatted = round(total_sum, 2)
+        print(total_sum_formatted)
+        return total_sum_formatted
+    except Exception as e:
+        print("Error:", e)
 
 
 def time_spend_working(json_file):

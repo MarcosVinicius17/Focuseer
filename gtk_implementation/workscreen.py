@@ -10,22 +10,14 @@ import emite_relatorio
 """
 
 
-"""
-workscreen -> encerrar_dia -> gerar_relatorio ->
-emite_relatorio.py -> generate_pdf() -> 
-data_analysis.py -> tempo_whitelist() / tempo_blacklist() -> emite relatorio
-"""
-
-
 def close_window() -> None:
     Gtk.quit()
 
 
 def gerar_relatorio() -> None:
     print("metodo gerar_relatorio(")
-    with open("gtk_implementation/reports/relatorio.html", "r") as f:
+    with open("gtk_implementation/reports/report_with_pic.html", "r") as f:
         html_template = f.read()
-    print("gerar_relatorio()")
     emite_relatorio.generate_pdf(html_template)
 
 
@@ -53,7 +45,7 @@ def empty_json():
 
     with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(new_data, file, indent=4)
-    print("JSON esvaziado")
+    # print("JSON esvaziado")
 
 
 def encerrar_dia() -> None:
@@ -92,7 +84,8 @@ def encerrar_dia() -> None:
         percentage = 0
     else:
         percentage = (itens_concluidos / total_de_items) * 100
-        data["objetivos_dia"]["completion_rate"] = percentage
+        percentage_formatted = round(percentage, 2)
+        data["objetivos_dia"]["completion_rate"] = percentage_formatted
         print("Taxa de conclusao:", percentage)
     with open("gtk_implementation/reports/data.json", "w") as file:
         json.dump(data, file, indent=4)
@@ -118,7 +111,7 @@ def encerrar_dia_antes(button, yes_text="sim", no_text="Nao") -> None:
 
     if response == Gtk.ResponseType.YES:
         encerrar_dia()
-        empty_json()
+        # empty_json()
     elif response == Gtk.ResponseType.NO:
         return False
 
@@ -182,7 +175,7 @@ def update_progress() -> None:
                 / total_minutes_difference
                 * 100
             )
-            print(f"Progress: {current_progress:.2f}%")
+            # print(f"Progress: {current_progress:.2f}%")
             progress = "{:.2f}%".format(current_progress)
             lblProgresso.set_text(str(progress))
             if current_progress == 100:

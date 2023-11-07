@@ -4,13 +4,6 @@ from datetime import datetime
 import data_analysis
 import os, json, shutil
 
-""" 
-caso 1 - usuario nao utilizou monitor
-solucao: ao inves de usar imagens, mostrar a mensagem "Nenhuma aplicação foi adicionada"
-caso 2 - usuario utilizou monitor para apenas 1 categoria
-solucao: mostrar respectivo grafico, para o outro, mostrar a mensagem "Nenhuma aplicação foi adicionada"
-"""
-
 
 """
 lista de variaveis do template
@@ -25,7 +18,7 @@ whitelist_time - % do tempo em apps da whitelist
 blacklist_time - % do tempo em apps da blacklist
 ------------ graphs
 total_time_spent
-week_average
+
 """
 
 
@@ -36,7 +29,7 @@ json_file = "gtk_implementation/reports/data.json"
 
 
 def copy_template():
-    source = "gtk_implementation/reports/relatorio.html"
+    source = "gtk_implementation/reports/report_with_pic.html"
     report_copy = "gtk_implementation/reports/relatorio_copia.html"
     shutil.copy(source, report_copy)
     print("copia criada")
@@ -46,6 +39,7 @@ def copy_template():
 
 
 def tempo_trabalhado(inicio, final):
+    print(f"Inicio:{inicio} Final: {final} ")
     try:
         # separa horas de minutos utilizando
         horas1, minutos1 = map(int, inicio.split(":"))
@@ -72,7 +66,7 @@ def tempo_trabalhado(inicio, final):
 
 
 def generate_pdf(html_template):
-    print("\n\n metodo generate_pdf() \n\n")
+    print("metodo generate_pdf()")
     # Load the Jinja2 environment and the HTML template
     env = Template(html_template)
 
@@ -82,6 +76,7 @@ def generate_pdf(html_template):
         nome = data["objetivos_dia"]["nome_usuario"]
         tempo_gasto = data["objetivos_dia"]["tempo_gasto"]
         completion_rate = data["objetivos_dia"]["completion_rate"]
+        completion_rate_formatted = round(completion_rate, 2)
         hora_encerramento = data["hora_encerramento"]["hora"]
 
     now = datetime.now()
@@ -90,19 +85,13 @@ def generate_pdf(html_template):
 
     # exemples
     # data_criacao = formatted_date
-    data_criacao = "$$;$$"
+
     hora_entrada = hora_emissao
     hora_saida = hora_encerramento
-    previous_time = "07:30"
-    week_time_spent = "07:30"
 
-    whitelist_graphic = data_analysis.tempo_whitelist(json_file)
-    blacklist_graphic = data_analysis.tempo_blacklist(json_file)
+    whitelist_graph = data_analysis.generate_whitelist_graph(json_file)
 
-    if whitelist_graphic == None:
-        print("Nenhuma aplicação foi adicionada")
-    if blacklist_graphic == None:
-        print("Nenhuma aplicação foi adicionada")
+    blacklist_graph = data_analysis.generate_blacklist_graph(json_file)
 
     tempo_gasto = tempo_trabalhado(hora_entrada, hora_saida)
 
@@ -112,18 +101,22 @@ def generate_pdf(html_template):
         hora_emissao=hora_emissao,
         hora_inicio=hora_entrada,
         hora_final=hora_saida,
-        week_average=week_time_spent,
-        whitelist_graph=whitelist_graphic,
-        blacklist_graph=blacklist_graphic,
+        # whitelist_graph=whitelist_graph,
+        # blacklist_graph=blacklist_graph,
+        blacklist_graphic="/home/marcos/Desktop/UNIP/tcc/blacklist_graph.png",
+        whitelist_graphic="/home/marcos/Desktop/UNIP/tcc/whitelist_graph.png",
         total_time_spent=tempo_gasto,
-        completion_rate=completion_rate,
-        whitelist_time=data_analysis.whitelist_time_spent,
-        blacklist_time=data_analysis.blacklist_time_spent,
+        completion_rate=completion_rate_formatted,
+        whitelist_time=data_analysis.whitelist_time_spent(
+            "gtk_implementation/reports/data.json"
+        ),
+        blacklist_time=data_analysis.blacklist_time_spent(
+            "gtk_implementation/reports/data.json"
+        ),
     )
 
     # Cria o PDF
     copy_template()
-    # with open("gtk_implementation/reports/relatorio.html", "w") as f:
     with open("gtk_implementation/reports/relatorio_copia.html", "w") as f:
         f.write(html_out)
 
@@ -133,14 +126,8 @@ def generate_pdf(html_template):
     print(archive_name, "PDF has been created")
     try:
         os.remove("gtk_implementation/reports/relatorio_copia.html")
-        os.remove("blacklist_graph.png")
-        os.remove("whitelist_graph.png")
+        # os.remove("blacklist_graph.png")
+        # os.remove("whitelist_graph.png")
+
     except Exception as e:
         print(e)
-
-
-"""if __name__ == "__main__":
-    with open("gtk_implementation/reports/relatorio.html", "r") as f:
-        html_template = f.read()
-
-    generate_pdf(html_template)"""
