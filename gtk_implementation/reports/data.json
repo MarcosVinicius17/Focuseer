@@ -2,7 +2,8 @@
     "monitor_data": {
         "whitelisted": [
             "whitelist.exe",
-            "whitelist2.exe"
+            "whitelist2.exe",
+            "wwww"
         ],
         "blacklisted": [
             "blacklist.exe",
@@ -22,15 +23,17 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "23:46"
+        "hora": "22:12"
     },
     "objetivos_dia": {
-        "nome_usuario": "Marcos Vinicius",
+        "nome_usuario": "admin",
         "checked": [
             "obj1",
             "obj2",
             "obj3",
-            "final1"
+            "final1",
+            "$$",
+            "CM-EX-8 CM"
         ],
         "unchecked": [
             "obj4",
@@ -38,7 +41,7 @@
             "wwwwwwww",
             "ffffinal"
         ],
-        "completion_rate": 0.0,
+        "completion_rate": 100.0,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {

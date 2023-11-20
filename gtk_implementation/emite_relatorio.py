@@ -4,22 +4,19 @@ from datetime import datetime
 import data_analysis
 import os, json, shutil
 
+from pymongo import MongoClient
 
-"""
-lista de variaveis do template
-------------header-----
-nome_usuario
-hora_inicio
-hora_final
-hora_emissao
-------------checklist aka objetivos do dia-----
-completion_rate - % dos objetivos foram alcançados
-whitelist_time - % do tempo em apps da whitelist
-blacklist_time - % do tempo em apps da blacklist
------------- graphs
-total_time_spent
 
-"""
+def store_report_address(address, hour):
+    client = MongoClient()
+    db = client.tcc_usuarios
+    reports = db.reports
+
+    print(f"salvando item {address} gerado as {hour}")
+    report = {"data_emissao": hour, "endereco": address}
+
+    report_id = reports.insert_one(report).inserted_id
+    print(report_id)
 
 
 json_file = "gtk_implementation/reports/data.json"
@@ -121,9 +118,13 @@ def generate_pdf(html_template):
         f.write(html_out)
 
     HTML(filename="gtk_implementation/reports/relatorio_copia.html").write_pdf(
-        archive_name + ".pdf"
+        "gtk_implementation/reports/" + archive_name + ".pdf"
     )
+
     print(archive_name, "PDF has been created")
+    store_report_address(
+        "gtk_implementation/reports/" + archive_name + ".pdf", hora_emissao
+    )
     try:
         os.remove("gtk_implementation/reports/relatorio_copia.html")
         # os.remove("blacklist_graph.png")

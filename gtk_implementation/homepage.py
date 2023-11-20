@@ -70,7 +70,7 @@ def validate_time_format(input_string):
     return False
 
 
-def start_work(button):
+"""def start_work(button):
     dialog = Gtk.Dialog(
         title="Horário de encerramento",
         buttons=(
@@ -108,6 +108,73 @@ def start_work(button):
             warning_dialog.run()
             warning_dialog.destroy()
     dialog.destroy()
+"""
+
+
+def start_work(button):
+    dialog = Gtk.Dialog(
+        title="Horário de encerramento",
+        buttons=(
+            Gtk.STOCK_OK,
+            Gtk.ResponseType.OK,
+        ),
+    )
+    dialog.set_default_size(200, 50)
+
+    # Create a text entry field
+    entry = Gtk.Entry()
+    entry.set_text("Hora de encerramento:")
+    entry.set_activates_default(True)
+    dialog.vbox.pack_start(entry, True, True, 0)
+    entry.show()
+
+    # Apply CSS styling to the dialog
+    dialog.get_style_context().add_class("my-dialog")
+
+    # Run the dialog and get the response
+    response = dialog.run()
+
+    if response == Gtk.ResponseType.OK:
+        is_entry_valid = validate_time_format(entry.get_text())
+        if is_entry_valid:
+            set_hora_encerramento(entry.get_text())
+            subprocess.Popen([sys.executable, "gtk_implementation/workscreen.py"])
+
+        else:
+            dialog.destroy()
+            warning_dialog = Gtk.MessageDialog(
+                parent=None,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Horário inválido. Utilize o formato HH:MM",
+            )
+
+            # Apply CSS styling to the warning dialog
+            warning_dialog.get_style_context().add_class("my-dialog")
+
+            warning_dialog.run()
+            warning_dialog.destroy()
+    dialog.destroy()
+
+
+# Create a CSS provider to set the styles
+css_provider = Gtk.CssProvider()
+css_provider.load_from_data(
+    b"""
+.my-dialog {
+    background-color: #D8DEE9;
+    color: #2E3440;
+}
+"""
+)
+
+# Add the CSS provider to the default style context
+screen = Gdk.Screen.get_default()
+style_context = Gtk.StyleContext()
+style_context.add_provider_for_screen(
+    screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
 
 
 def open_alarm(button):
@@ -142,16 +209,8 @@ def open_calendar(button):
     subprocess.Popen([sys.executable, "gtk_implementation/calendar.py"])
 
 
-def open_settings(button):
-    print("settings")
-
-
 def open_reports(button):
-    print("reports")
-
-
-def open_stats(button):
-    print("Stats")
+    subprocess.Popen([sys.executable, "gtk_implementation/report_viewer.py"])
 
 
 def show_hide_window(button, window_to_toggle):
@@ -162,7 +221,7 @@ def show_hide_window(button, window_to_toggle):
 
 
 builder = Gtk.Builder()
-builder.add_from_file("glade_screens/homepage.glade")
+builder.add_from_file("glade_screens/homepage_redux.glade")
 
 window = builder.get_object("Window")
 
@@ -186,14 +245,10 @@ btnTrello.connect("clicked", open_trello)
 btnPomodoro = builder.get_object("btnPomodoro")
 btnPomodoro.connect("clicked", open_pomodoro)
 
-btnSettings = builder.get_object("btnSettings")
-btnSettings.connect("clicked", open_settings)
 
 btnReports = builder.get_object("btnReports")
 btnReports.connect("clicked", open_reports)
 
-btnStats = builder.get_object("btnStats")
-btnStats.connect("clicked", open_stats)
 
 btnCalendar = builder.get_object("btnCalendar")
 btnCalendar.connect("clicked", open_calendar)
@@ -250,12 +305,7 @@ btnTrello.get_style_context().add_provider(
 btnPomodoro.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-btnSettings.get_style_context().add_provider(
-    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-)
-btnStats.get_style_context().add_provider(
-    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-)
+
 btnReports.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )

@@ -10,6 +10,28 @@ import emite_relatorio
 """
 
 
+def end_day_message() -> None:
+    dialog = Gtk.Dialog(
+        "My Dialog", None, Gtk.DialogFlags.MODAL, ("Close", Gtk.ResponseType.OK)
+    )
+    dialog.set_default_size(200, 50)
+    # Create a label
+    label = Gtk.Label.new("This is a label")
+
+    # Add the label to the dialog's content area
+    content_area = dialog.get_content_area()
+    content_area.add(label)
+
+    dialog.connect(
+        "response",
+        lambda dialog, response: dialog.destroy()
+        if response == Gtk.ResponseType.OK
+        else None,
+    )
+    dialog.show_all()
+    Gtk.main()
+
+
 def close_window() -> None:
     Gtk.quit()
 
@@ -49,7 +71,6 @@ def empty_json():
 
 
 def encerrar_dia() -> None:
-    print("metodo encerrar_dia()")
     total_de_items = 0
     itens_concluidos = 0
     itens_com_check = []
@@ -158,11 +179,11 @@ def update_progress() -> None:
         total_minutes_difference = ending_total_minutes - current_total_minutes
 
         if total_minutes_difference <= 0:
-            print("The target time is in the past", ending_time_text)
+            print("O tempo final esta no passado", ending_time_text)
             return
 
-        print(f"Start time: {current_time.strftime('%H:%M')}")
-        print(f"End time: {ending_time_text.strftime('%H:%M')}")
+        print(f"Inicio: {current_time.strftime('%H:%M')}")
+        print(f"Fim: {ending_time_text.strftime('%H:%M')}")
 
         while current_total_minutes < ending_total_minutes:
             current_time = datetime.datetime.now().time()
@@ -180,6 +201,7 @@ def update_progress() -> None:
             lblProgresso.set_text(str(progress))
             if current_progress == 100:
                 print("Dia encerrado")
+                end_day_message()
                 encerrar_dia()
                 break
             time.sleep(10)
