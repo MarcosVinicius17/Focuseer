@@ -6,24 +6,17 @@ from pymongo import MongoClient
 
 
 def open_pdf(pdf_file_path) -> None:
-    if os.path.exists(pdf_file_path):
-        try:
-            subprocess.Popen(
-                ["open", pdf_file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-            )
-            print(f"Abrindo PDF...: {pdf_file_path}")
-        except Exception as e:
-            print(f"Erro durante a execucap: {e}")
+    # Get the current working directory
+    current_directory = os.getcwd()
+
+    # Construct the absolute path to the PDF file
+    absolute_path = os.path.join(current_directory, pdf_file_path)
+
+    # Check if the file exists
+    if os.path.exists(absolute_path):
+        subprocess.run(["open", absolute_path], check=True)
     else:
-        print(f"Arquivo nao localizado: {pdf_file_path}")
-
-
-"""def link_clicked(button, uri, label):
-    # Callback function to handle link activation
-    if uri == "custom-action":
-        label.set_text("Custom action triggered!")
-        # Call your custom method here
-        print("hi")"""
+        print(f"Arquivo nao encontrado: {absolute_path}")
 
 
 def load_addresses(window) -> None:
@@ -47,16 +40,12 @@ def load_addresses(window) -> None:
     # Print the collected values at the end
     for values in values_list:
         print(f"Address: {values['endereco']}, Hour: {values['data_emissao']}")
-        label_text = f"{values['endereco']} - {values['data_emissao']}"
-        label_text = "Relatório do dia " + str({values["data_emissao"]})
-
+        label_text = f"Relatório do dia {values['data_emissao']}"
         link_button = Gtk.LinkButton.new_with_label("Abrir relatório", label_text)
         listbox_obj.add(link_button)
         link_button.connect(
             "activate-link",
-            lambda button: open_pdf(
-                "/home/marcos/Desktop/UNIP/tcc/gtk_implementation/reports/19_11_2023_19_32.pdf"
-            ),
+            lambda button: open_pdf("gtk_implementation/reports/20_11_2023_19_35.pdf"),
         )
 
         link_button.show_all()

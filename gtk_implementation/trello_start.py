@@ -1,8 +1,24 @@
 import gi
-
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib
+
+
+def store_api(button) -> None:
+    client = MongoClient()
+    db = client.tcc_usuarios
+    # seleciona a tabela
+    apis = db.apis
+
+    api_entry = {
+        "api_key": entryApiKey.get_text(),
+        "api_secret": entryApiSecret.get_text(),
+        "api_token": entryToken.get_text(),
+    }
+
+    api_insertion = apis.insert_one(api_entry).inserted_id
+    print("API inserted into the DB")
 
 
 builder = Gtk.Builder()
@@ -15,6 +31,7 @@ entryApiSecret = builder.get_object("entryApiSecret")
 entryToken = builder.get_object("entryToken")
 
 btnIniciar = builder.get_object("btnIniciar")
+btnIniciar.connect("clicked", store_api)
 btnLink = builder.get_object("btnLink")
 btnLink.set_use_underline(False)
 
