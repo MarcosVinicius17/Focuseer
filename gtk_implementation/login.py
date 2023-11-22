@@ -6,10 +6,6 @@ from gi.repository import Gtk, GLib
 
 from homepage import set_headerbar_title
 
-"""
-acredito que vc possa remover o item "configuracoes" do menu...
-"""
-
 
 def hide_label() -> False:
     lblSenha.hide()

@@ -6,11 +6,8 @@ from pymongo import MongoClient
 
 
 def open_pdf(pdf_file_path) -> None:
-    print("endereco que chega:", pdf_file_path)
-
     # Get the current working directory
     current_directory = os.getcwd()
-    print("current_directory:", current_directory)
 
     # Construct the absolute path to the PDF file
     absolute_path = os.path.join(current_directory, pdf_file_path)
@@ -42,13 +39,10 @@ def load_addresses(window) -> None:
 
     # Print the collected values at the end
     for values in range(len(values_list)):
-        print("Endereco obtido:", values_list[values]["endereco"])
-
         label_text = "Relatório do dia " + values_list[values]["data_emissao"]
-        print(label_text)
+
         link_button = Gtk.LinkButton.new_with_label("Abrir", label_text)
         listbox_obj.add(link_button)
-        print("endereco que sai:", values_list[values]["endereco"])
 
         """
         Aparentemente usar lambda dentro de um loop faz com que a funcao seja executada apos o final do loop, pegando apenas o ultimo valor...

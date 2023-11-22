@@ -29,7 +29,6 @@ def copy_template():
     source = "gtk_implementation/reports/report_with_pic.html"
     report_copy = "gtk_implementation/reports/relatorio_copia.html"
     shutil.copy(source, report_copy)
-    print("copia criada")
 
 
 """calcula a diferenca entre hora do fim e inicio"""
@@ -118,7 +117,8 @@ def generate_pdf(html_template):
         f.write(html_out)
 
     HTML(filename="gtk_implementation/reports/relatorio_copia.html").write_pdf(
-        "gtk_implementation/reports/" + archive_name + ".pdf"
+        "gtk_implementation/reports/" + archive_name + ".pdf",
+        stylesheets=["gtk_implementation/reports/report_style.css"],
     )
 
     print(archive_name, "PDF has been created")
@@ -127,8 +127,8 @@ def generate_pdf(html_template):
     )
     try:
         os.remove("gtk_implementation/reports/relatorio_copia.html")
-        # os.remove("blacklist_graph.png")
-        # os.remove("whitelist_graph.png")
+        os.remove("blacklist_graph.png")
+        os.remove("whitelist_graph.png")
 
     except Exception as e:
         print(e)

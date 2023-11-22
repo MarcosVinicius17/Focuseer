@@ -23,7 +23,7 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "23:55"
+        "hora": "19:45"
     },
     "objetivos_dia": {
         "nome_usuario": "admin",
@@ -37,7 +37,12 @@
             "Trello API",
             "wwww",
             "obj 1",
-            "obj 2"
+            "obj 2",
+            "dad",
+            "shimmy shimmy ya",
+            "xxxx",
+            "yyy",
+            "zzz"
         ],
         "unchecked": [
             "obj4",
@@ -45,9 +50,14 @@
             "wwwwwwww",
             "ffffinal",
             "Report viewr",
-            "obj 3"
+            "obj 3",
+            "www",
+            "wwwwww",
+            "qqqqqq",
+            "zzzzz",
+            "rrrrrr"
         ],
-        "completion_rate": 66.67,
+        "completion_rate": 0.0,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {
