@@ -131,7 +131,7 @@
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">label</property>
+            <property name="label" translatable="yes">-</property>
             <attributes>
               <attribute name="font-desc" value="Ubuntu Mono 15"/>
             </attributes>

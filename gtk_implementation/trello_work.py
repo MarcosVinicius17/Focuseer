@@ -35,19 +35,50 @@ def get_board_name(widget) -> str:
     if response == Gtk.ResponseType.OK:
         text = entry.get_text()
         print("Board name:", text)
+        lblBoard.set_text(text)
     dialog.destroy()
 
-
-def get_api_values() -> None:
-    pass
+    get_boards_info(text)
 
 
-def get_boards_info() -> None:
+def get_boards_info(board_name) -> None:
     boards = client.list_boards()
+    for i in boards:
+        if board_name == i.name:
+            print("Board id:", i.id)
+            get_itens(i.id)
+        else:
+            print(board_name, " não existe")
 
 
-def load_content() -> None:
-    pass
+def get_itens(board_id):
+    board = client.get_board(board_id)
+
+    cards = board.get_cards()
+
+    for card in cards:
+        # print("Nome:", card.name)
+        # print("ID", card.id)
+        lista_ = card.get_list()
+        # print("Lista:", lista_.name)
+        if lista_.name == "A fazer":
+            print("item da lista a fazer")
+            label = Gtk.Label(card.name)
+            label.set_line_wrap(True)
+            listToDo.add(label)
+            label.show_all()
+        if lista_.name == "Sendo feitas":
+            print("item da lista sendo feitas")
+            label = Gtk.Label(card.name)
+            label.set_line_wrap(True)
+            listWorking.add(label)
+            label.show_all()
+        if lista_.name == "Concluidas":
+            print("item da lista concluidas")
+            label = Gtk.Label(card.name)
+            label.set_line_wrap(True)
+            listComplete.add(label)
+            label.show_all()
 
 
 builder = Gtk.Builder()
@@ -69,6 +100,18 @@ window.get_style_context().add_provider(
 )
 
 lblBoard.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+listToDo.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+listComplete.get_style_context().add_provider(
+    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+)
+
+listWorking.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
 
