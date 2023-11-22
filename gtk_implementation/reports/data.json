@@ -23,7 +23,7 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "22:12"
+        "hora": "23:55"
     },
     "objetivos_dia": {
         "nome_usuario": "admin",
@@ -33,15 +33,21 @@
             "obj3",
             "final1",
             "$$",
-            "CM-EX-8 CM"
+            "CM-EX-8 CM",
+            "Trello API",
+            "wwww",
+            "obj 1",
+            "obj 2"
         ],
         "unchecked": [
             "obj4",
             "obj5",
             "wwwwwwww",
-            "ffffinal"
+            "ffffinal",
+            "Report viewr",
+            "obj 3"
         ],
-        "completion_rate": 100.0,
+        "completion_rate": 66.67,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {

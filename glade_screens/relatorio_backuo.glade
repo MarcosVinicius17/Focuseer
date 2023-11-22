@@ -5,7 +5,6 @@
   <object class="GtkWindow" id="Window">
     <property name="can-focus">False</property>
     <property name="resizable">False</property>
-    <property name="window-position">center</property>
     <property name="default-width">600</property>
     <property name="default-height">400</property>
     <child>
@@ -18,7 +17,7 @@
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="title" translatable="yes">Relatórios armazenados</property>
+            <property name="title" translatable="yes">RelatÃ³rios</property>
             <property name="spacing">2</property>
           </object>
         </child>
@@ -31,9 +30,10 @@
             <property name="can-focus">False</property>
             <property name="selection-mode">none</property>
             <property name="activate-on-single-click">False</property>
+
           </object>
           <packing>
-            <property name="x">100</property>
+            <property name="x">50</property>
             <property name="y">60</property>
           </packing>
         </child>

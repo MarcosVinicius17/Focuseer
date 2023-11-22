@@ -6,8 +6,11 @@ from pymongo import MongoClient
 
 
 def open_pdf(pdf_file_path) -> None:
+    print("endereco que chega:", pdf_file_path)
+
     # Get the current working directory
     current_directory = os.getcwd()
+    print("current_directory:", current_directory)
 
     # Construct the absolute path to the PDF file
     absolute_path = os.path.join(current_directory, pdf_file_path)
@@ -38,14 +41,22 @@ def load_addresses(window) -> None:
     client.close()
 
     # Print the collected values at the end
-    for values in values_list:
-        print(f"Address: {values['endereco']}, Hour: {values['data_emissao']}")
-        label_text = f"Relatório do dia {values['data_emissao']}"
-        link_button = Gtk.LinkButton.new_with_label("Abrir relatório", label_text)
+    for values in range(len(values_list)):
+        print("Endereco obtido:", values_list[values]["endereco"])
+
+        label_text = "Relatório do dia " + values_list[values]["data_emissao"]
+        print(label_text)
+        link_button = Gtk.LinkButton.new_with_label("Abrir", label_text)
         listbox_obj.add(link_button)
+        print("endereco que sai:", values_list[values]["endereco"])
+
+        """
+        Aparentemente usar lambda dentro de um loop faz com que a funcao seja executada apos o final do loop, pegando apenas o ultimo valor...
+        """
+
         link_button.connect(
             "activate-link",
-            lambda button: open_pdf("gtk_implementation/reports/20_11_2023_19_35.pdf"),
+            lambda button, endereco=values_list[values]["endereco"]: open_pdf(endereco),
         )
 
         link_button.show_all()
@@ -73,5 +84,4 @@ listbox_obj.get_style_context().add_provider(
 window.connect("realize", load_addresses)
 window.show_all()
 
-# load_addresses()
 Gtk.main()
