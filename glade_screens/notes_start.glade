@@ -12,7 +12,7 @@
     <property name="title" translatable="yes">Focuseer</property>
     <property name="resizable">False</property>
     <property name="window-position">center</property>
-    <property name="default-width">475</property>
+    <property name="default-width">500</property>
     <property name="default-height">300</property>
     <child>
       <object class="GtkFixed">
@@ -20,7 +20,7 @@
         <property name="can-focus">False</property>
         <child>
           <object class="GtkHeaderBar" id="headerbar">
-            <property name="width-request">475</property>
+            <property name="width-request">500</property>
             <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -54,7 +54,7 @@
         <child>
           <object class="GtkTextView" id="textviewHora">
             <property name="name">textviewHora</property>
-            <property name="width-request">135</property>
+            <property name="width-request">160</property>
             <property name="height-request">310</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>

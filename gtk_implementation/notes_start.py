@@ -7,6 +7,9 @@ gi.require_version("Pango", "1.0")
 from gi.repository import Gtk, Gdk
 
 import notes
+import locale
+
+locale.setlocale(locale.LC_ALL, "pt_BR.utf8")
 
 
 # CSS
@@ -82,11 +85,6 @@ def carregar_notas():
         textos.append(i["texto"])
         horas.append(i["hora"])
     return titulos, textos, horas
-
-
-"""
-Carrega a lista de notas nas textViews
-"""
 
 
 def exibe_notas(window):
