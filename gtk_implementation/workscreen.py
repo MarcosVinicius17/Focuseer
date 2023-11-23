@@ -5,10 +5,6 @@ from gi.repository import Gtk
 from deepdiff import DeepDiff
 import emite_relatorio
 
-"""
-1) obter o dia atual no formato DD/MM e colocar em ["tempo_gasto_processos"]["date"]
-"""
-
 
 def end_day_message() -> None:
     dialog = Gtk.Dialog(
@@ -16,7 +12,7 @@ def end_day_message() -> None:
     )
     dialog.set_default_size(200, 50)
     # Create a label
-    label = Gtk.Label.new("This is a label")
+    label = Gtk.Label.new("label")
 
     # Add the label to the dialog's content area
     content_area = dialog.get_content_area()
@@ -37,7 +33,6 @@ def close_window() -> None:
 
 
 def gerar_relatorio() -> None:
-    print("metodo gerar_relatorio(")
     with open("gtk_implementation/reports/report_with_pic.html", "r") as f:
         html_template = f.read()
     emite_relatorio.generate_pdf(html_template)
@@ -101,7 +96,7 @@ def encerrar_dia() -> None:
     """calcula % de itens concluidos"""
     if total_de_items == 0:
         print("sem itens detectados")
-        # return 0.0
+
         percentage = 0
     else:
         percentage = (itens_concluidos / total_de_items) * 100
@@ -132,7 +127,7 @@ def encerrar_dia_antes(button, yes_text="sim", no_text="Nao") -> None:
 
     if response == Gtk.ResponseType.YES:
         encerrar_dia()
-        # empty_json()
+        #empty_json()
     elif response == Gtk.ResponseType.NO:
         return False
 

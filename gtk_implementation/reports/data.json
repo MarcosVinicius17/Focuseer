@@ -1,14 +1,7 @@
 {
     "monitor_data": {
-        "whitelisted": [
-            "whitelist.exe",
-            "whitelist2.exe",
-            "wwww"
-        ],
-        "blacklisted": [
-            "blacklist.exe",
-            "blacklist2.exe"
-        ]
+        "whitelisted": [],
+        "blacklisted": []
     },
     "alarm_info": {
         "active": false,
@@ -23,57 +16,19 @@
         "status": null
     },
     "hora_encerramento": {
-        "hora": "19:45"
+        "hora": null
     },
     "objetivos_dia": {
         "nome_usuario": "admin",
-        "checked": [
-            "obj1",
-            "obj2",
-            "obj3",
-            "final1",
-            "$$",
-            "CM-EX-8 CM",
-            "Trello API",
-            "wwww",
-            "obj 1",
-            "obj 2",
-            "dad",
-            "shimmy shimmy ya",
-            "xxxx",
-            "yyy",
-            "zzz"
-        ],
-        "unchecked": [
-            "obj4",
-            "obj5",
-            "wwwwwwww",
-            "ffffinal",
-            "Report viewr",
-            "obj 3",
-            "www",
-            "wwwwww",
-            "qqqqqq",
-            "zzzzz",
-            "rrrrrr"
-        ],
-        "completion_rate": 0.0,
+        "checked": [],
+        "unchecked": [],
+        "completion_rate": null,
         "tempo_gasto": null
     },
     "tempo_gasto_processos": {
         "date": null,
-        "blacklist_data": {
-            "mpv": 20,
-            "spotify": 30,
-            "steam": 10,
-            "blacklist2.exe": 5
-        },
-        "whitelist_data": {
-            "brave": 10,
-            "vscode": 15,
-            "glade": 15,
-            "whitelist2.exe": 5
-        }
+        "blacklist_data": {},
+        "whitelist_data": {}
     },
     "dados_dia": {
         "data": null,

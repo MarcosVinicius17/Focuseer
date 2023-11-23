@@ -34,8 +34,8 @@ def copy_template():
 """calcula a diferenca entre hora do fim e inicio"""
 
 
-def tempo_trabalhado(inicio, final):
-    print(f"Inicio:{inicio} Final: {final} ")
+'''def tempo_trabalhado(inicio, final):
+    print("HORA INICIO >>", inicio, "HORA FINAL >>", final)
     try:
         # separa horas de minutos utilizando
         horas1, minutos1 = map(int, inicio.split(":"))
@@ -58,11 +58,38 @@ def tempo_trabalhado(inicio, final):
         diferenca = f"{diferenca_hr:02d}:{diferenca_mn:02d}"
         return diferenca
     except ValueError:
-        return "Formato invalido. Use o formato HH:MM "
+        return "Formato invalido. Use o formato HH:MM "'''
+
+
+def tempo_trabalhado(inicio, final):
+    try:
+        # Separates hours and minutes using
+        horas1, minutos1 = map(int, inicio.split(":"))
+        horas2, minutos2 = map(int, final.split(":"))
+
+        # Total time in minutes
+        total_minutos1 = horas1 * 60 + minutos1
+        total_minutos2 = horas2 * 60 + minutos2
+
+        diferenca_minutos = total_minutos2 - total_minutos1
+
+        # For when the end time comes before the start time
+        if diferenca_minutos < 0:
+            diferenca_minutos += 24 * 60
+
+        # Convert the result to hours and minutes
+        diferenca_hr = diferenca_minutos // 60
+        diferenca_mn = diferenca_minutos % 60
+
+        # Format the result as "HH hours and MM minutes"
+        diferenca = f"{diferenca_hr} horas e {diferenca_mn} minutos"
+        print(diferenca)
+        return diferenca
+    except ValueError:
+        return "00:00"
 
 
 def generate_pdf(html_template):
-    print("metodo generate_pdf()")
     # Load the Jinja2 environment and the HTML template
     env = Template(html_template)
 
@@ -76,11 +103,8 @@ def generate_pdf(html_template):
         hora_encerramento = data["hora_encerramento"]["hora"]
 
     now = datetime.now()
-    hora_emissao = now.strftime("%d/%m/%Y - %H:%M")
+    hora_emissao = now.strftime("%H:%M")
     archive_name = now.strftime("%d_%m_%Y_%H_%M")
-
-    # exemples
-    # data_criacao = formatted_date
 
     hora_entrada = hora_emissao
     hora_saida = hora_encerramento
@@ -97,8 +121,6 @@ def generate_pdf(html_template):
         hora_emissao=hora_emissao,
         hora_inicio=hora_entrada,
         hora_final=hora_saida,
-        # whitelist_graph=whitelist_graph,
-        # blacklist_graph=blacklist_graph,
         blacklist_graphic="/home/marcos/Desktop/UNIP/tcc/blacklist_graph.png",
         whitelist_graphic="/home/marcos/Desktop/UNIP/tcc/whitelist_graph.png",
         total_time_spent=tempo_gasto,
@@ -117,8 +139,7 @@ def generate_pdf(html_template):
         f.write(html_out)
 
     HTML(filename="gtk_implementation/reports/relatorio_copia.html").write_pdf(
-        "gtk_implementation/reports/" + archive_name + ".pdf",
-        stylesheets=["gtk_implementation/reports/report_style.css"],
+        "gtk_implementation/reports/" + archive_name + ".pdf"
     )
 
     print(archive_name, "PDF has been created")

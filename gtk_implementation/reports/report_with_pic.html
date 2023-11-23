@@ -73,31 +73,16 @@
     </div>
     <div class="checklist">
         <h2>Objetivos do dia</h2>
-        <h4>Itens concluidos</h4>
-        <ul>
 
-            <!--<input type="checkbox" id="task1">
-            <label style="font-weight: bold" for="task1"></label>
-            <br />
-            <input style="font-weight: bold" type="checkbox" id="task2">
-            <label style="font-weight: bold" for="task2"></label>
-            <br />
 
-            <input type="checkbox" id="task3">
-            <label style="font-weight: bold" for="task3"></label>-->
-        </ul>
-        <h4>Itens não concluidos</h4>
-        <ul>
-            <!--<input type="checkbox" id="task1">
-            <label style="font-weight: bold" for="task1"></label>
-            <br />-->
-        </ul>
         <h4>{{completion_rate}}% dos objetivos foram alcançados </h4>
     </div>
 
     <div class="user-stats">
         <h2>Gerenciamento de tempo</h2>
-
+        <ul>
+            <label style="font-weight: bold">Tempo trabalhado: </label>{{total_time_spent}}<br /><br />
+        </ul>
     </div>
     <div class="graphs">
         <ul>
@@ -115,11 +100,6 @@
         </ul>
 
     </div>
-    <ul>
-        <label style="font-weight: bold">Tempo trabalhado: </label>{{total_time_spent}}<br /><br />
-
-
-    </ul>
 
 </body>
 
