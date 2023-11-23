@@ -1,16 +1,33 @@
 import gi
 from trello import TrelloClient
+from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-"""
-TRELLO RELATED STUFF
-"""
+
+def get_stored_api() -> str:
+    client = MongoClient()
+    db = client.tcc_usuarios
+    apis = db.apis
+
+    api_values = apis.find_one({})
+
+    if api_values:
+        api_key = api_values.get("api_key")
+        api_secret = api_values.get("api_secret")
+        api_token = api_values.get("api_token")
+        return api_key, api_secret, api_token
+    else:
+        print("Nenhuma API salva.")
+
+
+credenciais = get_stored_api()
+stored_api_key, stored_api_secret, stored_api_token = credenciais
+
+
 client = TrelloClient(
-    api_key="d811868a9f5ac9791218fc1a5b922b8a",
-    api_secret="33d56f46983aebecf60c75f8d5ec3615976508244b8c0cbb50db472285b196ce",
-    token="ATTAcb21b5901cbc4fb1d8a29db58ba6d4a95a3cc658784b40f5004807f67c9bd598031E98F5",
+    api_key=stored_api_key, api_secret=stored_api_secret, token=stored_api_token
 )
 
 

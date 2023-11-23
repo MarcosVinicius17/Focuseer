@@ -1,4 +1,4 @@
-import gi
+import gi, subprocess, sys
 from pymongo import MongoClient
 
 gi.require_version("Gtk", "3.0")
@@ -8,17 +8,22 @@ from gi.repository import Gtk, GLib
 def store_api(button) -> None:
     client = MongoClient()
     db = client.tcc_usuarios
-    # seleciona a tabela
     apis = db.apis
 
-    api_entry = {
-        "api_key": entryApiKey.get_text(),
-        "api_secret": entryApiSecret.get_text(),
-        "api_token": entryToken.get_text(),
-    }
+    if entryApiKey.get_text() and entryApiSecret.get_text() and entryToken.get_text():
+        api_entry = {
+            "api_key": entryApiKey.get_text(),
+            "api_secret": entryApiSecret.get_text(),
+            "api_token": entryToken.get_text(),
+        }
 
-    api_insertion = apis.insert_one(api_entry).inserted_id
-    print("API inserted into the DB")
+        api_insertion = apis.insert_one(api_entry).inserted_id
+        print("API inserted into the DB")
+
+        subprocess.Popen([sys.executable, "gtk_implementation/trello_work.py"])
+        window.destroy()
+    else:
+        print("Campos em branco")
 
 
 builder = Gtk.Builder()

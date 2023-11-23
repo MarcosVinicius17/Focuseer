@@ -56,7 +56,6 @@ btnCadastro = builder.get_object("btnCadastro")
 
 btnCadastro.connect("clicked", cadastrar_usuario)
 
-"""css stuff"""
 
 css_provider = Gtk.CssProvider()
 css_provider.load_from_path(
@@ -85,9 +84,6 @@ context_entrySenha = entrySenha.get_style_context().add_provider(
 context_entryConfirmaSenha = entryConfirmaSenha.get_style_context().add_provider(
     css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 )
-
-
-""" end of css"""
 
 
 window.show_all()

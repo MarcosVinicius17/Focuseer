@@ -13,7 +13,7 @@
     },
     "pomodoro_info": {
         "active_pomodoro": false,
-        "status": null
+        "status": "Not working"
     },
     "hora_encerramento": {
         "hora": null

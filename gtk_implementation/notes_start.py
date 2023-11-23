@@ -8,13 +8,6 @@ from gi.repository import Gtk, Gdk
 
 import notes
 
-""" 
-ERRO IMPORTANTE
-AO CLICA EM UMA NOTA, ELA ABRE NORMALMENTE
-MAS AO FECHAR A NOTA E ABRIR OUTRA, O PROGRAMA FECHA
-
-"""
-
 
 # CSS
 css_provider = Gtk.CssProvider()
@@ -69,8 +62,7 @@ def textview_click(textview, event):
         line_end.forward_to_line_end()
 
         line_text = buffer.get_text(line_start, line_end, False)
-        # print("Clicked line:", line_num.get_line() + 1)
-        # print("Line text:", line_text)
+
         procura_nota(line_text)
 
 
@@ -82,14 +74,6 @@ def carregar_notas():
     client = MongoClient()
     db = client.tcc_usuarios
     notes = db.notes
-
-    """try:
-        client = MongoClient()
-        db = client.tcc_usuarios
-        notes = db.notes
-        print("Connected to MongoDB successfully!")
-    except Exception as e:
-        print("Error connecting to MongoDB:", e)"""
 
     cursor = notes.find({})
 

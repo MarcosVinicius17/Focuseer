@@ -23,6 +23,7 @@ class Notes(Gtk.Application):
         window.set_default_size(400, 400)
         window.set_title("Focuseer")
         window.set_name("notes_window")
+        window.set_position(Gtk.WindowPosition.CENTER)
 
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         window.add(main_box)
